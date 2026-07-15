@@ -680,6 +680,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   .ln-tag { flex:0 0 34px; font:700 11px/1 ui-monospace,Menlo,monospace; color:var(--muted); }
   .ln-p { color:var(--ink); text-decoration:none; font-size:14px; }
   a.ln-p:hover { color:var(--accent); text-decoration:underline; }
+  .ln-sep { color:var(--muted); padding:0 2px; }
   .ln-empty { color:var(--muted); }
   .ln-depth { display:flex; gap:6px; padding-top:10px; color:var(--muted); font-size:12.5px; }
   .ln-pp { display:flex; align-items:flex-start; gap:8px; padding:9px 0; border-bottom:1px solid var(--line); }
@@ -24375,15 +24376,18 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
 (function(){
   var data = window.__LINES__||[], hrefs = window.__HREFS__||{};
   var pick = document.getElementById('ln-teams'), panel = document.getElementById('ln-panel');
+  var SEP = '<span class="ln-sep">-</span>';
   function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
   function num(x){ return (x==null)?'–':(Math.round(x*100)/100).toFixed(2); }
+  function last(n){ var i=(n||'').indexOf(' '); return i<0?n:n.slice(i+1); }  // drop first name
   function link(p){
     if(!p) return '<span class="ln-empty">—</span>';
-    var nm = esc(p.name), h = hrefs[p.name];
-    var tip = 'PP TOI/GP  full '+num(p.pp_full)+' | H2 '+num(p.pp_h2)+' | Q4 '+num(p.pp_q4);
-    return h ? '<a class="ln-p" href="'+h+'" title="'+tip+'">'+nm+'</a>'
-             : '<span class="ln-p" title="'+tip+'">'+nm+'</span>';
+    var disp = esc(last(p.name)), h = hrefs[p.name];
+    var tip = esc(p.name)+' · PP TOI/GP full '+num(p.pp_full)+' | H2 '+num(p.pp_h2)+' | Q4 '+num(p.pp_q4);
+    return h ? '<a class="ln-p" href="'+h+'" title="'+tip+'">'+disp+'</a>'
+             : '<span class="ln-p" title="'+tip+'">'+disp+'</span>';
   }
+  function joinNames(arr){ return arr.map(link).join(SEP); }
   function ppChip(p){ return p ? link(p)+'<span class="ln-usage">'+num(p.pp_h2)+'</span>'
                                : '<span class="ln-empty">—</span>'; }
   function render(t){
@@ -24391,18 +24395,18 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
     h += '<div class="ln-coach">Coach: '+esc(t.coach||'?')+(t.coach_new?' <span class="ln-new">NEW</span>':'')+'</div>';
     h += '<div class="ln-cols"><div class="ln-col"><div class="ln-sub">Even strength</div>';
     t.lines.forEach(function(ln,i){
-      h += '<div class="ln-row"><span class="ln-tag">L'+(i+1)+'</span>'+link(ln.LW)+link(ln.C)+link(ln.RW)+'</div>';
+      h += '<div class="ln-row"><span class="ln-tag">L'+(i+1)+'</span>'+joinNames([ln.LW,ln.C,ln.RW])+'</div>';
     });
     t.pairs.forEach(function(pr,i){
-      h += '<div class="ln-row"><span class="ln-tag">D'+(i+1)+'</span>'+link(pr.L)+link(pr.R)+'</div>';
+      h += '<div class="ln-row"><span class="ln-tag">D'+(i+1)+'</span>'+joinNames([pr.L,pr.R])+'</div>';
     });
     var depth = (t.f_extra||[]).concat(t.d_extra||[]);
     if(depth.length) h += '<div class="ln-depth"><span class="ln-tag">Depth</span><span>'+
-      depth.map(function(p){return esc(p.name);}).join(', ')+'</span></div>';
+      depth.map(function(p){return esc(last(p.name));}).join(', ')+'</span></div>';
     h += '</div><div class="ln-col"><div class="ln-sub">Power play<span class="ln-hint">PP TOI/GP · H2</span></div>';
     [['PP1',t.pp1],['PP2',t.pp2]].forEach(function(u){
       h += '<div class="ln-pp"><span class="ln-tag ln-pptag">'+u[0]+'</span><div style="flex:1">'+
-           '<div class="ln-ppf">'+u[1].F.map(ppChip).join('')+'</div>'+
+           '<div class="ln-ppf">'+u[1].F.map(ppChip).join(SEP)+'</div>'+
            '<div class="ln-ppd">'+ppChip(u[1].D)+'<span class="ln-qb">QB</span></div></div></div>';
     });
     h += '</div></div>';
