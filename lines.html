@@ -683,7 +683,6 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   .ln-p { color:var(--ink); text-decoration:none; font-size:14px; }
   a.ln-p:hover { color:var(--accent); text-decoration:underline; }
   .ln-sep { color:var(--muted); padding:0 2px; }
-  .ln-star { color:var(--accent); font-weight:700; margin-left:1px; cursor:help; }
   .ln-empty { color:var(--muted); }
   .ln-depth { display:flex; gap:6px; padding-top:10px; color:var(--muted); font-size:12.5px; }
   .ln-pp { display:flex; align-items:flex-start; gap:8px; padding:11px 0; border-bottom:1px solid var(--line); }
@@ -704,13 +703,20 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   .ln-rankcols { display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:4px; }
   @media (max-width:720px){ .ln-rankcols { grid-template-columns:1fr; } }
   .ln-ranklab { font:700 11px/1 sans-serif; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 8px; }
-  .ln-rankrow { display:flex; align-items:center; gap:10px; padding:3px 0; }
-  .ln-rk { flex:0 0 40px; font:600 12px/1 ui-monospace,Menlo,monospace; color:var(--muted); text-align:right; }
+  .ln-rankrow { display:grid; grid-template-columns:34px 1fr 62px 30px; align-items:center; gap:9px; padding:4px 0; }
+  .ln-rk { font:600 12px/1 ui-monospace,Menlo,monospace; color:var(--muted); text-align:right; }
+  .ln-rnm { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ln-rsc { font:700 12.5px/1 ui-monospace,Menlo,monospace; color:var(--ink); text-align:right; }
+  .ln-rankfoot { margin-top:12px; display:flex; flex-wrap:wrap; gap:5px 12px; font-size:10.5px; color:var(--muted); }
+  .ln-key { display:inline-flex; align-items:center; gap:5px; }
+  .ln-key i { width:9px; height:9px; border-radius:2px; display:inline-block; }
+  .ln-key i.off { background:#f26b53; }
+  .ln-key i.per { background:#5f93c6; }
+  .ln-vor { font-style:italic; }
 </style>
 <div class="card">
   <p class="ln-lead">Projected 2026-27 lines, PP units, and fantasy ranks. Tiers ranked on
-  second-half deployment (5v5 + PP TOI/GP); usage-based, not verified chemistry.
-  <span class="ln-star">*</span> = missed 2025-26, ranked on prior season.</p>
+  second-half deployment (5v5 + PP TOI/GP); usage-based, not verified chemistry.</p>
   <div class="ln-teams" id="ln-teams"></div>
   <div id="ln-panel"></div>
 </div>
@@ -1245,86 +1251,139 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "d_extra": [],
   "ranked_f": [
    {
-    "name": "Beckett Sennecke",
-    "rank": 103
+    "name": "Leo Carlsson",
+    "rank": 57,
+    "banger": 92,
+    "off": 66.7,
+    "def": 25.6
    },
    {
     "name": "Cutter Gauthier",
-    "rank": 168
+    "rank": 63,
+    "banger": 91,
+    "off": 43.0,
+    "def": 47.7
    },
    {
-    "name": "Chris Kreider",
-    "rank": 209
-   },
-   {
-    "name": "Leo Carlsson",
-    "rank": 215
-   },
-   {
-    "name": "Frank Vatrano",
-    "rank": 227
-   },
-   {
-    "name": "Mikael Granlund",
-    "rank": 261
-   },
-   {
-    "name": "Troy Terry",
-    "rank": 294
-   },
-   {
-    "name": "Alex Killorn",
-    "rank": 329
-   },
-   {
-    "name": "Ryan Poehling",
-    "rank": 442
-   },
-   {
-    "name": "Jeff Malott",
-    "rank": 523
+    "name": "Beckett Sennecke",
+    "rank": 67,
+    "banger": 88,
+    "off": 34.5,
+    "def": 53.2
    },
    {
     "name": "A.J. Greer",
-    "rank": 545
+    "rank": 115,
+    "banger": 61,
+    "off": -31.4,
+    "def": 92.3
    },
    {
-    "name": "Tim Washe",
-    "rank": 628
+    "name": "Troy Terry",
+    "rank": 143,
+    "banger": 49,
+    "off": 43.6,
+    "def": 5.3
+   },
+   {
+    "name": "Mikael Granlund",
+    "rank": 167,
+    "banger": 42,
+    "off": 28.7,
+    "def": 13.6
+   },
+   {
+    "name": "Chris Kreider",
+    "rank": 196,
+    "banger": 30,
+    "off": 13.0,
+    "def": 17.1
+   },
+   {
+    "name": "Frank Vatrano",
+    "rank": 256,
+    "banger": 14,
+    "off": -31.4,
+    "def": 45.4
+   },
+   {
+    "name": "Jeff Malott",
+    "rank": 370,
+    "banger": -5,
+    "off": -62.4,
+    "def": 57.1
+   },
+   {
+    "name": "Alex Killorn",
+    "rank": 380,
+    "banger": -8,
+    "off": -20.7,
+    "def": 13.2
+   },
+   {
+    "name": "Ryan Poehling",
+    "rank": 412,
+    "banger": -12,
+    "off": -23.5,
+    "def": 11.1
    },
    {
     "name": "Nikita Nesterenko",
-    "rank": 698
+    "rank": 479,
+    "banger": -20,
+    "off": -40.6,
+    "def": 20.8
+   },
+   {
+    "name": "Tim Washe",
+    "rank": 607,
+    "banger": -36,
+    "off": -64.7,
+    "def": 28.9
    },
    {
     "name": "Sam Colangelo",
-    "rank": 796
-   },
-   {
-    "name": "Noah Philp",
-    "rank": 6353
+    "rank": 622,
+    "banger": -38,
+    "off": -43.4,
+    "def": 5.2
    }
   ],
   "ranked_d": [
    {
     "name": "Jackson LaCombe",
-    "rank": 144
+    "rank": 96,
+    "banger": 74,
+    "off": 29.6,
+    "def": 44.0
    },
    {
     "name": "Drew Helleson",
-    "rank": 426
+    "rank": 402,
+    "banger": -11,
+    "off": -54.4,
+    "def": 43.5
    },
    {
     "name": "Pavel Mintyukov",
-    "rank": 449
-   },
-   {
-    "name": "Ian Moore",
-    "rank": 550
+    "rank": 438,
+    "banger": -15,
+    "off": -39.1,
+    "def": 23.8
    },
    {
     "name": "Nick Jensen",
-    "rank": 596
+    "rank": 714,
+    "banger": -54,
+    "off": -52.6,
+    "def": -0.9
+   },
+   {
+    "name": "Ian Moore",
+    "rank": 716,
+    "banger": -54,
+    "off": -58.8,
+    "def": 5.0
    }
   ],
   "pp1": {
@@ -2296,113 +2355,194 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "David Pastrnak",
-    "rank": 5
+    "rank": 5,
+    "banger": 192,
+    "off": 122.1,
+    "def": 69.4
    },
    {
     "name": "Morgan Geekie",
-    "rank": 108
-   },
-   {
-    "name": "Pavel Zacha",
-    "rank": 196
-   },
-   {
-    "name": "Elias Lindholm",
-    "rank": 206
-   },
-   {
-    "name": "JJ Peterka",
-    "rank": 338
+    "rank": 118,
+    "banger": 59,
+    "off": 29.1,
+    "def": 30.2
    },
    {
     "name": "Mark Kastelic",
-    "rank": 486
-   },
-   {
-    "name": "Michael Eyssimont",
-    "rank": 490
-   },
-   {
-    "name": "Fraser Minten",
-    "rank": 505
-   },
-   {
-    "name": "Casey Mittelstadt",
-    "rank": 517
-   },
-   {
-    "name": "Tanner Jeannot",
-    "rank": 562
-   },
-   {
-    "name": "Sean Kuraly",
-    "rank": 573
-   },
-   {
-    "name": "Marat Khusnutdinov",
-    "rank": 656
+    "rank": 148,
+    "banger": 46,
+    "off": -53.4,
+    "def": 99.6
    },
    {
     "name": "Alex Steeves",
-    "rank": 693
+    "rank": 173,
+    "banger": 40,
+    "off": -27.7,
+    "def": 68.1
+   },
+   {
+    "name": "Elias Lindholm",
+    "rank": 189,
+    "banger": 34,
+    "off": 12.0,
+    "def": 21.7
+   },
+   {
+    "name": "Tanner Jeannot",
+    "rank": 200,
+    "banger": 29,
+    "off": -52.8,
+    "def": 81.9
+   },
+   {
+    "name": "Pavel Zacha",
+    "rank": 284,
+    "banger": 6,
+    "off": 3.1,
+    "def": 3.4
+   },
+   {
+    "name": "JJ Peterka",
+    "rank": 286,
+    "banger": 6,
+    "off": 9.7,
+    "def": -3.6
+   },
+   {
+    "name": "Michael Eyssimont",
+    "rank": 308,
+    "banger": 2,
+    "off": -43.3,
+    "def": 45.7
+   },
+   {
+    "name": "Fraser Minten",
+    "rank": 390,
+    "banger": -8,
+    "off": -35.4,
+    "def": 26.9
+   },
+   {
+    "name": "Casey Mittelstadt",
+    "rank": 462,
+    "banger": -19,
+    "off": -5.5,
+    "def": -13.5
+   },
+   {
+    "name": "Sean Kuraly",
+    "rank": 582,
+    "banger": -32,
+    "off": -51.4,
+    "def": 19.0
    },
    {
     "name": "Brendan Gaunce",
-    "rank": 790
-   },
-   {
-    "name": "Lukas Reichel",
-    "rank": 862
+    "rank": 659,
+    "banger": -43,
+    "off": -59.7,
+    "def": 16.6
    },
    {
     "name": "Matthew Poitras",
-    "rank": 888
+    "rank": 709,
+    "banger": -53,
+    "off": -37.6,
+    "def": -15.0
+   },
+   {
+    "name": "Marat Khusnutdinov",
+    "rank": 717,
+    "banger": -54,
+    "off": -47.2,
+    "def": -7.0
+   },
+   {
+    "name": "Lukas Reichel",
+    "rank": 747,
+    "banger": -63,
+    "off": -46.1,
+    "def": -17.0
    },
    {
     "name": "Ivan Ivan",
-    "rank": 897
+    "rank": 771,
+    "banger": -71,
+    "off": -46.1,
+    "def": -24.6
    }
   ],
   "ranked_d": [
    {
     "name": "Charlie McAvoy",
-    "rank": 69
+    "rank": 46,
+    "banger": 100,
+    "off": 18.8,
+    "def": 81.1
    },
    {
     "name": "Nikita Zadorov",
-    "rank": 124
-   },
-   {
-    "name": "Will Borgen",
-    "rank": 334
-   },
-   {
-    "name": "Hampus Lindholm",
-    "rank": 353
+    "rank": 155,
+    "banger": 44,
+    "off": -49.9,
+    "def": 94.4
    },
    {
     "name": "Connor Clifton",
-    "rank": 436
+    "rank": 238,
+    "banger": 20,
+    "off": -57.1,
+    "def": 76.6
+   },
+   {
+    "name": "Hampus Lindholm",
+    "rank": 268,
+    "banger": 9,
+    "off": -25.7,
+    "def": 35.2
    },
    {
     "name": "Jonathan Aspirot",
-    "rank": 480
+    "rank": 419,
+    "banger": -13,
+    "off": -51.1,
+    "def": 38.1
    },
    {
-    "name": "Mason Lohrei",
-    "rank": 508
-   },
-   {
-    "name": "Henri Jokiharju",
-    "rank": 676
-   },
-   {
-    "name": "Jordan Harris",
-    "rank": 857
+    "name": "Will Borgen",
+    "rank": 435,
+    "banger": -15,
+    "off": -58.0,
+    "def": 42.9
    },
    {
     "name": "Victor Soderstrom",
-    "rank": 7447
+    "rank": 455,
+    "banger": -18,
+    "off": -38.8,
+    "def": 20.9
+   },
+   {
+    "name": "Mason Lohrei",
+    "rank": 474,
+    "banger": -20,
+    "off": -26.1,
+    "def": 6.3
+   },
+   {
+    "name": "Henri Jokiharju",
+    "rank": 619,
+    "banger": -37,
+    "off": -50.6,
+    "def": 13.2
+   },
+   {
+    "name": "Jordan Harris",
+    "rank": 650,
+    "banger": -42,
+    "off": -53.0,
+    "def": 11.2
    }
   ],
   "pp1": {
@@ -3317,101 +3457,173 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Tage Thompson",
-    "rank": 39
-   },
-   {
-    "name": "Peyton Krebs",
-    "rank": 205
+    "rank": 24,
+    "banger": 122,
+    "off": 71.2,
+    "def": 50.5
    },
    {
     "name": "Josh Norris",
-    "rank": 212
-   },
-   {
-    "name": "Jason Zucker",
-    "rank": 224
-   },
-   {
-    "name": "Josh Doan",
-    "rank": 311
+    "rank": 116,
+    "banger": 60,
+    "off": 16.5,
+    "def": 43.8
    },
    {
     "name": "Jack Quinn",
-    "rank": 349
+    "rank": 151,
+    "banger": 46,
+    "off": 34.4,
+    "def": 11.3
+   },
+   {
+    "name": "Jason Zucker",
+    "rank": 168,
+    "banger": 42,
+    "off": 11.8,
+    "def": 30.4
+   },
+   {
+    "name": "Josh Doan",
+    "rank": 292,
+    "banger": 5,
+    "off": -4.8,
+    "def": 10.0
    },
    {
     "name": "Zach Benson",
-    "rank": 404
+    "rank": 319,
+    "banger": 1,
+    "off": -22.4,
+    "def": 23.3
+   },
+   {
+    "name": "Peyton Krebs",
+    "rank": 349,
+    "banger": -3,
+    "off": -37.1,
+    "def": 34.1
    },
    {
     "name": "Ryan McLeod",
-    "rank": 448
-   },
-   {
-    "name": "Beck Malenstyn",
-    "rank": 475
-   },
-   {
-    "name": "Sam Carrick",
-    "rank": 534
-   },
-   {
-    "name": "Jiri Kulich",
-    "rank": 616
-   },
-   {
-    "name": "Noah Ostlund",
-    "rank": 700
-   },
-   {
-    "name": "Conor Sheary",
-    "rank": 749
+    "rank": 405,
+    "banger": -11,
+    "off": -0.2,
+    "def": -11.1
    },
    {
     "name": "Justin Danforth",
-    "rank": 815
+    "rank": 430,
+    "banger": -15,
+    "off": -39.8,
+    "def": 25.1
+   },
+   {
+    "name": "Beck Malenstyn",
+    "rank": 450,
+    "banger": -17,
+    "off": -61.1,
+    "def": 44.0
+   },
+   {
+    "name": "Sam Carrick",
+    "rank": 491,
+    "banger": -21,
+    "off": -55.9,
+    "def": 34.7
+   },
+   {
+    "name": "Noah Ostlund",
+    "rank": 506,
+    "banger": -23,
+    "off": -8.6,
+    "def": -14.3
+   },
+   {
+    "name": "Jiri Kulich",
+    "rank": 541,
+    "banger": -28,
+    "off": -41.8,
+    "def": 13.8
    },
    {
     "name": "Tyson Kozak",
-    "rank": 828
+    "rank": 629,
+    "banger": -39,
+    "off": -49.1,
+    "def": 9.8
+   },
+   {
+    "name": "Conor Sheary",
+    "rank": 695,
+    "banger": -49,
+    "off": -40.4,
+    "def": -9.1
    }
   ],
   "ranked_d": [
    {
     "name": "Rasmus Dahlin",
-    "rank": 18
+    "rank": 25,
+    "banger": 120,
+    "off": 54.2,
+    "def": 65.6
    },
    {
     "name": "Mattias Samuelsson",
-    "rank": 217
-   },
-   {
-    "name": "Owen Power",
-    "rank": 417
-   },
-   {
-    "name": "Olen Zellweger",
-    "rank": 476
-   },
-   {
-    "name": "Louis Crevier",
-    "rank": 544
-   },
-   {
-    "name": "Conor Timmins",
-    "rank": 712
+    "rank": 267,
+    "banger": 10,
+    "off": -46.3,
+    "def": 56.4
    },
    {
     "name": "Dennis Gilbert",
-    "rank": 832
+    "rank": 335,
+    "banger": -1,
+    "off": -58.6,
+    "def": 58.1
    },
    {
-    "name": "Zach Metsa",
-    "rank": 861
+    "name": "Louis Crevier",
+    "rank": 350,
+    "banger": -3,
+    "off": -52.8,
+    "def": 49.5
+   },
+   {
+    "name": "Conor Timmins",
+    "rank": 475,
+    "banger": -20,
+    "off": -47.9,
+    "def": 28.2
+   },
+   {
+    "name": "Owen Power",
+    "rank": 530,
+    "banger": -26,
+    "off": -37.6,
+    "def": 11.7
+   },
+   {
+    "name": "Olen Zellweger",
+    "rank": 667,
+    "banger": -44,
+    "off": -53.5,
+    "def": 9.2
    },
    {
     "name": "Ryan Johnson",
-    "rank": 932
+    "rank": 766,
+    "banger": -68,
+    "off": -61.1,
+    "def": -7.0
+   },
+   {
+    "name": "Zach Metsa",
+    "rank": 787,
+    "banger": -84,
+    "off": -62.4,
+    "def": -22.0
    }
   ],
   "pp1": {
@@ -4381,114 +4593,188 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   ],
   "ranked_f": [
    {
-    "name": "Jonathan Huberdeau",
-    "rank": 226
-   },
-   {
-    "name": "Morgan Frost",
-    "rank": 281
-   },
-   {
-    "name": "Maxim Tsyplakov",
-    "rank": 284
-   },
-   {
-    "name": "Joel Farabee",
-    "rank": 304
+    "name": "Adam Klapka",
+    "rank": 125,
+    "banger": 56,
+    "off": -40.7,
+    "def": 97.1
    },
    {
     "name": "Matt Coronato",
-    "rank": 323
+    "rank": 188,
+    "banger": 34,
+    "off": 15.0,
+    "def": 19.4
    },
    {
-    "name": "Mikael Backlund",
-    "rank": 372
-   },
-   {
-    "name": "Ryan Strome",
-    "rank": 463
-   },
-   {
-    "name": "Yegor Sharangovich",
-    "rank": 539
-   },
-   {
-    "name": "Adam Klapka",
-    "rank": 540
+    "name": "Jonathan Huberdeau",
+    "rank": 199,
+    "banger": 29,
+    "off": 12.5,
+    "def": 16.7
    },
    {
     "name": "Martin Pospisil",
-    "rank": 597
-   },
-   {
-    "name": "Connor Zary",
-    "rank": 606
+    "rank": 251,
+    "banger": 16,
+    "off": -53.2,
+    "def": 69.1
    },
    {
     "name": "Matvei Gridin",
-    "rank": 743
+    "rank": 262,
+    "banger": 12,
+    "off": 8.8,
+    "def": 3.0
    },
    {
-    "name": "Ben Jones",
-    "rank": 814
+    "name": "Morgan Frost",
+    "rank": 274,
+    "banger": 8,
+    "off": -6.9,
+    "def": 14.9
    },
    {
-    "name": "Brennan Othmann",
-    "rank": 866
+    "name": "Joel Farabee",
+    "rank": 393,
+    "banger": -9,
+    "off": -32.7,
+    "def": 23.5
    },
    {
-    "name": "Samuel Honzek",
-    "rank": 908
+    "name": "Mikael Backlund",
+    "rank": 449,
+    "banger": -17,
+    "off": -23.8,
+    "def": 7.0
+   },
+   {
+    "name": "Ryan Strome",
+    "rank": 494,
+    "banger": -22,
+    "off": -29.2,
+    "def": 7.4
+   },
+   {
+    "name": "Connor Zary",
+    "rank": 525,
+    "banger": -25,
+    "off": -25.0,
+    "def": -0.4
+   },
+   {
+    "name": "Yegor Sharangovich",
+    "rank": 537,
+    "banger": -28,
+    "off": -19.9,
+    "def": -7.8
    },
    {
     "name": "Dryden Hunt",
-    "rank": 920
+    "rank": 566,
+    "banger": -30,
+    "off": -58.2,
+    "def": 27.8
+   },
+   {
+    "name": "Maxim Tsyplakov",
+    "rank": 630,
+    "banger": -40,
+    "off": -42.2,
+    "def": 2.7
+   },
+   {
+    "name": "Brennan Othmann",
+    "rank": 728,
+    "banger": -56,
+    "off": -69.0,
+    "def": 12.7
+   },
+   {
+    "name": "Ben Jones",
+    "rank": 749,
+    "banger": -64,
+    "off": -75.7,
+    "def": 12.2
    }
   ],
   "ranked_d": [
    {
-    "name": "Jake Middleton",
-    "rank": 262
-   },
-   {
-    "name": "Kevin Bahl",
-    "rank": 335
+    "name": "Brayden Pachal",
+    "rank": 305,
+    "banger": 3,
+    "off": -62.7,
+    "def": 65.5
    },
    {
     "name": "Zach Whitecloud",
-    "rank": 345
+    "rank": 348,
+    "banger": -3,
+    "off": -55.7,
+    "def": 53.1
    },
    {
-    "name": "Simon Nemec",
-    "rank": 439
-   },
-   {
-    "name": "Brayden Pachal",
-    "rank": 640
-   },
-   {
-    "name": "Yan Kuznetsov",
-    "rank": 680
-   },
-   {
-    "name": "Joel Hanley",
-    "rank": 701
+    "name": "Jake Middleton",
+    "rank": 386,
+    "banger": -8,
+    "off": -54.4,
+    "def": 46.3
    },
    {
     "name": "Andreas Englund",
-    "rank": 800
+    "rank": 400,
+    "banger": -10,
+    "off": -68.7,
+    "def": 58.7
+   },
+   {
+    "name": "Kevin Bahl",
+    "rank": 403,
+    "banger": -11,
+    "off": -53.1,
+    "def": 42.3
+   },
+   {
+    "name": "Yan Kuznetsov",
+    "rank": 420,
+    "banger": -13,
+    "off": -55.3,
+    "def": 42.3
    },
    {
     "name": "Zayne Parekh",
-    "rank": 821
+    "rank": 514,
+    "banger": -24,
+    "off": -26.7,
+    "def": 2.7
    },
    {
-    "name": "Hunter Brzustewicz",
-    "rank": 876
+    "name": "Simon Nemec",
+    "rank": 526,
+    "banger": -25,
+    "off": -49.5,
+    "def": 24.1
    },
    {
     "name": "Daniil Miromanov",
-    "rank": 907
+    "rank": 599,
+    "banger": -35,
+    "off": -49.5,
+    "def": 14.9
+   },
+   {
+    "name": "Joel Hanley",
+    "rank": 703,
+    "banger": -51,
+    "off": -66.5,
+    "def": 15.8
+   },
+   {
+    "name": "Hunter Brzustewicz",
+    "rank": 725,
+    "banger": -56,
+    "off": -50.2,
+    "def": -5.5
    }
   ],
   "pp1": {
@@ -5307,89 +5593,152 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Andrei Svechnikov",
-    "rank": 31
+    "rank": 29,
+    "banger": 118,
+    "off": 46.9,
+    "def": 71.2
    },
    {
     "name": "Sebastian Aho",
-    "rank": 54
+    "rank": 48,
+    "banger": 99,
+    "off": 66.8,
+    "def": 32.2
    },
    {
     "name": "Seth Jarvis",
-    "rank": 88
+    "rank": 60,
+    "banger": 91,
+    "off": 52.1,
+    "def": 39.0
    },
    {
     "name": "Nikolaj Ehlers",
-    "rank": 155
-   },
-   {
-    "name": "Jordan Staal",
-    "rank": 276
+    "rank": 89,
+    "banger": 76,
+    "off": 57.6,
+    "def": 18.1
    },
    {
     "name": "Jackson Blake",
-    "rank": 341
+    "rank": 185,
+    "banger": 35,
+    "off": 23.3,
+    "def": 12.1
    },
    {
     "name": "Taylor Hall",
-    "rank": 351
-   },
-   {
-    "name": "Jordan Martinook",
-    "rank": 373
-   },
-   {
-    "name": "Logan Stankoven",
-    "rank": 387
-   },
-   {
-    "name": "William Carrier",
-    "rank": 538
-   },
-   {
-    "name": "Eric Robinson",
-    "rank": 609
+    "rank": 291,
+    "banger": 5,
+    "off": -7.1,
+    "def": 12.4
    },
    {
     "name": "Nicolas Deslauriers",
-    "rank": 650
+    "rank": 293,
+    "banger": 5,
+    "off": -67.1,
+    "def": 72.1
+   },
+   {
+    "name": "Logan Stankoven",
+    "rank": 325,
+    "banger": 0,
+    "off": -10.3,
+    "def": 10.7
+   },
+   {
+    "name": "Jordan Staal",
+    "rank": 355,
+    "banger": -4,
+    "off": -32.4,
+    "def": 28.5
+   },
+   {
+    "name": "William Carrier",
+    "rank": 471,
+    "banger": -20,
+    "off": -49.9,
+    "def": 30.3
+   },
+   {
+    "name": "Jordan Martinook",
+    "rank": 521,
+    "banger": -25,
+    "off": -40.4,
+    "def": 15.3
    },
    {
     "name": "Jesperi Kotkaniemi",
-    "rank": 669
+    "rank": 604,
+    "banger": -35,
+    "off": -41.2,
+    "def": 5.9
    },
    {
     "name": "Mark Jankowski",
-    "rank": 685
+    "rank": 670,
+    "banger": -45,
+    "off": -38.1,
+    "def": -6.8
+   },
+   {
+    "name": "Eric Robinson",
+    "rank": 676,
+    "banger": -46,
+    "off": -48.3,
+    "def": 2.1
    }
   ],
   "ranked_d": [
    {
     "name": "Shayne Gostisbehere",
-    "rank": 128
-   },
-   {
-    "name": "Sean Walker",
-    "rank": 134
-   },
-   {
-    "name": "K'Andre Miller",
-    "rank": 207
+    "rank": 104,
+    "banger": 68,
+    "off": 37.8,
+    "def": 29.8
    },
    {
     "name": "Alexander Nikishin",
-    "rank": 518
+    "rank": 193,
+    "banger": 30,
+    "off": -11.4,
+    "def": 41.9
    },
    {
-    "name": "Jalen Chatfield",
-    "rank": 560
+    "name": "K'Andre Miller",
+    "rank": 197,
+    "banger": 29,
+    "off": -22.6,
+    "def": 52.0
+   },
+   {
+    "name": "Sean Walker",
+    "rank": 230,
+    "banger": 22,
+    "off": -47.0,
+    "def": 68.6
    },
    {
     "name": "Jaccob Slavin",
-    "rank": 760
+    "rank": 561,
+    "banger": -30,
+    "off": -44.1,
+    "def": 14.4
+   },
+   {
+    "name": "Jalen Chatfield",
+    "rank": 601,
+    "banger": -35,
+    "off": -50.5,
+    "def": 15.8
    },
    {
     "name": "Joel Nystrom",
-    "rank": 913
+    "rank": 764,
+    "banger": -67,
+    "off": -51.7,
+    "def": -15.3
    }
   ],
   "pp1": {
@@ -6235,93 +6584,152 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Connor Bedard",
-    "rank": 156
+    "rank": 34,
+    "banger": 111,
+    "off": 62.8,
+    "def": 48.1
    },
    {
     "name": "Tyler Bertuzzi",
-    "rank": 160
+    "rank": 157,
+    "banger": 44,
+    "off": 18.0,
+    "def": 26.0
    },
    {
     "name": "Frank Nazar",
-    "rank": 268
+    "rank": 209,
+    "banger": 28,
+    "off": 6.1,
+    "def": 21.5
    },
    {
     "name": "Ryan Donato",
-    "rank": 342
+    "rank": 330,
+    "banger": 0,
+    "off": -19.8,
+    "def": 20.0
    },
    {
     "name": "Teuvo Teravainen",
-    "rank": 428
-   },
-   {
-    "name": "Nick Lardis",
-    "rank": 507
-   },
-   {
-    "name": "Andrew Mangiapane",
-    "rank": 547
+    "rank": 368,
+    "banger": -5,
+    "off": 10.3,
+    "def": -15.5
    },
    {
     "name": "Cole Smith",
-    "rank": 568
+    "rank": 401,
+    "banger": -11,
+    "off": -57.3,
+    "def": 46.6
    },
    {
-    "name": "Ryan Greene",
-    "rank": 580
-   },
-   {
-    "name": "Oliver Moore",
-    "rank": 587
+    "name": "Nick Lardis",
+    "rank": 416,
+    "banger": -13,
+    "off": -23.9,
+    "def": 11.1
    },
    {
     "name": "Jordan Greenway",
-    "rank": 661
+    "rank": 456,
+    "banger": -18,
+    "off": -55.0,
+    "def": 37.1
+   },
+   {
+    "name": "Oliver Moore",
+    "rank": 513,
+    "banger": -24,
+    "off": -18.9,
+    "def": -4.8
+   },
+   {
+    "name": "Ryan Greene",
+    "rank": 564,
+    "banger": -30,
+    "off": -29.6,
+    "def": -0.7
+   },
+   {
+    "name": "Andrew Mangiapane",
+    "rank": 611,
+    "banger": -36,
+    "off": -46.3,
+    "def": 9.7
    },
    {
     "name": "Landon Slaggert",
-    "rank": 707
-   },
-   {
-    "name": "Dominic Toninato",
-    "rank": 918
+    "rank": 745,
+    "banger": -63,
+    "off": -63.6,
+    "def": 0.8
    }
   ],
   "ranked_d": [
    {
-    "name": "Artyom Levshunov",
-    "rank": 232
-   },
-   {
     "name": "Bowen Byram",
-    "rank": 251
-   },
-   {
-    "name": "Ian Cole",
-    "rank": 287
-   },
-   {
-    "name": "Sam Rinzel",
-    "rank": 336
-   },
-   {
-    "name": "Alex Vlasic",
-    "rank": 450
-   },
-   {
-    "name": "Wyatt Kaiser",
-    "rank": 577
-   },
-   {
-    "name": "Kevin Korchinski",
-    "rank": 807
-   },
-   {
-    "name": "Ethan Del Mastro",
-    "rank": 813
+    "rank": 124,
+    "banger": 56,
+    "off": 16.2,
+    "def": 40.3
    },
    {
     "name": "Connor Mackey",
-    "rank": 959
+    "rank": 213,
+    "banger": 27,
+    "off": -53.7,
+    "def": 80.4
+   },
+   {
+    "name": "Artyom Levshunov",
+    "rank": 218,
+    "banger": 25,
+    "off": -30.7,
+    "def": 55.5
+   },
+   {
+    "name": "Sam Rinzel",
+    "rank": 344,
+    "banger": -2,
+    "off": -46.2,
+    "def": 44.1
+   },
+   {
+    "name": "Ian Cole",
+    "rank": 497,
+    "banger": -22,
+    "off": -56.2,
+    "def": 34.2
+   },
+   {
+    "name": "Ethan Del Mastro",
+    "rank": 531,
+    "banger": -26,
+    "off": -49.0,
+    "def": 22.9
+   },
+   {
+    "name": "Alex Vlasic",
+    "rank": 600,
+    "banger": -35,
+    "off": -52.6,
+    "def": 17.9
+   },
+   {
+    "name": "Wyatt Kaiser",
+    "rank": 602,
+    "banger": -35,
+    "off": -56.6,
+    "def": 21.9
+   },
+   {
+    "name": "Kevin Korchinski",
+    "rank": 660,
+    "banger": -43,
+    "off": -45.1,
+    "def": 2.0
    }
   ],
   "pp1": {
@@ -7190,97 +7598,166 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Nathan MacKinnon",
-    "rank": 4
+    "rank": 2,
+    "banger": 215,
+    "off": 146.3,
+    "def": 68.6
    },
    {
     "name": "Martin Necas",
-    "rank": 47
-   },
-   {
-    "name": "Brock Nelson",
-    "rank": 122
+    "rank": 26,
+    "banger": 119,
+    "off": 85.9,
+    "def": 33.4
    },
    {
     "name": "Nazem Kadri",
-    "rank": 175
+    "rank": 128,
+    "banger": 55,
+    "off": 23.1,
+    "def": 32.3
+   },
+   {
+    "name": "Brock Nelson",
+    "rank": 152,
+    "banger": 45,
+    "off": 22.7,
+    "def": 22.6
    },
    {
     "name": "Gabriel Landeskog",
-    "rank": 310
+    "rank": 182,
+    "banger": 36,
+    "off": -10.6,
+    "def": 47.1
    },
    {
     "name": "Zachary L'Heureux",
-    "rank": 340
-   },
-   {
-    "name": "Parker Kelly",
-    "rank": 363
+    "rank": 221,
+    "banger": 25,
+    "off": -49.1,
+    "def": 73.7
    },
    {
     "name": "Artturi Lehkonen",
-    "rank": 384
+    "rank": 250,
+    "banger": 16,
+    "off": 2.8,
+    "def": 13.4
+   },
+   {
+    "name": "Parker Kelly",
+    "rank": 363,
+    "banger": -5,
+    "off": -47.2,
+    "def": 42.4
    },
    {
     "name": "Nicolas Roy",
-    "rank": 499
+    "rank": 415,
+    "banger": -13,
+    "off": -27.4,
+    "def": 14.6
    },
    {
     "name": "Jaden Schwartz",
-    "rank": 542
+    "rank": 439,
+    "banger": -16,
+    "off": -18.5,
+    "def": 3.0
    },
    {
     "name": "Logan O'Connor",
-    "rank": 600
-   },
-   {
-    "name": "Fedor Svechkov",
-    "rank": 652
-   },
-   {
-    "name": "Zakhar Bardakov",
-    "rank": 718
-   },
-   {
-    "name": "Gavin Brindley",
-    "rank": 819
+    "rank": 584,
+    "banger": -32,
+    "off": -43.8,
+    "def": 11.3
    },
    {
     "name": "Vinnie Hinostroza",
-    "rank": 824
+    "rank": 692,
+    "banger": -48,
+    "off": -45.1,
+    "def": -3.5
+   },
+   {
+    "name": "Fedor Svechkov",
+    "rank": 739,
+    "banger": -60,
+    "off": -51.4,
+    "def": -9.0
+   },
+   {
+    "name": "Gavin Brindley",
+    "rank": 774,
+    "banger": -72,
+    "off": -53.4,
+    "def": -18.1
+   },
+   {
+    "name": "Zakhar Bardakov",
+    "rank": 777,
+    "banger": -76,
+    "off": -60.9,
+    "def": -15.2
    }
   ],
   "ranked_d": [
    {
     "name": "Cale Makar",
-    "rank": 29
+    "rank": 12,
+    "banger": 143,
+    "off": 98.0,
+    "def": 44.7
    },
    {
     "name": "Josh Manson",
-    "rank": 198
-   },
-   {
-    "name": "Brent Burns",
-    "rank": 357
-   },
-   {
-    "name": "Sam Malinski",
-    "rank": 395
+    "rank": 192,
+    "banger": 33,
+    "off": -43.2,
+    "def": 75.9
    },
    {
     "name": "Devon Toews",
-    "rank": 420
+    "rank": 322,
+    "banger": 1,
+    "off": -23.2,
+    "def": 23.8
    },
    {
-    "name": "Brett Kulak",
-    "rank": 535
+    "name": "Sam Malinski",
+    "rank": 381,
+    "banger": -8,
+    "off": -36.2,
+    "def": 28.8
+   },
+   {
+    "name": "Brent Burns",
+    "rank": 460,
+    "banger": -19,
+    "off": -34.8,
+    "def": 16.0
    },
    {
     "name": "Noah Juulsen",
-    "rank": 843
+    "rank": 508,
+    "banger": -23,
+    "off": -67.6,
+    "def": 44.5
    },
    {
     "name": "Keaton Middleton",
-    "rank": 895
+    "rank": 590,
+    "banger": -34,
+    "off": -72.3,
+    "def": 38.8
+   },
+   {
+    "name": "Brett Kulak",
+    "rank": 628,
+    "banger": -39,
+    "off": -54.6,
+    "def": 15.6
    }
   ],
   "pp1": {
@@ -8150,98 +8627,160 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   ],
   "ranked_f": [
    {
-    "name": "Kirill Marchenko",
-    "rank": 110
-   },
-   {
     "name": "Adam Fantilli",
-    "rank": 116
+    "rank": 36,
+    "banger": 110,
+    "off": 43.5,
+    "def": 66.5
    },
    {
-    "name": "Charlie Coyle",
-    "rank": 211
-   },
-   {
-    "name": "Dmitri Voronkov",
-    "rank": 259
-   },
-   {
-    "name": "Valeri Nichushkin",
-    "rank": 272
-   },
-   {
-    "name": "Conor Garland",
-    "rank": 318
-   },
-   {
-    "name": "Sean Monahan",
-    "rank": 397
+    "name": "Kirill Marchenko",
+    "rank": 64,
+    "banger": 89,
+    "off": 60.7,
+    "def": 28.3
    },
    {
     "name": "Mathieu Olivier",
-    "rank": 407
+    "rank": 99,
+    "banger": 73,
+    "off": -40.9,
+    "def": 113.6
+   },
+   {
+    "name": "Charlie Coyle",
+    "rank": 191,
+    "banger": 33,
+    "off": 12.1,
+    "def": 20.7
+   },
+   {
+    "name": "Valeri Nichushkin",
+    "rank": 205,
+    "banger": 28,
+    "off": 6.1,
+    "def": 22.0
+   },
+   {
+    "name": "Dmitri Voronkov",
+    "rank": 233,
+    "banger": 21,
+    "off": -14.1,
+    "def": 35.5
+   },
+   {
+    "name": "Sean Monahan",
+    "rank": 340,
+    "banger": -2,
+    "off": -2.0,
+    "def": 0.3
+   },
+   {
+    "name": "Conor Garland",
+    "rank": 343,
+    "banger": -2,
+    "off": -17.9,
+    "def": 15.8
    },
    {
     "name": "Cole Sillinger",
-    "rank": 411
-   },
-   {
-    "name": "Kent Johnson",
-    "rank": 710
-   },
-   {
-    "name": "Isac Lundestrom",
-    "rank": 715
+    "rank": 358,
+    "banger": -4,
+    "off": -37.8,
+    "def": 33.3
    },
    {
     "name": "Miles Wood",
-    "rank": 779
+    "rank": 398,
+    "banger": -10,
+    "off": -51.0,
+    "def": 41.1
    },
    {
     "name": "Ryan Lomberg",
-    "rank": 842
+    "rank": 557,
+    "banger": -29,
+    "off": -61.1,
+    "def": 31.9
+   },
+   {
+    "name": "Kent Johnson",
+    "rank": 645,
+    "banger": -41,
+    "off": -32.8,
+    "def": -8.6
    },
    {
     "name": "Mikael Pyyhtia",
-    "rank": 910
+    "rank": 772,
+    "banger": -71,
+    "off": -57.7,
+    "def": -13.1
    },
    {
-    "name": "Luca Del Bel Belluz",
-    "rank": 917
+    "name": "Isac Lundestrom",
+    "rank": 779,
+    "banger": -77,
+    "off": -60.0,
+    "def": -17.3
    }
   ],
   "ranked_d": [
    {
     "name": "Zach Werenski",
-    "rank": 64
-   },
-   {
-    "name": "Ivan Provorov",
-    "rank": 270
-   },
-   {
-    "name": "Damon Severson",
-    "rank": 376
-   },
-   {
-    "name": "Dante Fabbro",
-    "rank": 445
-   },
-   {
-    "name": "Denton Mateychuk",
-    "rank": 536
+    "rank": 30,
+    "banger": 117,
+    "off": 59.0,
+    "def": 57.9
    },
    {
     "name": "Erik Gudbranson",
-    "rank": 679
+    "rank": 359,
+    "banger": -4,
+    "off": -57.1,
+    "def": 52.6
+   },
+   {
+    "name": "Ivan Provorov",
+    "rank": 364,
+    "banger": -5,
+    "off": -32.3,
+    "def": 27.5
+   },
+   {
+    "name": "Damon Severson",
+    "rank": 372,
+    "banger": -6,
+    "off": -31.4,
+    "def": 25.9
+   },
+   {
+    "name": "Dante Fabbro",
+    "rank": 496,
+    "banger": -22,
+    "off": -55.3,
+    "def": 33.5
+   },
+   {
+    "name": "Denton Mateychuk",
+    "rank": 575,
+    "banger": -31,
+    "off": -39.6,
+    "def": 8.3
    },
    {
     "name": "Jake Christiansen",
-    "rank": 827
+    "rank": 780,
+    "banger": -79,
+    "off": -69.0,
+    "def": -9.7
    },
    {
     "name": "Colton White",
-    "rank": 940
+    "rank": 781,
+    "banger": -80,
+    "off": -65.6,
+    "def": -13.9
    }
   ],
   "pp1": {
@@ -9060,89 +9599,152 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Jason Robertson",
-    "rank": 20
+    "rank": 10,
+    "banger": 155,
+    "off": 115.8,
+    "def": 39.4
    },
    {
     "name": "Mikko Rantanen",
-    "rank": 27
+    "rank": 14,
+    "banger": 138,
+    "off": 93.7,
+    "def": 44.8
    },
    {
     "name": "Wyatt Johnston",
-    "rank": 33
+    "rank": 22,
+    "banger": 124,
+    "off": 81.5,
+    "def": 42.0
    },
    {
     "name": "Roope Hintz",
-    "rank": 181
-   },
-   {
-    "name": "Jamie Benn",
-    "rank": 222
+    "rank": 82,
+    "banger": 80,
+    "off": 54.3,
+    "def": 25.3
    },
    {
     "name": "Matt Duchene",
-    "rank": 394
+    "rank": 180,
+    "banger": 37,
+    "off": 40.5,
+    "def": -3.5
    },
    {
-    "name": "Justin Hryckowian",
-    "rank": 494
-   },
-   {
-    "name": "Sam Steel",
-    "rank": 524
-   },
-   {
-    "name": "Colin Blackwell",
-    "rank": 620
-   },
-   {
-    "name": "Radek Faksa",
-    "rank": 713
+    "name": "Jamie Benn",
+    "rank": 201,
+    "banger": 29,
+    "off": 3.2,
+    "def": 25.7
    },
    {
     "name": "Tyler Seguin",
-    "rank": 731
+    "rank": 241,
+    "banger": 19,
+    "off": 14.1,
+    "def": 5.1
    },
    {
-    "name": "Joel Kiviranta",
-    "rank": 744
+    "name": "Justin Hryckowian",
+    "rank": 331,
+    "banger": 0,
+    "off": -22.4,
+    "def": 22.2
    },
    {
-    "name": "Oskar Back",
-    "rank": 757
+    "name": "Sam Steel",
+    "rank": 620,
+    "banger": -38,
+    "off": -38.0,
+    "def": 0.5
+   },
+   {
+    "name": "Colin Blackwell",
+    "rank": 661,
+    "banger": -43,
+    "off": -55.3,
+    "def": 11.8
+   },
+   {
+    "name": "Radek Faksa",
+    "rank": 679,
+    "banger": -47,
+    "off": -51.9,
+    "def": 5.2
    },
    {
     "name": "Arttu Hyry",
-    "rank": 835
+    "rank": 688,
+    "banger": -48,
+    "off": -51.6,
+    "def": 3.7
+   },
+   {
+    "name": "Joel Kiviranta",
+    "rank": 718,
+    "banger": -54,
+    "off": -56.8,
+    "def": 2.6
+   },
+   {
+    "name": "Oskar Back",
+    "rank": 786,
+    "banger": -84,
+    "off": -58.8,
+    "def": -25.2
    }
   ],
   "ranked_d": [
    {
     "name": "Miro Heiskanen",
-    "rank": 121
-   },
-   {
-    "name": "Thomas Harley",
-    "rank": 246
-   },
-   {
-    "name": "Esa Lindell",
-    "rank": 337
-   },
-   {
-    "name": "Tyler Myers",
-    "rank": 516
+    "rank": 94,
+    "banger": 74,
+    "off": 38.0,
+    "def": 35.8
    },
    {
     "name": "Lian Bichsel",
-    "rank": 575
+    "rank": 207,
+    "banger": 28,
+    "off": -54.8,
+    "def": 82.8
+   },
+   {
+    "name": "Thomas Harley",
+    "rank": 242,
+    "banger": 19,
+    "off": -15.4,
+    "def": 34.4
+   },
+   {
+    "name": "Tyler Myers",
+    "rank": 382,
+    "banger": -8,
+    "off": -55.9,
+    "def": 48.5
+   },
+   {
+    "name": "Esa Lindell",
+    "rank": 391,
+    "banger": -9,
+    "off": -34.6,
+    "def": 25.9
    },
    {
     "name": "Nils Lundkvist",
-    "rank": 746
+    "rank": 641,
+    "banger": -41,
+    "off": -54.6,
+    "def": 13.9
    },
    {
     "name": "Kyle Capobianco",
-    "rank": 885
+    "rank": 776,
+    "banger": -75,
+    "off": -61.1,
+    "def": -14.2
    }
   ],
   "pp1": {
@@ -10011,93 +10613,152 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Dylan Larkin",
-    "rank": 70
+    "rank": 35,
+    "banger": 110,
+    "off": 68.0,
+    "def": 42.3
    },
    {
     "name": "Alex DeBrincat",
-    "rank": 72
+    "rank": 41,
+    "banger": 103,
+    "off": 63.5,
+    "def": 39.8
    },
    {
     "name": "Lucas Raymond",
-    "rank": 125
-   },
-   {
-    "name": "Marco Kasper",
-    "rank": 282
+    "rank": 86,
+    "banger": 77,
+    "off": 61.8,
+    "def": 14.9
    },
    {
     "name": "Viktor Arvidsson",
-    "rank": 359
+    "rank": 232,
+    "banger": 21,
+    "off": 8.6,
+    "def": 12.7
    },
    {
     "name": "Keegan Kolesar",
-    "rank": 365
+    "rank": 328,
+    "banger": 0,
+    "off": -50.1,
+    "def": 50.5
    },
    {
-    "name": "Emmitt Finnie",
-    "rank": 389
+    "name": "Marco Kasper",
+    "rank": 342,
+    "banger": -2,
+    "off": -38.7,
+    "def": 36.7
    },
    {
     "name": "Andrew Copp",
-    "rank": 430
-   },
-   {
-    "name": "J.T. Compher",
-    "rank": 488
-   },
-   {
-    "name": "Mason Appleton",
-    "rank": 527
-   },
-   {
-    "name": "Michael Rasmussen",
-    "rank": 552
-   },
-   {
-    "name": "Nate Danielson",
-    "rank": 820
-   },
-   {
-    "name": "John Leonard",
-    "rank": 855
-   },
-   {
-    "name": "Dominik Shine",
-    "rank": 874
+    "rank": 426,
+    "banger": -14,
+    "off": -17.6,
+    "def": 3.5
    },
    {
     "name": "Sheldon Dries",
-    "rank": 973
+    "rank": 507,
+    "banger": -23,
+    "off": -46.0,
+    "def": 22.9
+   },
+   {
+    "name": "J.T. Compher",
+    "rank": 552,
+    "banger": -29,
+    "off": -27.6,
+    "def": -1.5
+   },
+   {
+    "name": "Michael Rasmussen",
+    "rank": 558,
+    "banger": -29,
+    "off": -50.1,
+    "def": 20.8
+   },
+   {
+    "name": "Emmitt Finnie",
+    "rank": 576,
+    "banger": -32,
+    "off": -39.9,
+    "def": 8.3
+   },
+   {
+    "name": "Mason Appleton",
+    "rank": 603,
+    "banger": -35,
+    "off": -50.1,
+    "def": 14.9
+   },
+   {
+    "name": "Nate Danielson",
+    "rank": 713,
+    "banger": -53,
+    "off": -35.0,
+    "def": -18.3
    }
   ],
   "ranked_d": [
    {
     "name": "Moritz Seider",
-    "rank": 13
-   },
-   {
-    "name": "Ben Chiarot",
-    "rank": 165
+    "rank": 11,
+    "banger": 151,
+    "off": 53.4,
+    "def": 97.1
    },
    {
     "name": "Simon Edvinsson",
-    "rank": 228
+    "rank": 210,
+    "banger": 28,
+    "off": -38.9,
+    "def": 66.5
    },
    {
     "name": "Justin Faulk",
-    "rank": 240
+    "rank": 222,
+    "banger": 24,
+    "off": -20.4,
+    "def": 44.6
    },
    {
-    "name": "Albert Johansson",
-    "rank": 593
+    "name": "Ben Chiarot",
+    "rank": 265,
+    "banger": 11,
+    "off": -58.8,
+    "def": 69.6
    },
    {
     "name": "Jacob Bernard-Docker",
-    "rank": 761
+    "rank": 657,
+    "banger": -43,
+    "off": -62.7,
+    "def": 19.8
+   },
+   {
+    "name": "Axel Sandin-Pellikka",
+    "rank": 700,
+    "banger": -50,
+    "off": -43.1,
+    "def": -7.3
+   },
+   {
+    "name": "Albert Johansson",
+    "rank": 707,
+    "banger": -52,
+    "off": -62.4,
+    "def": 10.7
    },
    {
     "name": "Jacob Bryson",
-    "rank": 781
+    "rank": 784,
+    "banger": -83,
+    "off": -61.8,
+    "def": -21.3
    }
   ],
   "pp1": {
@@ -11018,105 +11679,180 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Connor McDavid",
-    "rank": 3
+    "rank": 1,
+    "banger": 236,
+    "off": 184.6,
+    "def": 51.4
    },
    {
     "name": "Leon Draisaitl",
-    "rank": 34
-   },
-   {
-    "name": "Vasily Podkolzin",
-    "rank": 185
+    "rank": 4,
+    "banger": 192,
+    "off": 157.8,
+    "def": 33.9
    },
    {
     "name": "Zach Hyman",
-    "rank": 192
+    "rank": 75,
+    "banger": 81,
+    "off": 43.6,
+    "def": 37.9
    },
    {
     "name": "Ryan Nugent-Hopkins",
-    "rank": 216
+    "rank": 137,
+    "banger": 52,
+    "off": 49.7,
+    "def": 2.3
    },
    {
-    "name": "Trent Frederic",
-    "rank": 392
-   },
-   {
-    "name": "Jason Dickinson",
-    "rank": 515
+    "name": "Vasily Podkolzin",
+    "rank": 179,
+    "banger": 38,
+    "off": -25.0,
+    "def": 62.5
    },
    {
     "name": "Colton Dach",
-    "rank": 558
+    "rank": 271,
+    "banger": 9,
+    "off": -51.3,
+    "def": 60.0
    },
    {
     "name": "Matt Savoie",
-    "rank": 578
+    "rank": 374,
+    "banger": -6,
+    "off": -7.6,
+    "def": 1.3
    },
    {
-    "name": "Mathieu Joseph",
-    "rank": 601
+    "name": "Trent Frederic",
+    "rank": 417,
+    "banger": -13,
+    "off": -55.5,
+    "def": 42.6
    },
    {
-    "name": "Isaac Howard",
-    "rank": 621
+    "name": "Jason Dickinson",
+    "rank": 453,
+    "banger": -18,
+    "off": -44.9,
+    "def": 27.4
    },
    {
     "name": "Kasperi Kapanen",
-    "rank": 673
+    "rank": 539,
+    "banger": -28,
+    "off": -38.7,
+    "def": 10.8
+   },
+   {
+    "name": "Mathieu Joseph",
+    "rank": 554,
+    "banger": -29,
+    "off": -50.8,
+    "def": 21.6
    },
    {
     "name": "Max Jones",
-    "rank": 762
+    "rank": 577,
+    "banger": -32,
+    "off": -57.3,
+    "def": 25.6
    },
    {
-    "name": "Mattias Janmark",
-    "rank": 782
+    "name": "Isaac Howard",
+    "rank": 738,
+    "banger": -60,
+    "off": -49.0,
+    "def": -10.7
    },
    {
     "name": "Josh Samanski",
-    "rank": 839
+    "rank": 761,
+    "banger": -66,
+    "off": -59.5,
+    "def": -6.8
+   },
+   {
+    "name": "Mattias Janmark",
+    "rank": 775,
+    "banger": -73,
+    "off": -56.8,
+    "def": -15.8
    }
   ],
   "ranked_d": [
    {
     "name": "Evan Bouchard",
-    "rank": 23
-   },
-   {
-    "name": "Mattias Ekholm",
-    "rank": 243
-   },
-   {
-    "name": "Connor Murphy",
-    "rank": 277
+    "rank": 18,
+    "banger": 128,
+    "off": 84.7,
+    "def": 43.1
    },
    {
     "name": "Jake Walman",
-    "rank": 343
+    "rank": 239,
+    "banger": 19,
+    "off": -29.0,
+    "def": 48.3
    },
    {
-    "name": "Shakir Mukhamadullin",
-    "rank": 497
+    "name": "Connor Murphy",
+    "rank": 307,
+    "banger": 3,
+    "off": -55.7,
+    "def": 58.4
    },
    {
-    "name": "Ty Emberson",
-    "rank": 546
-   },
-   {
-    "name": "Ryan Shea",
-    "rank": 624
+    "name": "Mattias Ekholm",
+    "rank": 347,
+    "banger": -3,
+    "off": -31.4,
+    "def": 28.7
    },
    {
     "name": "Alec Regula",
-    "rank": 793
-   },
-   {
-    "name": "Spencer Stastney",
-    "rank": 806
+    "rank": 488,
+    "banger": -21,
+    "off": -66.7,
+    "def": 45.9
    },
    {
     "name": "Riley Stillman",
-    "rank": 972
+    "rank": 562,
+    "banger": -30,
+    "off": -60.7,
+    "def": 30.6
+   },
+   {
+    "name": "Shakir Mukhamadullin",
+    "rank": 594,
+    "banger": -34,
+    "off": -51.9,
+    "def": 18.0
+   },
+   {
+    "name": "Ty Emberson",
+    "rank": 609,
+    "banger": -36,
+    "off": -60.7,
+    "def": 24.5
+   },
+   {
+    "name": "Ryan Shea",
+    "rank": 690,
+    "banger": -48,
+    "off": -52.1,
+    "def": 3.8
+   },
+   {
+    "name": "Spencer Stastney",
+    "rank": 768,
+    "banger": -70,
+    "off": -60.4,
+    "def": -9.1
    }
   ],
   "pp1": {
@@ -12110,117 +12846,180 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Brady Tkachuk",
-    "rank": 1
+    "rank": 6,
+    "banger": 174,
+    "off": 49.3,
+    "def": 125.2
    },
    {
     "name": "Matthew Tkachuk",
-    "rank": 6
-   },
-   {
-    "name": "Sam Bennett",
-    "rank": 52
-   },
-   {
-    "name": "Brad Marchand",
-    "rank": 63
+    "rank": 8,
+    "banger": 167,
+    "off": 88.5,
+    "def": 78.6
    },
    {
     "name": "Aleksander Barkov",
-    "rank": 81
+    "rank": 23,
+    "banger": 123,
+    "off": 88.1,
+    "def": 35.2
    },
    {
     "name": "Sam Reinhart",
-    "rank": 91
+    "rank": 28,
+    "banger": 118,
+    "off": 81.3,
+    "def": 36.7
    },
    {
-    "name": "Carter Verhaeghe",
-    "rank": 194
+    "name": "Sam Bennett",
+    "rank": 40,
+    "banger": 104,
+    "off": 17.5,
+    "def": 86.1
    },
    {
     "name": "Anton Lundell",
-    "rank": 225
+    "rank": 129,
+    "banger": 55,
+    "off": 17.6,
+    "def": 37.3
    },
    {
-    "name": "Garnet Hathaway",
-    "rank": 509
+    "name": "Brad Marchand",
+    "rank": 177,
+    "banger": 38,
+    "off": 2.8,
+    "def": 35.0
    },
    {
-    "name": "Eetu Luostarinen",
-    "rank": 530
-   },
-   {
-    "name": "Lars Eller",
-    "rank": 684
-   },
-   {
-    "name": "Sam Lafferty",
-    "rank": 734
+    "name": "Carter Verhaeghe",
+    "rank": 181,
+    "banger": 37,
+    "off": 7.4,
+    "def": 29.6
    },
    {
     "name": "Jonah Gadjovich",
-    "rank": 772
+    "rank": 234,
+    "banger": 21,
+    "off": -64.0,
+    "def": 85.2
+   },
+   {
+    "name": "Garnet Hathaway",
+    "rank": 290,
+    "banger": 5,
+    "off": -64.7,
+    "def": 70.1
+   },
+   {
+    "name": "Eetu Luostarinen",
+    "rank": 346,
+    "banger": -2,
+    "off": -32.2,
+    "def": 30.0
    },
    {
     "name": "Cole Reinhardt",
-    "rank": 785
+    "rank": 547,
+    "banger": -28,
+    "off": -49.2,
+    "def": 20.6
    },
    {
     "name": "John Beecher",
-    "rank": 811
+    "rank": 680,
+    "banger": -47,
+    "off": -59.5,
+    "def": 12.5
    },
    {
-    "name": "Angus Crookshank",
-    "rank": 871
+    "name": "Sam Lafferty",
+    "rank": 729,
+    "banger": -56,
+    "off": -59.5,
+    "def": 3.1
+   },
+   {
+    "name": "Lars Eller",
+    "rank": 750,
+    "banger": -64,
+    "off": -55.0,
+    "def": -8.7
    },
    {
     "name": "Cole Schwindt",
-    "rank": 916
-   },
-   {
-    "name": "Bokondji Imama",
-    "rank": 919
+    "rank": 770,
+    "banger": -71,
+    "off": -56.8,
+    "def": -13.9
    }
   ],
   "ranked_d": [
    {
-    "name": "Radko Gudas",
-    "rank": 138
+    "name": "Seth Jones",
+    "rank": 142,
+    "banger": 50,
+    "off": 4.0,
+    "def": 46.2
    },
    {
-    "name": "Seth Jones",
-    "rank": 167
+    "name": "Radko Gudas",
+    "rank": 159,
+    "banger": 44,
+    "off": -58.2,
+    "def": 102.0
    },
    {
     "name": "Aaron Ekblad",
-    "rank": 273
-   },
-   {
-    "name": "Gustav Forsling",
-    "rank": 297
-   },
-   {
-    "name": "Niko Mikkola",
-    "rank": 356
-   },
-   {
-    "name": "Uvis Balinskis",
-    "rank": 441
+    "rank": 187,
+    "banger": 35,
+    "off": -17.6,
+    "def": 52.5
    },
    {
     "name": "Donovan Sebrango",
-    "rank": 635
+    "rank": 237,
+    "banger": 20,
+    "off": -57.8,
+    "def": 77.6
    },
    {
-    "name": "Dmitry Kulikov",
-    "rank": 651
+    "name": "Gustav Forsling",
+    "rank": 277,
+    "banger": 8,
+    "off": -33.1,
+    "def": 40.7
+   },
+   {
+    "name": "Niko Mikkola",
+    "rank": 314,
+    "banger": 1,
+    "off": -56.8,
+    "def": 58.3
+   },
+   {
+    "name": "Uvis Balinskis",
+    "rank": 428,
+    "banger": -14,
+    "off": -38.1,
+    "def": 23.7
    },
    {
     "name": "Alex Petrovic",
-    "rank": 702
+    "rank": 444,
+    "banger": -16,
+    "off": -59.3,
+    "def": 43.2
    },
    {
-    "name": "Tobias Bjornfot",
-    "rank": 860
+    "name": "Dmitry Kulikov",
+    "rank": 524,
+    "banger": -25,
+    "off": -57.1,
+    "def": 31.8
    }
   ],
   "pp1": {
@@ -12482,7 +13281,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
    }
   },
   "flags": [
-   "* missed 2025-26, ranked on prior season: Aleksander Barkov (2024-25)"
+   "missed 2025-26, ranked on prior season: Aleksander Barkov (2024-25)"
   ]
  },
  {
@@ -13116,101 +13915,159 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Adrian Kempe",
-    "rank": 36
+    "rank": 44,
+    "banger": 101,
+    "off": 47.9,
+    "def": 53.5
    },
    {
     "name": "Kevin Fiala",
-    "rank": 115
+    "rank": 45,
+    "banger": 100,
+    "off": 60.1,
+    "def": 40.4
    },
    {
     "name": "Artemi Panarin",
-    "rank": 120
-   },
-   {
-    "name": "Alex Laferriere",
-    "rank": 151
-   },
-   {
-    "name": "Quinton Byfield",
-    "rank": 176
-   },
-   {
-    "name": "Erik Haula",
-    "rank": 189
+    "rank": 53,
+    "banger": 95,
+    "off": 86.3,
+    "def": 8.9
    },
    {
     "name": "Mats Zuccarello",
-    "rank": 296
+    "rank": 120,
+    "banger": 58,
+    "off": 47.4,
+    "def": 10.4
+   },
+   {
+    "name": "Alex Laferriere",
+    "rank": 144,
+    "banger": 49,
+    "off": -15.1,
+    "def": 64.0
+   },
+   {
+    "name": "Quinton Byfield",
+    "rank": 147,
+    "banger": 46,
+    "off": 10.1,
+    "def": 36.1
+   },
+   {
+    "name": "Erik Haula",
+    "rank": 269,
+    "banger": 9,
+    "off": -26.8,
+    "def": 36.1
    },
    {
     "name": "Corey Perry",
-    "rank": 315
+    "rank": 279,
+    "banger": 7,
+    "off": -13.8,
+    "def": 21.1
    },
    {
     "name": "Scott Laughton",
-    "rank": 328
+    "rank": 281,
+    "banger": 7,
+    "off": -34.0,
+    "def": 41.1
    },
    {
     "name": "Trevor Moore",
-    "rank": 424
-   },
-   {
-    "name": "Joel Armia",
-    "rank": 455
-   },
-   {
-    "name": "Samuel Helenius",
-    "rank": 557
-   },
-   {
-    "name": "Alex Turcotte",
-    "rank": 599
-   },
-   {
-    "name": "Taylor Ward",
-    "rank": 721
-   },
-   {
-    "name": "Jared Wright",
-    "rank": 809
-   },
-   {
-    "name": "Andre Lee",
-    "rank": 903
+    "rank": 299,
+    "banger": 4,
+    "off": -16.5,
+    "def": 20.2
    },
    {
     "name": "Lane Pederson",
-    "rank": 949
+    "rank": 367,
+    "banger": -5,
+    "off": -57.3,
+    "def": 52.2
+   },
+   {
+    "name": "Samuel Helenius",
+    "rank": 533,
+    "banger": -26,
+    "off": -61.8,
+    "def": 35.5
+   },
+   {
+    "name": "Joel Armia",
+    "rank": 534,
+    "banger": -27,
+    "off": -39.3,
+    "def": 12.4
+   },
+   {
+    "name": "Alex Turcotte",
+    "rank": 724,
+    "banger": -56,
+    "off": -50.5,
+    "def": -5.2
+   },
+   {
+    "name": "Taylor Ward",
+    "rank": 753,
+    "banger": -64,
+    "off": -57.3,
+    "def": -6.9
    }
   ],
   "ranked_d": [
    {
     "name": "Brandt Clarke",
-    "rank": 171
+    "rank": 56,
+    "banger": 92,
+    "off": 18.8,
+    "def": 73.6
    },
    {
     "name": "Drew Doughty",
-    "rank": 327
-   },
-   {
-    "name": "Mikey Anderson",
-    "rank": 364
-   },
-   {
-    "name": "Joel Edmundson",
-    "rank": 370
-   },
-   {
-    "name": "Cody Ceci",
-    "rank": 533
-   },
-   {
-    "name": "Brian Dumoulin",
-    "rank": 567
+    "rank": 309,
+    "banger": 2,
+    "off": -21.8,
+    "def": 24.2
    },
    {
     "name": "Erik Gustafsson",
-    "rank": 877
+    "rank": 356,
+    "banger": -4,
+    "off": -14.8,
+    "def": 10.6
+   },
+   {
+    "name": "Mikey Anderson",
+    "rank": 451,
+    "banger": -18,
+    "off": -50.1,
+    "def": 32.6
+   },
+   {
+    "name": "Joel Edmundson",
+    "rank": 528,
+    "banger": -26,
+    "off": -53.1,
+    "def": 27.4
+   },
+   {
+    "name": "Cody Ceci",
+    "rank": 696,
+    "banger": -49,
+    "off": -59.5,
+    "def": 10.1
+   },
+   {
+    "name": "Brian Dumoulin",
+    "rank": 727,
+    "banger": -56,
+    "off": -54.8,
+    "def": -1.1
    }
   ],
   "pp1": {
@@ -14103,102 +14960,167 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   ],
   "ranked_f": [
    {
-    "name": "Matt Boldy",
-    "rank": 28
-   },
-   {
     "name": "Kirill Kaprizov",
-    "rank": 55
+    "rank": 9,
+    "banger": 157,
+    "off": 112.6,
+    "def": 44.7
    },
    {
-    "name": "Blake Coleman",
-    "rank": 154
+    "name": "Matt Boldy",
+    "rank": 27,
+    "banger": 118,
+    "off": 68.9,
+    "def": 49.2
    },
    {
     "name": "Joel Eriksson Ek",
-    "rank": 157
+    "rank": 68,
+    "banger": 85,
+    "off": 24.7,
+    "def": 60.4
    },
    {
     "name": "Ryan Hartman",
-    "rank": 164
+    "rank": 138,
+    "banger": 52,
+    "off": -6.9,
+    "def": 58.7
    },
    {
-    "name": "Michael McCarron",
-    "rank": 174
+    "name": "Blake Coleman",
+    "rank": 141,
+    "banger": 51,
+    "off": -9.2,
+    "def": 60.1
    },
    {
     "name": "Marcus Foligno",
-    "rank": 288
+    "rank": 212,
+    "banger": 27,
+    "off": -43.7,
+    "def": 70.3
+   },
+   {
+    "name": "Michael McCarron",
+    "rank": 236,
+    "banger": 21,
+    "off": -54.6,
+    "def": 75.4
    },
    {
     "name": "Yakov Trenin",
-    "rank": 309
+    "rank": 283,
+    "banger": 7,
+    "off": -51.4,
+    "def": 58.5
    },
    {
     "name": "Nick Foligno",
-    "rank": 388
-   },
-   {
-    "name": "Bobby Brink",
-    "rank": 456
+    "rank": 354,
+    "banger": -4,
+    "off": -36.6,
+    "def": 32.8
    },
    {
     "name": "Danila Yurov",
-    "rank": 511
+    "rank": 436,
+    "banger": -15,
+    "off": -30.0,
+    "def": 14.9
    },
    {
-    "name": "Nico Sturm",
-    "rank": 729
-   },
-   {
-    "name": "Max Shabanov",
-    "rank": 774
-   },
-   {
-    "name": "Tyler Pitlick",
-    "rank": 777
+    "name": "Bobby Brink",
+    "rank": 445,
+    "banger": -16,
+    "off": -22.8,
+    "def": 6.4
    },
    {
     "name": "Nicolas Aube-Kubel",
-    "rank": 836
+    "rank": 502,
+    "banger": -22,
+    "off": -57.5,
+    "def": 35.0
    },
    {
     "name": "Justin Kirkland",
-    "rank": 852
+    "rank": 518,
+    "banger": -25,
+    "off": -46.1,
+    "def": 21.4
+   },
+   {
+    "name": "Max Shabanov",
+    "rank": 669,
+    "banger": -45,
+    "off": -30.6,
+    "def": -14.0
+   },
+   {
+    "name": "Nico Sturm",
+    "rank": 708,
+    "banger": -52,
+    "off": -54.6,
+    "def": 2.0
+   },
+   {
+    "name": "Tyler Pitlick",
+    "rank": 740,
+    "banger": -60,
+    "off": -64.4,
+    "def": 4.0
    }
   ],
   "ranked_d": [
    {
     "name": "Quinn Hughes",
-    "rank": 84
+    "rank": 17,
+    "banger": 130,
+    "off": 97.1,
+    "def": 33.2
    },
    {
     "name": "Brock Faber",
-    "rank": 140
-   },
-   {
-    "name": "Jared Spurgeon",
-    "rank": 401
+    "rank": 172,
+    "banger": 40,
+    "off": -5.6,
+    "def": 46.0
    },
    {
     "name": "Jonas Brodin",
-    "rank": 528
+    "rank": 429,
+    "banger": -15,
+    "off": -39.4,
+    "def": 24.8
+   },
+   {
+    "name": "Jared Spurgeon",
+    "rank": 454,
+    "banger": -18,
+    "off": -33.3,
+    "def": 15.5
    },
    {
     "name": "Zach Bogosian",
-    "rank": 663
+    "rank": 617,
+    "banger": -37,
+    "off": -61.5,
+    "def": 24.5
    },
    {
     "name": "Olli Maatta",
-    "rank": 764
+    "rank": 689,
+    "banger": -48,
+    "off": -50.1,
+    "def": 1.9
    },
    {
     "name": "Daemon Hunt",
-    "rank": 868
-   },
-   {
-    "name": "Matt Kiersted",
-    "rank": 946
+    "rank": 736,
+    "banger": -59,
+    "off": -58.9,
+    "def": 0.0
    }
   ],
   "pp1": {
@@ -15017,81 +15939,145 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Nick Suzuki",
-    "rank": 22
+    "rank": 20,
+    "banger": 127,
+    "off": 101.1,
+    "def": 25.5
    },
    {
     "name": "Juraj Slafkovsky",
-    "rank": 26
+    "rank": 31,
+    "banger": 116,
+    "off": 60.4,
+    "def": 55.6
    },
    {
     "name": "Cole Caufield",
-    "rank": 82
-   },
-   {
-    "name": "Josh Anderson",
-    "rank": 238
+    "rank": 74,
+    "banger": 82,
+    "off": 57.5,
+    "def": 24.0
    },
    {
     "name": "Ivan Demidov",
-    "rank": 289
+    "rank": 121,
+    "banger": 58,
+    "off": 50.0,
+    "def": 7.6
    },
    {
-    "name": "Jake Evans",
-    "rank": 440
-   },
-   {
-    "name": "Alex Newhook",
-    "rank": 459
+    "name": "Josh Anderson",
+    "rank": 255,
+    "banger": 14,
+    "off": -45.3,
+    "def": 59.5
    },
    {
     "name": "Kirby Dach",
-    "rank": 470
+    "rank": 273,
+    "banger": 8,
+    "off": -20.9,
+    "def": 29.1
    },
    {
-    "name": "Oliver Kapanen",
-    "rank": 479
-   },
-   {
-    "name": "Phillip Danault",
-    "rank": 541
+    "name": "Zachary Bolduc",
+    "rank": 282,
+    "banger": 7,
+    "off": -28.1,
+    "def": 35.1
    },
    {
     "name": "Alexandre Texier",
-    "rank": 694
+    "rank": 480,
+    "banger": -20,
+    "off": -31.9,
+    "def": 11.9
+   },
+   {
+    "name": "Oliver Kapanen",
+    "rank": 489,
+    "banger": -21,
+    "off": -26.1,
+    "def": 5.1
+   },
+   {
+    "name": "Alex Newhook",
+    "rank": 492,
+    "banger": -22,
+    "off": -24.9,
+    "def": 3.4
+   },
+   {
+    "name": "Jake Evans",
+    "rank": 542,
+    "banger": -28,
+    "off": -41.8,
+    "def": 13.8
+   },
+   {
+    "name": "Phillip Danault",
+    "rank": 595,
+    "banger": -34,
+    "off": -40.1,
+    "def": 6.0
    },
    {
     "name": "Brett Berard",
-    "rank": 849
-   },
-   {
-    "name": "Owen Beck",
-    "rank": 875
+    "rank": 610,
+    "banger": -36,
+    "off": -53.2,
+    "def": 16.9
    }
   ],
   "ranked_d": [
    {
-    "name": "Noah Dobson",
-    "rank": 114
-   },
-   {
     "name": "Lane Hutson",
-    "rank": 137
+    "rank": 97,
+    "banger": 73,
+    "off": 41.5,
+    "def": 31.7
    },
    {
-    "name": "Mike Matheson",
-    "rank": 184
-   },
-   {
-    "name": "Arber Xhekaj",
-    "rank": 427
+    "name": "Noah Dobson",
+    "rank": 150,
+    "banger": 46,
+    "off": -7.0,
+    "def": 53.0
    },
    {
     "name": "Kaiden Guhle",
-    "rank": 457
+    "rank": 227,
+    "banger": 22,
+    "off": -46.1,
+    "def": 68.4
+   },
+   {
+    "name": "Mike Matheson",
+    "rank": 252,
+    "banger": 15,
+    "off": -33.6,
+    "def": 48.5
+   },
+   {
+    "name": "Arber Xhekaj",
+    "rank": 266,
+    "banger": 10,
+    "off": -67.4,
+    "def": 77.9
    },
    {
     "name": "Jayden Struble",
-    "rank": 513
+    "rank": 443,
+    "banger": -16,
+    "off": -57.1,
+    "def": 41.0
+   },
+   {
+    "name": "Alexandre Carrier",
+    "rank": 446,
+    "banger": -16,
+    "off": -51.2,
+    "def": 34.8
    }
   ],
   "pp1": {
@@ -15935,93 +16921,159 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Filip Forsberg",
-    "rank": 17
+    "rank": 32,
+    "banger": 115,
+    "off": 60.1,
+    "def": 54.8
    },
    {
     "name": "Steven Stamkos",
-    "rank": 41
+    "rank": 73,
+    "banger": 82,
+    "off": 44.0,
+    "def": 38.3
    },
    {
     "name": "Ryan O'Reilly",
-    "rank": 147
+    "rank": 153,
+    "banger": 45,
+    "off": 37.6,
+    "def": 7.6
    },
    {
     "name": "Jonathan Marchessault",
-    "rank": 237
+    "rank": 183,
+    "banger": 36,
+    "off": 9.4,
+    "def": 26.5
    },
    {
     "name": "Luke Evangelista",
-    "rank": 320
-   },
-   {
-    "name": "Ross Colton",
-    "rank": 358
-   },
-   {
-    "name": "Alexander Kerfoot",
-    "rank": 466
+    "rank": 258,
+    "banger": 13,
+    "off": 0.2,
+    "def": 13.1
    },
    {
     "name": "Mavrik Bourque",
-    "rank": 472
+    "rank": 320,
+    "banger": 1,
+    "off": -15.3,
+    "def": 16.2
+   },
+   {
+    "name": "Ross Colton",
+    "rank": 332,
+    "banger": 0,
+    "off": -33.6,
+    "def": 33.2
    },
    {
     "name": "Matthew Wood",
-    "rank": 506
-   },
-   {
-    "name": "Jack Drury",
-    "rank": 529
-   },
-   {
-    "name": "Reid Schaefer",
-    "rank": 619
-   },
-   {
-    "name": "Nils Hoglander",
-    "rank": 627
+    "rank": 442,
+    "banger": -16,
+    "off": -20.0,
+    "def": 4.0
    },
    {
     "name": "Ozzy Wiesblatt",
-    "rank": 682
+    "rank": 504,
+    "banger": -23,
+    "off": -65.1,
+    "def": 42.5
+   },
+   {
+    "name": "Reid Schaefer",
+    "rank": 570,
+    "banger": -31,
+    "off": -57.5,
+    "def": 26.8
    },
    {
     "name": "Adam Edstrom",
-    "rank": 799
+    "rank": 614,
+    "banger": -37,
+    "off": -59.3,
+    "def": 22.5
+   },
+   {
+    "name": "Jack Drury",
+    "rank": 631,
+    "banger": -40,
+    "off": -45.0,
+    "def": 5.5
+   },
+   {
+    "name": "Nils Hoglander",
+    "rank": 636,
+    "banger": -40,
+    "off": -43.6,
+    "def": 3.2
+   },
+   {
+    "name": "Alexander Kerfoot",
+    "rank": 640,
+    "banger": -41,
+    "off": -42.5,
+    "def": 1.9
    }
   ],
   "ranked_d": [
    {
     "name": "Roman Josi",
-    "rank": 97
+    "rank": 42,
+    "banger": 103,
+    "off": 48.9,
+    "def": 53.7
    },
    {
     "name": "Brady Skjei",
-    "rank": 305
+    "rank": 300,
+    "banger": 3,
+    "off": -26.1,
+    "def": 29.6
    },
    {
     "name": "Nicolas Hague",
-    "rank": 431
+    "rank": 414,
+    "banger": -13,
+    "off": -56.8,
+    "def": 44.3
    },
    {
     "name": "Ilya Lyubushkin",
-    "rank": 489
-   },
-   {
-    "name": "Nick Perbix",
-    "rank": 563
-   },
-   {
-    "name": "Justin Barron",
-    "rank": 612
-   },
-   {
-    "name": "Adam Wilsby",
-    "rank": 662
+    "rank": 517,
+    "banger": -24,
+    "off": -62.0,
+    "def": 37.5
    },
    {
     "name": "Jordan Oesterle",
-    "rank": 894
+    "rank": 666,
+    "banger": -44,
+    "off": -56.6,
+    "def": 12.4
+   },
+   {
+    "name": "Adam Wilsby",
+    "rank": 684,
+    "banger": -47,
+    "off": -53.7,
+    "def": 6.3
+   },
+   {
+    "name": "Nick Perbix",
+    "rank": 685,
+    "banger": -48,
+    "off": -54.4,
+    "def": 6.8
+   },
+   {
+    "name": "Justin Barron",
+    "rank": 691,
+    "banger": -48,
+    "off": -59.1,
+    "def": 10.8
    }
   ],
   "pp1": {
@@ -16866,94 +17918,153 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   ],
   "ranked_f": [
    {
-    "name": "Nico Hischier",
-    "rank": 93
+    "name": "Jack Hughes",
+    "rank": 16,
+    "banger": 137,
+    "off": 103.4,
+    "def": 33.5
    },
    {
     "name": "Timo Meier",
-    "rank": 111
+    "rank": 69,
+    "banger": 84,
+    "off": 13.3,
+    "def": 70.5
+   },
+   {
+    "name": "Nico Hischier",
+    "rank": 72,
+    "banger": 83,
+    "off": 57.0,
+    "def": 26.3
    },
    {
     "name": "Jesper Bratt",
-    "rank": 119
-   },
-   {
-    "name": "Jack Hughes",
-    "rank": 126
-   },
-   {
-    "name": "Dawson Mercer",
-    "rank": 325
-   },
-   {
-    "name": "Stefan Noesen",
-    "rank": 398
+    "rank": 105,
+    "banger": 67,
+    "off": 55.0,
+    "def": 12.3
    },
    {
     "name": "Evan Rodrigues",
-    "rank": 444
+    "rank": 311,
+    "banger": 2,
+    "off": -17.5,
+    "def": 19.6
    },
    {
     "name": "Arseny Gritsyuk",
-    "rank": 451
+    "rank": 339,
+    "banger": -1,
+    "off": -18.7,
+    "def": 17.5
+   },
+   {
+    "name": "Dawson Mercer",
+    "rank": 379,
+    "banger": -8,
+    "off": -13.8,
+    "def": 6.3
+   },
+   {
+    "name": "Stefan Noesen",
+    "rank": 388,
+    "banger": -8,
+    "off": -23.8,
+    "def": 15.5
    },
    {
     "name": "Connor Brown",
-    "rank": 462
+    "rank": 470,
+    "banger": -19,
+    "off": -16.3,
+    "def": -3.1
    },
    {
     "name": "Nick Bjugstad",
-    "rank": 510
-   },
-   {
-    "name": "Cody Glass",
-    "rank": 519
-   },
-   {
-    "name": "Lenni Hameenaho",
-    "rank": 631
+    "rank": 615,
+    "banger": -37,
+    "off": -53.2,
+    "def": 16.3
    },
    {
     "name": "Jesper Boqvist",
-    "rank": 728
+    "rank": 638,
+    "banger": -40,
+    "off": -46.6,
+    "def": 6.1
    },
    {
-    "name": "Marc McLaughlin",
-    "rank": 975
+    "name": "Cody Glass",
+    "rank": 646,
+    "banger": -42,
+    "off": -45.5,
+    "def": 4.0
+   },
+   {
+    "name": "Lenni Hameenaho",
+    "rank": 647,
+    "banger": -42,
+    "off": -52.1,
+    "def": 10.4
    }
   ],
   "ranked_d": [
    {
     "name": "Dougie Hamilton",
-    "rank": 169
-   },
-   {
-    "name": "Brenden Dillon",
-    "rank": 197
+    "rank": 106,
+    "banger": 67,
+    "off": 13.7,
+    "def": 53.3
    },
    {
     "name": "Luke Hughes",
-    "rank": 347
+    "rank": 203,
+    "banger": 28,
+    "off": 9.6,
+    "def": 18.6
    },
    {
-    "name": "Jonas Siegenthaler",
-    "rank": 382
+    "name": "Brenden Dillon",
+    "rank": 261,
+    "banger": 12,
+    "off": -57.1,
+    "def": 69.2
    },
    {
     "name": "Johnathan Kovacevic",
-    "rank": 471
+    "rank": 472,
+    "banger": -20,
+    "off": -57.1,
+    "def": 37.5
+   },
+   {
+    "name": "Jonas Siegenthaler",
+    "rank": 549,
+    "banger": -29,
+    "off": -59.8,
+    "def": 31.0
    },
    {
     "name": "Brett Pesce",
-    "rank": 548
-   },
-   {
-    "name": "Declan Chisholm",
-    "rank": 833
+    "rank": 585,
+    "banger": -32,
+    "off": -54.8,
+    "def": 22.3
    },
    {
     "name": "Vladislav Kolyachonok",
-    "rank": 870
+    "rank": 733,
+    "banger": -58,
+    "off": -56.6,
+    "def": -1.8
+   },
+   {
+    "name": "Declan Chisholm",
+    "rank": 742,
+    "banger": -62,
+    "off": -54.7,
+    "def": -6.8
    }
   ],
   "pp1": {
@@ -17821,98 +18932,160 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   ],
   "ranked_f": [
    {
-    "name": "Brayden Schenn",
-    "rank": 118
+    "name": "Mathew Barzal",
+    "rank": 87,
+    "banger": 76,
+    "off": 49.1,
+    "def": 27.3
    },
    {
     "name": "Bo Horvat",
-    "rank": 129
+    "rank": 88,
+    "banger": 76,
+    "off": 34.5,
+    "def": 41.6
    },
    {
-    "name": "Mathew Barzal",
-    "rank": 142
+    "name": "Brayden Schenn",
+    "rank": 146,
+    "banger": 46,
+    "off": -1.9,
+    "def": 48.3
    },
    {
     "name": "Kyle Palmieri",
-    "rank": 233
+    "rank": 149,
+    "banger": 46,
+    "off": 21.2,
+    "def": 24.9
    },
    {
     "name": "Emil Heineman",
-    "rank": 278
-   },
-   {
-    "name": "Jean-Gabriel Pageau",
-    "rank": 378
-   },
-   {
-    "name": "Ondrej Palat",
-    "rank": 446
-   },
-   {
-    "name": "Casey Cizikas",
-    "rank": 460
-   },
-   {
-    "name": "Simon Holmstrom",
-    "rank": 477
-   },
-   {
-    "name": "Matias Maccelli",
-    "rank": 559
-   },
-   {
-    "name": "Anthony Duclair",
-    "rank": 611
-   },
-   {
-    "name": "Kyle MacLean",
-    "rank": 671
+    "rank": 170,
+    "banger": 41,
+    "off": -20.3,
+    "def": 61.2
    },
    {
     "name": "Calum Ritchie",
-    "rank": 726
+    "rank": 334,
+    "banger": 0,
+    "off": 5.3,
+    "def": -5.7
    },
    {
     "name": "Mitchell Chaffee",
-    "rank": 788
+    "rank": 427,
+    "banger": -14,
+    "off": -45.4,
+    "def": 31.2
    },
    {
-    "name": "Matt Luff",
-    "rank": 945
+    "name": "Matias Maccelli",
+    "rank": 476,
+    "banger": -20,
+    "off": -4.8,
+    "def": -15.0
+   },
+   {
+    "name": "Jean-Gabriel Pageau",
+    "rank": 498,
+    "banger": -22,
+    "off": -32.9,
+    "def": 10.6
+   },
+   {
+    "name": "Simon Holmstrom",
+    "rank": 559,
+    "banger": -29,
+    "off": -16.8,
+    "def": -12.5
+   },
+   {
+    "name": "Anthony Duclair",
+    "rank": 560,
+    "banger": -30,
+    "off": -24.6,
+    "def": -5.1
+   },
+   {
+    "name": "Casey Cizikas",
+    "rank": 578,
+    "banger": -32,
+    "off": -54.6,
+    "def": 22.8
+   },
+   {
+    "name": "Ondrej Palat",
+    "rank": 655,
+    "banger": -42,
+    "off": -47.9,
+    "def": 5.4
+   },
+   {
+    "name": "Kyle MacLean",
+    "rank": 726,
+    "banger": -56,
+    "off": -61.1,
+    "def": 5.2
    },
    {
     "name": "Liam Foudy",
-    "rank": 1007
+    "rank": 758,
+    "banger": -65,
+    "off": -54.6,
+    "def": -10.5
    }
   ],
   "ranked_d": [
    {
     "name": "Matthew Schaefer",
-    "rank": 80
-   },
-   {
-    "name": "Adam Pelech",
-    "rank": 326
-   },
-   {
-    "name": "Ryan Pulock",
-    "rank": 383
-   },
-   {
-    "name": "Scott Mayfield",
-    "rank": 390
-   },
-   {
-    "name": "Tony DeAngelo",
-    "rank": 418
+    "rank": 58,
+    "banger": 92,
+    "off": 34.0,
+    "def": 58.1
    },
    {
     "name": "Alexander Romanov",
-    "rank": 675
+    "rank": 243,
+    "banger": 19,
+    "off": -48.8,
+    "def": 67.3
+   },
+   {
+    "name": "Tony DeAngelo",
+    "rank": 254,
+    "banger": 14,
+    "off": -13.1,
+    "def": 27.6
+   },
+   {
+    "name": "Adam Pelech",
+    "rank": 366,
+    "banger": -5,
+    "off": -50.3,
+    "def": 45.4
+   },
+   {
+    "name": "Ryan Pulock",
+    "rank": 431,
+    "banger": -15,
+    "off": -46.1,
+    "def": 31.4
+   },
+   {
+    "name": "Scott Mayfield",
+    "rank": 573,
+    "banger": -31,
+    "off": -61.5,
+    "def": 30.7
    },
    {
     "name": "Isaiah George",
-    "rank": 933
+    "rank": 767,
+    "banger": -68,
+    "off": -61.5,
+    "def": -6.6
    }
   ],
   "pp1": {
@@ -18830,106 +20003,181 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   ],
   "ranked_f": [
    {
-    "name": "Mika Zibanejad",
-    "rank": 43
-   },
-   {
     "name": "J.T. Miller",
-    "rank": 85
+    "rank": 33,
+    "banger": 113,
+    "off": 60.0,
+    "def": 53.4
    },
    {
-    "name": "Will Cuylle",
-    "rank": 106
+    "name": "Mika Zibanejad",
+    "rank": 65,
+    "banger": 88,
+    "off": 63.7,
+    "def": 24.7
    },
    {
     "name": "Pavel Dorofeyev",
-    "rank": 152
+    "rank": 80,
+    "banger": 80,
+    "off": 55.3,
+    "def": 24.5
+   },
+   {
+    "name": "Will Cuylle",
+    "rank": 93,
+    "banger": 74,
+    "off": -20.4,
+    "def": 94.4
    },
    {
     "name": "Alexis Lafreni\u00e8re",
-    "rank": 187
-   },
-   {
-    "name": "Oliver Bjorkstrand",
-    "rank": 312
+    "rank": 186,
+    "banger": 35,
+    "off": 13.5,
+    "def": 21.4
    },
    {
     "name": "Tye Kartye",
-    "rank": 410
+    "rank": 270,
+    "banger": 9,
+    "off": -47.6,
+    "def": 56.7
    },
    {
-    "name": "Noah Laba",
-    "rank": 443
-   },
-   {
-    "name": "Gabe Perreault",
-    "rank": 500
-   },
-   {
-    "name": "Taylor Raddysh",
-    "rank": 626
-   },
-   {
-    "name": "Joe Veleno",
-    "rank": 722
+    "name": "Oliver Bjorkstrand",
+    "rank": 272,
+    "banger": 8,
+    "off": -2.3,
+    "def": 10.6
    },
    {
     "name": "Matt Rempe",
-    "rank": 756
+    "rank": 296,
+    "banger": 4,
+    "off": -62.2,
+    "def": 66.6
+   },
+   {
+    "name": "Gabe Perreault",
+    "rank": 310,
+    "banger": 2,
+    "off": 3.5,
+    "def": -1.2
+   },
+   {
+    "name": "Noah Laba",
+    "rank": 464,
+    "banger": -19,
+    "off": -38.4,
+    "def": 19.5
    },
    {
     "name": "Jaroslav Chmelar",
-    "rank": 767
+    "rank": 581,
+    "banger": -32,
+    "off": -52.8,
+    "def": 20.8
+   },
+   {
+    "name": "Joe Veleno",
+    "rank": 652,
+    "banger": -42,
+    "off": -58.4,
+    "def": 16.5
    },
    {
     "name": "Juuso Parssinen",
-    "rank": 830
+    "rank": 706,
+    "banger": -52,
+    "off": -52.3,
+    "def": 0.5
+   },
+   {
+    "name": "Taylor Raddysh",
+    "rank": 715,
+    "banger": -54,
+    "off": -43.9,
+    "def": -9.7
    },
    {
     "name": "Justin Dowling",
-    "rank": 937
+    "rank": 782,
+    "banger": -80,
+    "off": -63.8,
+    "def": -16.2
    }
   ],
   "ranked_d": [
    {
     "name": "Adam Fox",
-    "rank": 79
-   },
-   {
-    "name": "Vladislav Gavrikov",
-    "rank": 256
-   },
-   {
-    "name": "Braden Schneider",
-    "rank": 258
-   },
-   {
-    "name": "Marcus Pettersson",
-    "rank": 293
+    "rank": 62,
+    "banger": 91,
+    "off": 61.6,
+    "def": 29.1
    },
    {
     "name": "Sean Durzi",
-    "rank": 406
+    "rank": 264,
+    "banger": 11,
+    "off": -23.5,
+    "def": 34.7
+   },
+   {
+    "name": "Braden Schneider",
+    "rank": 289,
+    "banger": 6,
+    "off": -51.0,
+    "def": 56.5
+   },
+   {
+    "name": "Vladislav Gavrikov",
+    "rank": 338,
+    "banger": -1,
+    "off": -30.4,
+    "def": 29.5
+   },
+   {
+    "name": "Marcus Pettersson",
+    "rank": 373,
+    "banger": -6,
+    "off": -49.2,
+    "def": 43.2
    },
    {
     "name": "Matthew Robertson",
-    "rank": 491
-   },
-   {
-    "name": "Urho Vaakanainen",
-    "rank": 778
+    "rank": 441,
+    "banger": -16,
+    "off": -51.7,
+    "def": 36.0
    },
    {
     "name": "Vincent Iorio",
-    "rank": 810
+    "rank": 704,
+    "banger": -51,
+    "off": -65.6,
+    "def": 14.3
    },
    {
     "name": "Scott Morrow",
-    "rank": 818
+    "rank": 705,
+    "banger": -52,
+    "off": -46.1,
+    "def": -5.5
+   },
+   {
+    "name": "Urho Vaakanainen",
+    "rank": 743,
+    "banger": -62,
+    "off": -58.6,
+    "def": -3.6
    },
    {
     "name": "Dennis Cholowski",
-    "rank": 867
+    "rank": 746,
+    "banger": -63,
+    "off": -47.8,
+    "def": -15.1
    }
   ],
   "pp1": {
@@ -19799,97 +21047,159 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Tim St\u00fctzle",
-    "rank": 19
+    "rank": 37,
+    "banger": 109,
+    "off": 68.5,
+    "def": 40.7
    },
    {
     "name": "Dylan Cozens",
-    "rank": 30
+    "rank": 71,
+    "banger": 84,
+    "off": 25.7,
+    "def": 58.0
    },
    {
     "name": "Drake Batherson",
-    "rank": 58
+    "rank": 76,
+    "banger": 81,
+    "off": 50.1,
+    "def": 31.1
    },
    {
     "name": "William Eklund",
-    "rank": 180
+    "rank": 100,
+    "banger": 72,
+    "off": 48.7,
+    "def": 23.6
    },
    {
     "name": "Shane Pinto",
-    "rank": 203
-   },
-   {
-    "name": "Fabian Zetterlund",
-    "rank": 298
+    "rank": 202,
+    "banger": 28,
+    "off": -4.8,
+    "def": 33.2
    },
    {
     "name": "Ridly Greig",
-    "rank": 413
-   },
-   {
-    "name": "Nick Cousins",
-    "rank": 452
+    "rank": 224,
+    "banger": 24,
+    "off": -30.6,
+    "def": 54.3
    },
    {
     "name": "Claude Giroux",
-    "rank": 483
+    "rank": 306,
+    "banger": 3,
+    "off": 5.1,
+    "def": -2.5
    },
    {
-    "name": "Michael Amadio",
-    "rank": 492
+    "name": "Nick Cousins",
+    "rank": 394,
+    "banger": -9,
+    "off": -49.0,
+    "def": 39.9
    },
    {
-    "name": "Warren Foegele",
-    "rank": 569
-   },
-   {
-    "name": "Andre Burakovsky",
-    "rank": 625
-   },
-   {
-    "name": "Stephen Halliday",
-    "rank": 791
+    "name": "Fabian Zetterlund",
+    "rank": 406,
+    "banger": -11,
+    "off": -27.7,
+    "def": 16.4
    },
    {
     "name": "Sammy Blais",
-    "rank": 805
+    "rank": 425,
+    "banger": -14,
+    "off": -51.7,
+    "def": 37.6
    },
    {
     "name": "Kurtis MacDermid",
-    "rank": 816
+    "rank": 461,
+    "banger": -19,
+    "off": -64.0,
+    "def": 45.3
    },
    {
     "name": "Philip Tomasino",
-    "rank": 817
+    "rank": 473,
+    "banger": -20,
+    "off": -22.0,
+    "def": 2.3
    },
    {
-    "name": "Olle Lycksell",
-    "rank": 929
+    "name": "Warren Foegele",
+    "rank": 512,
+    "banger": -24,
+    "off": -38.7,
+    "def": 14.9
+   },
+   {
+    "name": "Andre Burakovsky",
+    "rank": 538,
+    "banger": -28,
+    "off": -17.6,
+    "def": -10.2
+   },
+   {
+    "name": "Michael Amadio",
+    "rank": 545,
+    "banger": -28,
+    "off": -36.6,
+    "def": 8.5
+   },
+   {
+    "name": "Stephen Halliday",
+    "rank": 648,
+    "banger": -42,
+    "off": -31.3,
+    "def": -10.6
    }
   ],
   "ranked_d": [
    {
     "name": "Jake Sanderson",
-    "rank": 141
+    "rank": 59,
+    "banger": 92,
+    "off": 48.2,
+    "def": 43.7
    },
    {
     "name": "Thomas Chabot",
-    "rank": 274
+    "rank": 136,
+    "banger": 52,
+    "off": 1.1,
+    "def": 51.0
    },
    {
     "name": "Artem Zub",
-    "rank": 295
+    "rank": 318,
+    "banger": 1,
+    "off": -46.8,
+    "def": 47.9
    },
    {
     "name": "Tyler Kleven",
-    "rank": 385
+    "rank": 375,
+    "banger": -6,
+    "off": -55.5,
+    "def": 49.2
    },
    {
     "name": "Jordan Spence",
-    "rank": 465
+    "rank": 399,
+    "banger": -10,
+    "off": -30.3,
+    "def": 20.3
    },
    {
     "name": "Nikolas Matinpalo",
-    "rank": 730
+    "rank": 693,
+    "banger": -49,
+    "off": -66.3,
+    "def": 17.7
    }
   ],
   "pp1": {
@@ -20783,101 +22093,159 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Travis Konecny",
-    "rank": 66
-   },
-   {
-    "name": "Owen Tippett",
-    "rank": 139
+    "rank": 70,
+    "banger": 84,
+    "off": 35.2,
+    "def": 48.6
    },
    {
     "name": "Trevor Zegras",
-    "rank": 177
+    "rank": 91,
+    "banger": 75,
+    "off": 33.4,
+    "def": 41.6
+   },
+   {
+    "name": "Owen Tippett",
+    "rank": 119,
+    "banger": 58,
+    "off": 3.4,
+    "def": 54.5
    },
    {
     "name": "Matvei Michkov",
-    "rank": 249
+    "rank": 176,
+    "banger": 38,
+    "off": 19.8,
+    "def": 18.4
    },
    {
     "name": "Tyson Foerster",
-    "rank": 285
-   },
-   {
-    "name": "Noah Cates",
-    "rank": 354
+    "rank": 190,
+    "banger": 33,
+    "off": -8.0,
+    "def": 41.2
    },
    {
     "name": "Christian Dvorak",
-    "rank": 386
+    "rank": 313,
+    "banger": 2,
+    "off": -10.9,
+    "def": 12.6
    },
    {
-    "name": "Sean Couturier",
-    "rank": 400
+    "name": "Noah Cates",
+    "rank": 326,
+    "banger": 0,
+    "off": -13.2,
+    "def": 13.7
    },
    {
     "name": "Carl Grundstrom",
-    "rank": 468
+    "rank": 351,
+    "banger": -3,
+    "off": -51.6,
+    "def": 48.3
+   },
+   {
+    "name": "Sean Couturier",
+    "rank": 440,
+    "banger": -16,
+    "off": -31.6,
+    "def": 15.8
    },
    {
     "name": "Denver Barkey",
-    "rank": 591
+    "rank": 448,
+    "banger": -17,
+    "off": -21.7,
+    "def": 5.1
    },
    {
     "name": "Noel Acciari",
-    "rank": 618
+    "rank": 520,
+    "banger": -25,
+    "off": -49.6,
+    "def": 24.8
    },
    {
     "name": "Nikita Grebenkin",
-    "rank": 768
+    "rank": 548,
+    "banger": -29,
+    "off": -50.8,
+    "def": 22.0
    },
    {
     "name": "Zach Aston-Reese",
-    "rank": 844
-   },
-   {
-    "name": "Jack Studnicka",
-    "rank": 883
+    "rank": 587,
+    "banger": -33,
+    "off": -58.6,
+    "def": 25.6
    },
    {
     "name": "Boris Katchouk",
-    "rank": 904
+    "rank": 671,
+    "banger": -46,
+    "off": -52.3,
+    "def": 6.8
    },
    {
-    "name": "Nolan Foote",
-    "rank": 965
-   },
-   {
-    "name": "Anthony Richard",
-    "rank": 6735
+    "name": "Jack Studnicka",
+    "rank": 720,
+    "banger": -55,
+    "off": -66.7,
+    "def": 11.4
    }
   ],
   "ranked_d": [
    {
-    "name": "Travis Sanheim",
-    "rank": 250
-   },
-   {
-    "name": "Nick Seeler",
-    "rank": 269
-   },
-   {
-    "name": "Cam York",
-    "rank": 333
-   },
-   {
     "name": "Rasmus Ristolainen",
-    "rank": 412
+    "rank": 280,
+    "banger": 7,
+    "off": -43.1,
+    "def": 50.3
    },
    {
-    "name": "Jamie Drysdale",
-    "rank": 438
+    "name": "Travis Sanheim",
+    "rank": 287,
+    "banger": 6,
+    "off": -34.5,
+    "def": 40.4
    },
    {
     "name": "Simon Benoit",
-    "rank": 637
+    "rank": 329,
+    "banger": 0,
+    "off": -67.6,
+    "def": 67.9
+   },
+   {
+    "name": "Nick Seeler",
+    "rank": 341,
+    "banger": -2,
+    "off": -60.4,
+    "def": 58.5
+   },
+   {
+    "name": "Cam York",
+    "rank": 365,
+    "banger": -5,
+    "off": -38.2,
+    "def": 33.2
+   },
+   {
+    "name": "Jamie Drysdale",
+    "rank": 378,
+    "banger": -7,
+    "off": -24.7,
+    "def": 17.5
    },
    {
     "name": "David Jiricek",
-    "rank": 783
+    "rank": 754,
+    "banger": -64,
+    "off": -63.1,
+    "def": -1.0
    }
   ],
   "pp1": {
@@ -21871,117 +23239,194 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Sidney Crosby",
-    "rank": 73
-   },
-   {
-    "name": "Bryan Rust",
-    "rank": 112
-   },
-   {
-    "name": "Rickard Rakell",
-    "rank": 145
+    "rank": 55,
+    "banger": 92,
+    "off": 61.1,
+    "def": 31.4
    },
    {
     "name": "Evgeni Malkin",
-    "rank": 172
+    "rank": 83,
+    "banger": 79,
+    "off": 47.8,
+    "def": 31.6
+   },
+   {
+    "name": "Rickard Rakell",
+    "rank": 98,
+    "banger": 73,
+    "off": 38.5,
+    "def": 34.5
+   },
+   {
+    "name": "Bryan Rust",
+    "rank": 117,
+    "banger": 60,
+    "off": 29.3,
+    "def": 30.6
    },
    {
     "name": "Anthony Mantha",
-    "rank": 263
-   },
-   {
-    "name": "Ben Kindel",
-    "rank": 368
-   },
-   {
-    "name": "Yegor Chinakhov",
-    "rank": 403
-   },
-   {
-    "name": "Tommy Novak",
-    "rank": 473
-   },
-   {
-    "name": "Connor Dewar",
-    "rank": 579
-   },
-   {
-    "name": "Justin Brazeau",
-    "rank": 581
+    "rank": 215,
+    "banger": 26,
+    "off": 5.2,
+    "def": 20.8
    },
    {
     "name": "Andrei Kuzmenko",
-    "rank": 589
+    "rank": 324,
+    "banger": 0,
+    "off": 14.9,
+    "def": -14.4
    },
    {
-    "name": "Hendrix Lapierre",
-    "rank": 705
+    "name": "Ben Kindel",
+    "rank": 362,
+    "banger": -5,
+    "off": -15.9,
+    "def": 11.3
    },
    {
-    "name": "Elmer Soderblom",
-    "rank": 719
+    "name": "Connor Dewar",
+    "rank": 377,
+    "banger": -7,
+    "off": -43.8,
+    "def": 36.6
    },
    {
-    "name": "Blake Lizotte",
-    "rank": 724
-   },
-   {
-    "name": "Rutger McGroarty",
-    "rank": 765
-   },
-   {
-    "name": "Ville Koivunen",
-    "rank": 853
+    "name": "Yegor Chinakhov",
+    "rank": 397,
+    "banger": -10,
+    "off": -18.6,
+    "def": 8.9
    },
    {
     "name": "Rafael Harvey-Pinard",
-    "rank": 948
+    "rank": 432,
+    "banger": -15,
+    "off": -31.4,
+    "def": 16.7
    },
    {
-    "name": "Joona Koppanen",
-    "rank": 4445
+    "name": "Justin Brazeau",
+    "rank": 447,
+    "banger": -17,
+    "off": -31.2,
+    "def": 14.6
+   },
+   {
+    "name": "Tommy Novak",
+    "rank": 463,
+    "banger": -19,
+    "off": -9.5,
+    "def": -9.3
+   },
+   {
+    "name": "Blake Lizotte",
+    "rank": 567,
+    "banger": -30,
+    "off": -42.7,
+    "def": 12.1
+   },
+   {
+    "name": "Elmer Soderblom",
+    "rank": 608,
+    "banger": -36,
+    "off": -44.9,
+    "def": 8.9
+   },
+   {
+    "name": "Rutger McGroarty",
+    "rank": 665,
+    "banger": -44,
+    "off": -49.6,
+    "def": 5.6
+   },
+   {
+    "name": "Hendrix Lapierre",
+    "rank": 719,
+    "banger": -54,
+    "off": -48.8,
+    "def": -5.7
+   },
+   {
+    "name": "Ville Koivunen",
+    "rank": 765,
+    "banger": -67,
+    "off": -47.7,
+    "def": -19.7
    }
   ],
   "ranked_d": [
    {
     "name": "Erik Karlsson",
-    "rank": 150
+    "rank": 110,
+    "banger": 64,
+    "off": 45.4,
+    "def": 18.8
    },
    {
     "name": "Kris Letang",
-    "rank": 248
-   },
-   {
-    "name": "Kaedan Korczak",
-    "rank": 543
-   },
-   {
-    "name": "Samuel Girard",
-    "rank": 588
-   },
-   {
-    "name": "Trevor van Riemsdyk",
-    "rank": 659
-   },
-   {
-    "name": "Ilya Solovyov",
-    "rank": 735
-   },
-   {
-    "name": "Declan Carlile",
-    "rank": 758
-   },
-   {
-    "name": "Ryan Graves",
-    "rank": 856
+    "rank": 229,
+    "banger": 22,
+    "off": -20.5,
+    "def": 42.4
    },
    {
     "name": "Caleb Jones",
-    "rank": 898
+    "rank": 422,
+    "banger": -14,
+    "off": -52.0,
+    "def": 38.6
+   },
+   {
+    "name": "Declan Carlile",
+    "rank": 499,
+    "banger": -22,
+    "off": -69.6,
+    "def": 47.3
+   },
+   {
+    "name": "Ilya Solovyov",
+    "rank": 569,
+    "banger": -31,
+    "off": -51.5,
+    "def": 20.9
+   },
+   {
+    "name": "Samuel Girard",
+    "rank": 606,
+    "banger": -35,
+    "off": -48.1,
+    "def": 12.8
+   },
+   {
+    "name": "Ryan Graves",
+    "rank": 651,
+    "banger": -42,
+    "off": -62.4,
+    "def": 20.7
+   },
+   {
+    "name": "Kaedan Korczak",
+    "rank": 677,
+    "banger": -46,
+    "off": -56.4,
+    "def": 10.2
+   },
+   {
+    "name": "Trevor van Riemsdyk",
+    "rank": 721,
+    "banger": -55,
+    "off": -55.9,
+    "def": 0.7
    },
    {
     "name": "Owen Pickering",
-    "rank": 955
+    "rank": 778,
+    "banger": -77,
+    "off": -64.9,
+    "def": -11.8
    }
   ],
   "pp1": {
@@ -22800,89 +24245,145 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Macklin Celebrini",
-    "rank": 9
-   },
-   {
-    "name": "Kiefer Sherwood",
-    "rank": 132
-   },
-   {
-    "name": "Mason Marchment",
-    "rank": 241
-   },
-   {
-    "name": "Tyler Toffoli",
-    "rank": 266
-   },
-   {
-    "name": "Alexander Wennberg",
-    "rank": 301
+    "rank": 7,
+    "banger": 170,
+    "off": 112.4,
+    "def": 57.8
    },
    {
     "name": "Will Smith",
-    "rank": 319
+    "rank": 123,
+    "banger": 57,
+    "off": 55.0,
+    "def": 1.9
    },
    {
-    "name": "Barclay Goodrow",
-    "rank": 346
+    "name": "Mason Marchment",
+    "rank": 160,
+    "banger": 44,
+    "off": 3.0,
+    "def": 40.7
+   },
+   {
+    "name": "Kiefer Sherwood",
+    "rank": 175,
+    "banger": 39,
+    "off": -37.4,
+    "def": 76.6
    },
    {
     "name": "Igor Chernyshov",
-    "rank": 377
+    "rank": 208,
+    "banger": 28,
+    "off": 23.1,
+    "def": 4.8
    },
    {
-    "name": "Collin Graf",
-    "rank": 481
+    "name": "Tyler Toffoli",
+    "rank": 231,
+    "banger": 21,
+    "off": 16.0,
+    "def": 5.4
    },
    {
-    "name": "Michael Misa",
-    "rank": 551
+    "name": "Alexander Wennberg",
+    "rank": 288,
+    "banger": 6,
+    "off": 3.2,
+    "def": 2.4
    },
    {
     "name": "Ty Dellandrea",
-    "rank": 566
+    "rank": 389,
+    "banger": -8,
+    "off": -53.2,
+    "def": 45.0
    },
    {
-    "name": "Adam Gaudette",
-    "rank": 585
+    "name": "Michael Misa",
+    "rank": 483,
+    "banger": -20,
+    "off": -13.4,
+    "def": -6.9
+   },
+   {
+    "name": "Collin Graf",
+    "rank": 511,
+    "banger": -24,
+    "off": -29.2,
+    "def": 5.6
    },
    {
     "name": "Zack Ostapchuk",
-    "rank": 723
+    "rank": 519,
+    "banger": -25,
+    "off": -67.1,
+    "def": 42.4
    },
    {
-    "name": "Brett Leason",
-    "rank": 750
+    "name": "Barclay Goodrow",
+    "rank": 527,
+    "banger": -26,
+    "off": -63.3,
+    "def": 37.8
+   },
+   {
+    "name": "Adam Gaudette",
+    "rank": 633,
+    "banger": -40,
+    "off": -37.3,
+    "def": -2.8
    },
    {
     "name": "Alex Barr\u00e9-Boulet",
-    "rank": 950
+    "rank": 683,
+    "banger": -47,
+    "off": -41.3,
+    "def": -5.9
    },
    {
-    "name": "Patrick Giles",
-    "rank": 964
+    "name": "Brett Leason",
+    "rank": 701,
+    "banger": -50,
+    "off": -52.2,
+    "def": 1.8
    }
   ],
   "ranked_d": [
    {
-    "name": "Darnell Nurse",
-    "rank": 86
+    "name": "Jacob Trouba",
+    "rank": 132,
+    "banger": 54,
+    "off": -40.6,
+    "def": 94.4
    },
    {
-    "name": "Jacob Trouba",
-    "rank": 123
+    "name": "Darnell Nurse",
+    "rank": 133,
+    "banger": 54,
+    "off": -41.0,
+    "def": 94.7
    },
    {
     "name": "Dmitry Orlov",
-    "rank": 210
-   },
-   {
-    "name": "Sam Dickinson",
-    "rank": 565
+    "rank": 226,
+    "banger": 22,
+    "off": -5.7,
+    "def": 28.2
    },
    {
     "name": "Michael Kesselring",
-    "rank": 725
+    "rank": 385,
+    "banger": -8,
+    "off": -55.7,
+    "def": 47.8
+   },
+   {
+    "name": "Sam Dickinson",
+    "rank": 612,
+    "banger": -37,
+    "off": -56.4,
+    "def": 19.7
    }
   ],
   "pp1": {
@@ -23754,97 +25255,166 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Bobby McMann",
-    "rank": 183
+    "rank": 107,
+    "banger": 67,
+    "off": 2.6,
+    "def": 64.1
    },
    {
     "name": "Jared McCann",
-    "rank": 186
-   },
-   {
-    "name": "Jordan Eberle",
-    "rank": 257
-   },
-   {
-    "name": "Matty Beniers",
-    "rank": 275
-   },
-   {
-    "name": "Mackie Samoskevich",
-    "rank": 292
-   },
-   {
-    "name": "Chandler Stephenson",
-    "rank": 348
-   },
-   {
-    "name": "Kaapo Kakko",
-    "rank": 484
-   },
-   {
-    "name": "Shane Wright",
-    "rank": 537
-   },
-   {
-    "name": "Curtis Douglas",
-    "rank": 586
-   },
-   {
-    "name": "Frederic Gaudreau",
-    "rank": 633
-   },
-   {
-    "name": "Berkly Catton",
-    "rank": 692
+    "rank": 134,
+    "banger": 52,
+    "off": 36.6,
+    "def": 15.8
    },
    {
     "name": "Jacob Melanson",
-    "rank": 711
+    "rank": 171,
+    "banger": 40,
+    "off": -62.2,
+    "def": 102.7
    },
    {
-    "name": "Ryan Winterton",
-    "rank": 717
+    "name": "Curtis Douglas",
+    "rank": 240,
+    "banger": 19,
+    "off": -67.4,
+    "def": 86.7
    },
    {
-    "name": "Ben Meyers",
-    "rank": 737
-   },
-   {
-    "name": "Jani Nyman",
-    "rank": 846
+    "name": "Jordan Eberle",
+    "rank": 247,
+    "banger": 17,
+    "off": 8.1,
+    "def": 9.1
    },
    {
     "name": "John Hayden",
-    "rank": 915
+    "rank": 249,
+    "banger": 16,
+    "off": -66.9,
+    "def": 83.2
+   },
+   {
+    "name": "Matty Beniers",
+    "rank": 257,
+    "banger": 14,
+    "off": 1.0,
+    "def": 12.8
+   },
+   {
+    "name": "Mackie Samoskevich",
+    "rank": 263,
+    "banger": 12,
+    "off": -23.9,
+    "def": 35.6
+   },
+   {
+    "name": "Chandler Stephenson",
+    "rank": 345,
+    "banger": -2,
+    "off": 5.6,
+    "def": -7.8
+   },
+   {
+    "name": "Kaapo Kakko",
+    "rank": 433,
+    "banger": -15,
+    "off": -8.3,
+    "def": -6.5
+   },
+   {
+    "name": "Shane Wright",
+    "rank": 583,
+    "banger": -32,
+    "off": -28.6,
+    "def": -3.9
+   },
+   {
+    "name": "Ryan Winterton",
+    "rank": 586,
+    "banger": -33,
+    "off": -47.4,
+    "def": 14.6
+   },
+   {
+    "name": "Frederic Gaudreau",
+    "rank": 632,
+    "banger": -40,
+    "off": -32.1,
+    "def": -7.6
+   },
+   {
+    "name": "Berkly Catton",
+    "rank": 642,
+    "banger": -41,
+    "off": -44.1,
+    "def": 3.4
+   },
+   {
+    "name": "Jani Nyman",
+    "rank": 658,
+    "banger": -43,
+    "off": -35.8,
+    "def": -7.2
+   },
+   {
+    "name": "Ben Meyers",
+    "rank": 751,
+    "banger": -64,
+    "off": -59.5,
+    "def": -4.5
    }
   ],
   "ranked_d": [
    {
-    "name": "Vince Dunn",
-    "rank": 163
+    "name": "Brandon Montour",
+    "rank": 102,
+    "banger": 71,
+    "off": -0.2,
+    "def": 71.5
    },
    {
-    "name": "Brandon Montour",
-    "rank": 173
+    "name": "Vince Dunn",
+    "rank": 126,
+    "banger": 56,
+    "off": 13.9,
+    "def": 42.2
    },
    {
     "name": "Adam Larsson",
-    "rank": 220
-   },
-   {
-    "name": "Ryan Lindgren",
-    "rank": 429
-   },
-   {
-    "name": "Ryker Evans",
-    "rank": 514
-   },
-   {
-    "name": "Joshua Mahura",
-    "rank": 752
+    "rank": 297,
+    "banger": 4,
+    "off": -47.4,
+    "def": 51.3
    },
    {
     "name": "Cale Fleury",
-    "rank": 773
+    "rank": 458,
+    "banger": -18,
+    "off": -63.6,
+    "def": 45.2
+   },
+   {
+    "name": "Ryan Lindgren",
+    "rank": 553,
+    "banger": -29,
+    "off": -57.1,
+    "def": 28.0
+   },
+   {
+    "name": "Ryker Evans",
+    "rank": 555,
+    "banger": -29,
+    "off": -52.6,
+    "def": 23.4
+   },
+   {
+    "name": "Joshua Mahura",
+    "rank": 572,
+    "banger": -31,
+    "off": -58.4,
+    "def": 27.6
    }
   ],
   "pp1": {
@@ -24713,93 +26283,166 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Dylan Holloway",
-    "rank": 131
+    "rank": 38,
+    "banger": 105,
+    "off": 43.7,
+    "def": 61.0
    },
    {
     "name": "Robert Thomas",
-    "rank": 199
-   },
-   {
-    "name": "Mason McTavish",
-    "rank": 219
-   },
-   {
-    "name": "Jake Neighbours",
-    "rank": 221
-   },
-   {
-    "name": "Pavel Buchnevich",
-    "rank": 267
+    "rank": 111,
+    "banger": 63,
+    "off": 57.1,
+    "def": 6.3
    },
    {
     "name": "Jimmy Snuggerud",
-    "rank": 280
+    "rank": 113,
+    "banger": 63,
+    "off": 27.0,
+    "def": 35.9
    },
    {
-    "name": "Connor McMichael",
-    "rank": 303
+    "name": "Mason McTavish",
+    "rank": 211,
+    "banger": 28,
+    "off": 0.4,
+    "def": 27.2
+   },
+   {
+    "name": "Jake Neighbours",
+    "rank": 214,
+    "banger": 26,
+    "off": -10.1,
+    "def": 36.2
+   },
+   {
+    "name": "Pavel Buchnevich",
+    "rank": 217,
+    "banger": 25,
+    "off": 17.2,
+    "def": 7.9
    },
    {
     "name": "Ross Johnston",
-    "rank": 332
+    "rank": 244,
+    "banger": 18,
+    "off": -62.7,
+    "def": 81.2
    },
    {
-    "name": "Dalibor Dvorsky",
-    "rank": 501
+    "name": "Connor McMichael",
+    "rank": 248,
+    "banger": 16,
+    "off": -1.1,
+    "def": 17.6
    },
    {
     "name": "Nathan Walker",
-    "rank": 526
+    "rank": 323,
+    "banger": 1,
+    "off": -53.7,
+    "def": 54.4
    },
    {
-    "name": "Alexey Toropchenko",
-    "rank": 576
-   },
-   {
-    "name": "Jonatan Berggren",
-    "rank": 623
-   },
-   {
-    "name": "Jack Finley",
-    "rank": 634
-   },
-   {
-    "name": "Pius Suter",
-    "rank": 648
+    "name": "Dalibor Dvorsky",
+    "rank": 509,
+    "banger": -23,
+    "off": -30.9,
+    "def": 7.6
    },
    {
     "name": "Oskar Sundqvist",
-    "rank": 690
+    "rank": 516,
+    "banger": -24,
+    "off": -38.8,
+    "def": 14.7
+   },
+   {
+    "name": "Pius Suter",
+    "rank": 540,
+    "banger": -28,
+    "off": -25.3,
+    "def": -2.7
+   },
+   {
+    "name": "Alexey Toropchenko",
+    "rank": 551,
+    "banger": -29,
+    "off": -56.1,
+    "def": 27.1
+   },
+   {
+    "name": "Jack Finley",
+    "rank": 623,
+    "banger": -38,
+    "off": -64.7,
+    "def": 26.3
+   },
+   {
+    "name": "Jonatan Berggren",
+    "rank": 624,
+    "banger": -38,
+    "off": -28.4,
+    "def": -10.2
    },
    {
     "name": "Otto Stenberg",
-    "rank": 763
+    "rank": 627,
+    "banger": -39,
+    "off": -44.7,
+    "def": 5.7
    }
   ],
   "ranked_d": [
    {
-    "name": "Colton Parayko",
-    "rank": 317
+    "name": "Tyler Tucker",
+    "rank": 260,
+    "banger": 12,
+    "off": -56.6,
+    "def": 69.0
    },
    {
-    "name": "Tyler Tucker",
-    "rank": 355
+    "name": "Colton Parayko",
+    "rank": 285,
+    "banger": 6,
+    "off": -44.7,
+    "def": 51.2
    },
    {
     "name": "Logan Mailloux",
-    "rank": 396
-   },
-   {
-    "name": "Brandon Carlo",
-    "rank": 405
+    "rank": 392,
+    "banger": -9,
+    "off": -49.8,
+    "def": 40.9
    },
    {
     "name": "Philip Broberg",
-    "rank": 485
+    "rank": 434,
+    "banger": -15,
+    "off": -27.2,
+    "def": 12.2
+   },
+   {
+    "name": "Brandon Carlo",
+    "rank": 437,
+    "banger": -15,
+    "off": -61.8,
+    "def": 46.6
    },
    {
     "name": "Cam Fowler",
-    "rank": 498
+    "rank": 593,
+    "banger": -34,
+    "off": -25.1,
+    "def": -8.8
+   },
+   {
+    "name": "Matthew Kessel",
+    "rank": 741,
+    "banger": -61,
+    "off": -65.1,
+    "def": 4.4
    }
   ],
   "pp1": {
@@ -25718,105 +27361,173 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Nikita Kucherov",
-    "rank": 7
+    "rank": 3,
+    "banger": 197,
+    "off": 161.4,
+    "def": 35.6
    },
    {
     "name": "Jake Guentzel",
-    "rank": 24
+    "rank": 21,
+    "banger": 124,
+    "off": 79.2,
+    "def": 44.9
    },
    {
     "name": "Brandon Hagel",
-    "rank": 68
-   },
-   {
-    "name": "Anthony Cirelli",
-    "rank": 235
-   },
-   {
-    "name": "Jeffrey Viel",
-    "rank": 283
+    "rank": 49,
+    "banger": 98,
+    "off": 51.6,
+    "def": 46.8
    },
    {
     "name": "Brayden Point",
-    "rank": 306
-   },
-   {
-    "name": "Yanni Gourde",
-    "rank": 307
-   },
-   {
-    "name": "Zemgus Girgensons",
-    "rank": 399
-   },
-   {
-    "name": "Jansen Harkins",
-    "rank": 493
-   },
-   {
-    "name": "Ilya Mikheyev",
-    "rank": 525
-   },
-   {
-    "name": "Gage Goncalves",
-    "rank": 531
-   },
-   {
-    "name": "Pontus Holmberg",
-    "rank": 570
+    "rank": 108,
+    "banger": 66,
+    "off": 63.9,
+    "def": 2.5
    },
    {
     "name": "Scott Sabourin",
-    "rank": 678
+    "rank": 112,
+    "banger": 63,
+    "off": -59.3,
+    "def": 122.4
    },
    {
-    "name": "Dominic James",
-    "rank": 714
+    "name": "Jeffrey Viel",
+    "rank": 166,
+    "banger": 42,
+    "off": -54.1,
+    "def": 96.6
+   },
+   {
+    "name": "Anthony Cirelli",
+    "rank": 246,
+    "banger": 18,
+    "off": -3.4,
+    "def": 21.0
+   },
+   {
+    "name": "Yanni Gourde",
+    "rank": 312,
+    "banger": 2,
+    "off": -33.5,
+    "def": 35.4
    },
    {
     "name": "Conor Geekie",
-    "rank": 795
+    "rank": 418,
+    "banger": -13,
+    "off": -48.8,
+    "def": 35.8
+   },
+   {
+    "name": "Zemgus Girgensons",
+    "rank": 510,
+    "banger": -23,
+    "off": -57.0,
+    "def": 33.6
+   },
+   {
+    "name": "Gage Goncalves",
+    "rank": 543,
+    "banger": -28,
+    "off": -32.9,
+    "def": 4.8
+   },
+   {
+    "name": "Dominic James",
+    "rank": 563,
+    "banger": -30,
+    "off": -38.6,
+    "def": 8.4
+   },
+   {
+    "name": "Pontus Holmberg",
+    "rank": 565,
+    "banger": -30,
+    "off": -43.4,
+    "def": 13.0
    },
    {
     "name": "Jakob Pelletier",
-    "rank": 902
+    "rank": 597,
+    "banger": -34,
+    "off": -34.1,
+    "def": -0.2
+   },
+   {
+    "name": "Ilya Mikheyev",
+    "rank": 621,
+    "banger": -38,
+    "off": -31.2,
+    "def": -6.3
+   },
+   {
+    "name": "Jansen Harkins",
+    "rank": 668,
+    "banger": -44,
+    "off": -63.6,
+    "def": 19.0
    }
   ],
   "ranked_d": [
    {
     "name": "John Carlson",
-    "rank": 133
-   },
-   {
-    "name": "Victor Hedman",
-    "rank": 158
+    "rank": 103,
+    "banger": 71,
+    "off": 29.4,
+    "def": 41.2
    },
    {
     "name": "Charle-Edouard D'Astous",
-    "rank": 230
+    "rank": 174,
+    "banger": 40,
+    "off": -36.5,
+    "def": 76.7
    },
    {
-    "name": "Erik Cernak",
-    "rank": 279
-   },
-   {
-    "name": "J.J. Moser",
-    "rank": 308
+    "name": "Victor Hedman",
+    "rank": 253,
+    "banger": 15,
+    "off": -5.9,
+    "def": 20.7
    },
    {
     "name": "Emil Lilleberg",
-    "rank": 371
-   },
-   {
-    "name": "Ryan McDonagh",
-    "rank": 556
+    "rank": 275,
+    "banger": 8,
+    "off": -55.1,
+    "def": 62.9
    },
    {
     "name": "Max Crozier",
-    "rank": 654
+    "rank": 321,
+    "banger": 1,
+    "off": -50.6,
+    "def": 51.4
    },
    {
-    "name": "Michael Callahan",
-    "rank": 944
+    "name": "Erik Cernak",
+    "rank": 327,
+    "banger": 0,
+    "off": -57.1,
+    "def": 57.5
+   },
+   {
+    "name": "J.J. Moser",
+    "rank": 404,
+    "banger": -11,
+    "off": -44.8,
+    "def": 33.7
+   },
+   {
+    "name": "Ryan McDonagh",
+    "rank": 589,
+    "banger": -34,
+    "off": -44.5,
+    "def": 10.9
    }
   ],
   "pp1": {
@@ -26812,105 +28523,201 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Auston Matthews",
-    "rank": 53
-   },
-   {
-    "name": "John Tavares",
-    "rank": 92
+    "rank": 13,
+    "banger": 143,
+    "off": 74.8,
+    "def": 67.8
    },
    {
     "name": "William Nylander",
-    "rank": 95
+    "rank": 50,
+    "banger": 98,
+    "off": 78.0,
+    "def": 20.1
    },
    {
     "name": "Matthew Knies",
-    "rank": 109
+    "rank": 90,
+    "banger": 75,
+    "off": 38.6,
+    "def": 36.6
+   },
+   {
+    "name": "John Tavares",
+    "rank": 101,
+    "banger": 71,
+    "off": 42.8,
+    "def": 28.7
    },
    {
     "name": "Max Domi",
-    "rank": 271
-   },
-   {
-    "name": "Dakota Joshua",
-    "rank": 300
-   },
-   {
-    "name": "Easton Cowan",
-    "rank": 360
-   },
-   {
-    "name": "Brandon Duhaime",
-    "rank": 380
-   },
-   {
-    "name": "Jack Roslovic",
-    "rank": 474
-   },
-   {
-    "name": "Nick Paul",
-    "rank": 502
-   },
-   {
-    "name": "Colton Sissons",
-    "rank": 503
-   },
-   {
-    "name": "Teddy Blueger",
-    "rank": 521
-   },
-   {
-    "name": "Steven Lorentz",
-    "rank": 605
+    "rank": 195,
+    "banger": 30,
+    "off": -15.2,
+    "def": 45.4
    },
    {
     "name": "Michael Pezzetta",
-    "rank": 644
+    "rank": 216,
+    "banger": 26,
+    "off": -60.7,
+    "def": 86.5
    },
    {
-    "name": "Bo Groulx",
-    "rank": 668
+    "name": "Easton Cowan",
+    "rank": 219,
+    "banger": 25,
+    "off": -11.7,
+    "def": 36.3
    },
    {
-    "name": "Jacob Quillan",
-    "rank": 780
+    "name": "Dakota Joshua",
+    "rank": 245,
+    "banger": 18,
+    "off": -44.1,
+    "def": 62.4
    },
    {
     "name": "Zack MacEwen",
-    "rank": 801
+    "rank": 278,
+    "banger": 7,
+    "off": -60.6,
+    "def": 68.0
+   },
+   {
+    "name": "Nick Paul",
+    "rank": 395,
+    "banger": -9,
+    "off": -24.1,
+    "def": 14.7
+   },
+   {
+    "name": "Brandon Duhaime",
+    "rank": 396,
+    "banger": -10,
+    "off": -59.5,
+    "def": 49.8
+   },
+   {
+    "name": "Teddy Blueger",
+    "rank": 407,
+    "banger": -11,
+    "off": -39.8,
+    "def": 28.5
+   },
+   {
+    "name": "Jack Roslovic",
+    "rank": 421,
+    "banger": -13,
+    "off": -14.4,
+    "def": 1.2
+   },
+   {
+    "name": "Nicholas Robertson",
+    "rank": 532,
+    "banger": -26,
+    "off": -31.6,
+    "def": 5.4
+   },
+   {
+    "name": "Colton Sissons",
+    "rank": 568,
+    "banger": -30,
+    "off": -48.8,
+    "def": 18.3
+   },
+   {
+    "name": "Steven Lorentz",
+    "rank": 580,
+    "banger": -32,
+    "off": -53.7,
+    "def": 21.8
+   },
+   {
+    "name": "Bo Groulx",
+    "rank": 686,
+    "banger": -48,
+    "off": -72.3,
+    "def": 24.7
+   },
+   {
+    "name": "Jacob Quillan",
+    "rank": 731,
+    "banger": -57,
+    "off": -63.6,
+    "def": 6.4
    }
   ],
   "ranked_d": [
    {
     "name": "Darren Raddysh",
-    "rank": 74
-   },
-   {
-    "name": "Oliver Ekman-Larsson",
-    "rank": 191
+    "rank": 54,
+    "banger": 93,
+    "off": 44.1,
+    "def": 49.3
    },
    {
     "name": "Jake McCabe",
-    "rank": 202
+    "rank": 198,
+    "banger": 29,
+    "off": -44.3,
+    "def": 73.6
    },
    {
     "name": "Morgan Rielly",
-    "rank": 247
+    "rank": 204,
+    "banger": 28,
+    "off": -5.2,
+    "def": 33.4
    },
    {
-    "name": "Emil Andrae",
-    "rank": 703
-   },
-   {
-    "name": "Troy Stecher",
-    "rank": 748
+    "name": "Oliver Ekman-Larsson",
+    "rank": 223,
+    "banger": 24,
+    "off": -19.3,
+    "def": 43.2
    },
    {
     "name": "Dakota Mermis",
-    "rank": 823
+    "rank": 505,
+    "banger": -23,
+    "off": -60.0,
+    "def": 37.2
    },
    {
     "name": "Philippe Myers",
-    "rank": 873
+    "rank": 536,
+    "banger": -27,
+    "off": -64.7,
+    "def": 37.5
+   },
+   {
+    "name": "Chris Tanev",
+    "rank": 635,
+    "banger": -40,
+    "off": -56.2,
+    "def": 15.9
+   },
+   {
+    "name": "Matthew Benning",
+    "rank": 673,
+    "banger": -46,
+    "off": -46.8,
+    "def": 0.9
+   },
+   {
+    "name": "Troy Stecher",
+    "rank": 678,
+    "banger": -46,
+    "off": -61.5,
+    "def": 15.2
+   },
+   {
+    "name": "Emil Andrae",
+    "rank": 702,
+    "banger": -51,
+    "off": -61.1,
+    "def": 10.5
    }
   ],
   "pp1": {
@@ -27803,102 +29610,167 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   ],
   "ranked_f": [
    {
-    "name": "Vincent Trocheck",
-    "rank": 50
+    "name": "Dylan Guenther",
+    "rank": 39,
+    "banger": 105,
+    "off": 67.6,
+    "def": 37.1
    },
    {
     "name": "Clayton Keller",
-    "rank": 77
+    "rank": 47,
+    "banger": 100,
+    "off": 77.4,
+    "def": 22.3
    },
    {
-    "name": "Dylan Guenther",
-    "rank": 105
+    "name": "Vincent Trocheck",
+    "rank": 51,
+    "banger": 97,
+    "off": 29.6,
+    "def": 67.5
    },
    {
     "name": "Nick Schmaltz",
-    "rank": 130
-   },
-   {
-    "name": "Lawson Crouse",
-    "rank": 153
-   },
-   {
-    "name": "Anders Lee",
-    "rank": 170
+    "rank": 135,
+    "banger": 52,
+    "off": 43.2,
+    "def": 8.9
    },
    {
     "name": "Jack McBain",
-    "rank": 182
+    "rank": 154,
+    "banger": 45,
+    "off": -42.7,
+    "def": 87.3
    },
    {
     "name": "Logan Cooley",
-    "rank": 190
+    "rank": 163,
+    "banger": 43,
+    "off": 25.7,
+    "def": 17.4
    },
    {
-    "name": "Barrett Hayton",
-    "rank": 366
+    "name": "Lawson Crouse",
+    "rank": 178,
+    "banger": 38,
+    "off": -25.5,
+    "def": 63.3
+   },
+   {
+    "name": "Anders Lee",
+    "rank": 194,
+    "banger": 30,
+    "off": -12.9,
+    "def": 43.1
    },
    {
     "name": "Liam O'Brien",
-    "rank": 423
+    "rank": 206,
+    "banger": 28,
+    "off": -63.6,
+    "def": 91.5
+   },
+   {
+    "name": "Barrett Hayton",
+    "rank": 352,
+    "banger": -4,
+    "off": -19.7,
+    "def": 16.1
    },
    {
     "name": "Michael Carcone",
-    "rank": 447
-   },
-   {
-    "name": "Kevin Stenlund",
-    "rank": 582
-   },
-   {
-    "name": "Daniil But",
-    "rank": 603
+    "rank": 360,
+    "banger": -4,
+    "off": -26.5,
+    "def": 22.0
    },
    {
     "name": "Brandon Tanev",
-    "rank": 655
+    "rank": 546,
+    "banger": -28,
+    "off": -59.7,
+    "def": 31.4
    },
    {
-    "name": "Kailer Yamamoto",
-    "rank": 665
+    "name": "Daniil But",
+    "rank": 571,
+    "banger": -31,
+    "off": -40.1,
+    "def": 9.3
    },
    {
     "name": "Joshua Roy",
-    "rank": 939
+    "rank": 637,
+    "banger": -40,
+    "off": -37.7,
+    "def": -2.6
+   },
+   {
+    "name": "Kevin Stenlund",
+    "rank": 649,
+    "banger": -42,
+    "off": -49.9,
+    "def": 8.1
+   },
+   {
+    "name": "Kailer Yamamoto",
+    "rank": 694,
+    "banger": -49,
+    "off": -43.2,
+    "def": -5.9
    }
   ],
   "ranked_d": [
    {
-    "name": "MacKenzie Weegar",
-    "rank": 35
+    "name": "Mikhail Sergachev",
+    "rank": 61,
+    "banger": 91,
+    "off": 44.9,
+    "def": 46.1
    },
    {
-    "name": "Mikhail Sergachev",
-    "rank": 102
+    "name": "MacKenzie Weegar",
+    "rank": 81,
+    "banger": 80,
+    "off": -17.8,
+    "def": 97.5
    },
    {
     "name": "Andrew Peeke",
-    "rank": 421
+    "rank": 452,
+    "banger": -18,
+    "off": -58.2,
+    "def": 40.7
    },
    {
     "name": "Nate Schmidt",
-    "rank": 453
-   },
-   {
-    "name": "John Marino",
-    "rank": 638
+    "rank": 616,
+    "banger": -37,
+    "off": -51.5,
+    "def": 14.5
    },
    {
     "name": "Dmitri Simashev",
-    "rank": 786
+    "rank": 664,
+    "banger": -44,
+    "off": -73.4,
+    "def": 29.8
+   },
+   {
+    "name": "John Marino",
+    "rank": 675,
+    "banger": -46,
+    "off": -38.9,
+    "def": -7.1
    },
    {
     "name": "Nick DeSimone",
-    "rank": 841
-   },
-   {
-    "name": "Maveric Lamoureux",
-    "rank": 892
+    "rank": 734,
+    "banger": -59,
+    "off": -54.6,
+    "def": -4.0
    }
   ],
   "pp1": {
@@ -28719,85 +30591,152 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Elias Pettersson",
-    "rank": 136
+    "rank": 109,
+    "banger": 65,
+    "off": 34.6,
+    "def": 30.8
    },
    {
     "name": "Jake DeBrusk",
-    "rank": 195
+    "rank": 161,
+    "banger": 44,
+    "off": 16.9,
+    "def": 26.7
    },
    {
     "name": "Brock Boeser",
-    "rank": 242
+    "rank": 169,
+    "banger": 41,
+    "off": 30.0,
+    "def": 11.2
    },
    {
     "name": "Marco Rossi",
-    "rank": 299
-   },
-   {
-    "name": "Drew O'Connor",
-    "rank": 381
-   },
-   {
-    "name": "Paul Cotter",
-    "rank": 467
-   },
-   {
-    "name": "Linus Karlsson",
-    "rank": 522
-   },
-   {
-    "name": "Aatu Raty",
-    "rank": 571
+    "rank": 259,
+    "banger": 13,
+    "off": 5.4,
+    "def": 7.8
    },
    {
     "name": "Filip Chytil",
-    "rank": 649
+    "rank": 383,
+    "banger": -8,
+    "off": -14.4,
+    "def": 6.6
    },
    {
-    "name": "Liam Ohgren",
-    "rank": 653
+    "name": "Drew O'Connor",
+    "rank": 468,
+    "banger": -19,
+    "off": -39.3,
+    "def": 20.1
    },
    {
-    "name": "Max Sasson",
-    "rank": 666
+    "name": "Linus Karlsson",
+    "rank": 482,
+    "banger": -20,
+    "off": -31.9,
+    "def": 11.8
    },
    {
     "name": "Brendan Gallagher",
-    "rank": 709
+    "rank": 484,
+    "banger": -20,
+    "off": -39.3,
+    "def": 18.9
    },
    {
-    "name": "Arshdeep Bains",
-    "rank": 840
+    "name": "Aatu Raty",
+    "rank": 486,
+    "banger": -21,
+    "off": -46.9,
+    "def": 26.3
+   },
+   {
+    "name": "Paul Cotter",
+    "rank": 574,
+    "banger": -31,
+    "off": -53.7,
+    "def": 22.5
+   },
+   {
+    "name": "Liam Ohgren",
+    "rank": 698,
+    "banger": -50,
+    "off": -51.2,
+    "def": 1.0
    },
    {
     "name": "Jonathan Lekkerimaki",
-    "rank": 906
+    "rank": 744,
+    "banger": -62,
+    "off": -48.7,
+    "def": -13.7
+   },
+   {
+    "name": "Max Sasson",
+    "rank": 752,
+    "banger": -64,
+    "off": -53.2,
+    "def": -10.9
+   },
+   {
+    "name": "Arshdeep Bains",
+    "rank": 757,
+    "banger": -65,
+    "off": -55.2,
+    "def": -9.6
    }
   ],
   "ranked_d": [
    {
     "name": "Filip Hronek",
-    "rank": 117
-   },
-   {
-    "name": "Jamie Oleksiak",
-    "rank": 402
-   },
-   {
-    "name": "Zeev Buium",
-    "rank": 454
-   },
-   {
-    "name": "Tom Willander",
-    "rank": 554
+    "rank": 164,
+    "banger": 43,
+    "off": -4.8,
+    "def": 47.8
    },
    {
     "name": "Luke Schenn",
-    "rank": 720
+    "rank": 303,
+    "banger": 3,
+    "off": -64.0,
+    "def": 67.1
+   },
+   {
+    "name": "Zeev Buium",
+    "rank": 337,
+    "banger": -1,
+    "off": -21.7,
+    "def": 20.9
+   },
+   {
+    "name": "Tom Willander",
+    "rank": 487,
+    "banger": -21,
+    "off": -41.4,
+    "def": 20.6
+   },
+   {
+    "name": "Jamie Oleksiak",
+    "rank": 493,
+    "banger": -22,
+    "off": -57.7,
+    "def": 36.3
    },
    {
     "name": "Victor Mancini",
-    "rank": 733
+    "rank": 643,
+    "banger": -41,
+    "off": -52.2,
+    "def": 11.4
+   },
+   {
+    "name": "P.O Joseph",
+    "rank": 756,
+    "banger": -64,
+    "off": -58.2,
+    "def": -6.3
    }
   ],
   "pp1": {
@@ -29668,97 +31607,152 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Jack Eichel",
-    "rank": 67
-   },
-   {
-    "name": "Tomas Hertl",
-    "rank": 87
+    "rank": 19,
+    "banger": 127,
+    "off": 91.5,
+    "def": 35.3
    },
    {
     "name": "Mitch Marner",
-    "rank": 113
+    "rank": 66,
+    "banger": 88,
+    "off": 78.6,
+    "def": 9.1
    },
    {
     "name": "Mark Stone",
-    "rank": 179
+    "rank": 79,
+    "banger": 80,
+    "off": 69.1,
+    "def": 11.2
+   },
+   {
+    "name": "Tomas Hertl",
+    "rank": 84,
+    "banger": 79,
+    "off": 42.8,
+    "def": 36.0
    },
    {
     "name": "Ivan Barbashev",
-    "rank": 252
-   },
-   {
-    "name": "Brett Howden",
-    "rank": 361
-   },
-   {
-    "name": "Nic Dowd",
-    "rank": 434
-   },
-   {
-    "name": "Braeden Bowman",
-    "rank": 595
+    "rank": 228,
+    "banger": 22,
+    "off": -0.0,
+    "def": 22.0
    },
    {
     "name": "William Karlsson",
-    "rank": 617
+    "rank": 235,
+    "banger": 21,
+    "off": 4.9,
+    "def": 15.9
    },
    {
     "name": "Marc Gatcomb",
-    "rank": 657
+    "rank": 304,
+    "banger": 3,
+    "off": -51.8,
+    "def": 54.8
+   },
+   {
+    "name": "Brett Howden",
+    "rank": 317,
+    "banger": 1,
+    "off": -32.0,
+    "def": 33.3
+   },
+   {
+    "name": "Nic Dowd",
+    "rank": 424,
+    "banger": -14,
+    "off": -48.7,
+    "def": 35.0
+   },
+   {
+    "name": "Braeden Bowman",
+    "rank": 500,
+    "banger": -22,
+    "off": -17.6,
+    "def": -4.8
    },
    {
     "name": "Victor Olofsson",
-    "rank": 696
+    "rank": 529,
+    "banger": -26,
+    "off": -17.7,
+    "def": -8.1
    },
    {
     "name": "Alexander Holtz",
-    "rank": 770
-   },
-   {
-    "name": "Tanner Laczynski",
-    "rank": 909
+    "rank": 711,
+    "banger": -53,
+    "off": -45.6,
+    "def": -7.0
    },
    {
     "name": "Jonas Rondbjerg",
-    "rank": 967
+    "rank": 783,
+    "banger": -81,
+    "off": -62.4,
+    "def": -18.7
+   },
+   {
+    "name": "Tanner Laczynski",
+    "rank": 785,
+    "banger": -83,
+    "off": -63.1,
+    "def": -20.3
    }
   ],
   "ranked_d": [
    {
     "name": "Rasmus Andersson",
-    "rank": 83
+    "rank": 140,
+    "banger": 51,
+    "off": -7.5,
+    "def": 58.5
    },
    {
     "name": "Jeremy Lauzon",
-    "rank": 200
-   },
-   {
-    "name": "Brayden McNabb",
-    "rank": 253
-   },
-   {
-    "name": "Parker Wotherspoon",
-    "rank": 286
-   },
-   {
-    "name": "Noah Hanifin",
-    "rank": 330
+    "rank": 165,
+    "banger": 43,
+    "off": -64.0,
+    "def": 106.7
    },
    {
     "name": "Shea Theodore",
-    "rank": 367
+    "rank": 225,
+    "banger": 23,
+    "off": 1.0,
+    "def": 22.2
+   },
+   {
+    "name": "Brayden McNabb",
+    "rank": 298,
+    "banger": 4,
+    "off": -54.4,
+    "def": 58.2
+   },
+   {
+    "name": "Noah Hanifin",
+    "rank": 316,
+    "banger": 1,
+    "off": -26.4,
+    "def": 27.6
+   },
+   {
+    "name": "Parker Wotherspoon",
+    "rank": 409,
+    "banger": -12,
+    "off": -52.8,
+    "def": 41.3
    },
    {
     "name": "Jaycob Megna",
-    "rank": 914
-   },
-   {
-    "name": "Ville Heinola",
-    "rank": 930
-   },
-   {
-    "name": "Dylan Coghlan",
-    "rank": 962
+    "rank": 653,
+    "banger": -42,
+    "off": -64.2,
+    "def": 22.1
    }
   ],
   "pp1": {
@@ -30652,101 +32646,166 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Tom Wilson",
-    "rank": 16
-   },
-   {
-    "name": "Alex Tuch",
-    "rank": 49
+    "rank": 15,
+    "banger": 138,
+    "off": 27.1,
+    "def": 111.3
    },
    {
     "name": "Alex Ovechkin",
-    "rank": 78
+    "rank": 77,
+    "banger": 81,
+    "off": 42.3,
+    "def": 38.7
    },
    {
-    "name": "Dylan Strome",
-    "rank": 166
-   },
-   {
-    "name": "Pierre-Luc Dubois",
-    "rank": 188
-   },
-   {
-    "name": "Boone Jenner",
-    "rank": 254
+    "name": "Alex Tuch",
+    "rank": 85,
+    "banger": 77,
+    "off": 25.8,
+    "def": 51.5
    },
    {
     "name": "Ryan Leonard",
-    "rank": 260
+    "rank": 92,
+    "banger": 74,
+    "off": 18.5,
+    "def": 55.5
+   },
+   {
+    "name": "Dylan Strome",
+    "rank": 114,
+    "banger": 62,
+    "off": 50.0,
+    "def": 11.8
+   },
+   {
+    "name": "Pierre-Luc Dubois",
+    "rank": 122,
+    "banger": 57,
+    "off": 19.0,
+    "def": 38.4
    },
    {
     "name": "Jordan Kyrou",
-    "rank": 290
+    "rank": 139,
+    "banger": 51,
+    "off": 39.3,
+    "def": 12.0
    },
    {
-    "name": "Aliaksei Protas",
-    "rank": 344
-   },
-   {
-    "name": "Anthony Beauvillier",
-    "rank": 464
+    "name": "Boone Jenner",
+    "rank": 184,
+    "banger": 36,
+    "off": -17.0,
+    "def": 52.7
    },
    {
     "name": "Justin Sourdif",
-    "rank": 469
+    "rank": 333,
+    "banger": 0,
+    "off": -22.2,
+    "def": 21.7
    },
    {
-    "name": "Ethen Frank",
-    "rank": 592
+    "name": "Aliaksei Protas",
+    "rank": 361,
+    "banger": -5,
+    "off": -8.6,
+    "def": 4.0
    },
    {
-    "name": "Josh Dunne",
-    "rank": 636
-   },
-   {
-    "name": "Jonny Brodzinski",
-    "rank": 686
+    "name": "Anthony Beauvillier",
+    "rank": 413,
+    "banger": -12,
+    "off": -37.4,
+    "def": 25.0
    },
    {
     "name": "Ivan Miroshnichenko",
-    "rank": 766
+    "rank": 523,
+    "banger": -25,
+    "off": -42.4,
+    "def": 17.1
+   },
+   {
+    "name": "Josh Dunne",
+    "rank": 592,
+    "banger": -34,
+    "off": -66.3,
+    "def": 32.4
+   },
+   {
+    "name": "Ethen Frank",
+    "rank": 618,
+    "banger": -37,
+    "off": -37.2,
+    "def": -0.0
+   },
+   {
+    "name": "Jonny Brodzinski",
+    "rank": 710,
+    "banger": -53,
+    "off": -41.6,
+    "def": -10.9
    },
    {
     "name": "Sonny Milano",
-    "rank": 5550
+    "rank": 712,
+    "banger": -53,
+    "off": -29.2,
+    "def": -24.1
    }
   ],
   "ranked_d": [
    {
     "name": "Jakob Chychrun",
-    "rank": 40
+    "rank": 78,
+    "banger": 80,
+    "off": 18.0,
+    "def": 62.4
    },
    {
     "name": "Martin Fehervary",
-    "rank": 255
-   },
-   {
-    "name": "Matt Roy",
-    "rank": 321
+    "rank": 295,
+    "banger": 5,
+    "off": -48.8,
+    "def": 53.6
    },
    {
     "name": "Timothy Liljegren",
-    "rank": 331
+    "rank": 302,
+    "banger": 3,
+    "off": -40.4,
+    "def": 43.5
    },
    {
     "name": "Vincent Desharnais",
-    "rank": 629
+    "rank": 357,
+    "banger": -4,
+    "off": -65.4,
+    "def": 61.0
    },
    {
     "name": "Rasmus Sandin",
-    "rank": 646
+    "rank": 376,
+    "banger": -7,
+    "off": -35.7,
+    "def": 28.8
+   },
+   {
+    "name": "Matt Roy",
+    "rank": 408,
+    "banger": -11,
+    "off": -49.0,
+    "def": 37.6
    },
    {
     "name": "Justin Holl",
-    "rank": 784
-   },
-   {
-    "name": "Dylan McIlrath",
-    "rank": 851
+    "rank": 674,
+    "banger": -46,
+    "off": -62.9,
+    "def": 16.9
    }
   ],
   "pp1": {
@@ -31640,101 +33699,173 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   "ranked_f": [
    {
     "name": "Mark Scheifele",
-    "rank": 48
+    "rank": 43,
+    "banger": 102,
+    "off": 71.3,
+    "def": 31.2
    },
    {
     "name": "Kyle Connor",
-    "rank": 89
+    "rank": 52,
+    "banger": 97,
+    "off": 70.8,
+    "def": 26.1
    },
    {
     "name": "Gabriel Vilardi",
-    "rank": 204
-   },
-   {
-    "name": "Adam Lowry",
-    "rank": 374
-   },
-   {
-    "name": "Alex Iafallo",
-    "rank": 393
+    "rank": 162,
+    "banger": 43,
+    "off": 38.5,
+    "def": 4.7
    },
    {
     "name": "Cole Perfetti",
-    "rank": 415
+    "rank": 315,
+    "banger": 1,
+    "off": -13.6,
+    "def": 14.8
    },
    {
-    "name": "Nino Niederreiter",
-    "rank": 425
+    "name": "Adam Lowry",
+    "rank": 384,
+    "banger": -8,
+    "off": -40.9,
+    "def": 33.1
    },
    {
     "name": "Morgan Barron",
-    "rank": 437
+    "rank": 469,
+    "banger": -19,
+    "off": -48.5,
+    "def": 29.3
    },
    {
     "name": "Vladislav Namestnikov",
-    "rank": 458
+    "rank": 490,
+    "banger": -21,
+    "off": -34.4,
+    "def": 13.2
+   },
+   {
+    "name": "Alex Iafallo",
+    "rank": 501,
+    "banger": -22,
+    "off": -32.1,
+    "def": 9.5
+   },
+   {
+    "name": "Nino Niederreiter",
+    "rank": 522,
+    "banger": -25,
+    "off": -35.2,
+    "def": 10.0
    },
    {
     "name": "Cole Koepke",
-    "rank": 520
-   },
-   {
-    "name": "Isak Rosen",
-    "rank": 736
+    "rank": 544,
+    "banger": -28,
+    "off": -53.2,
+    "def": 25.1
    },
    {
     "name": "Noah Gregor",
-    "rank": 838
+    "rank": 598,
+    "banger": -34,
+    "off": -52.4,
+    "def": 18.1
    },
    {
     "name": "Brad Lambert",
-    "rank": 850
+    "rank": 687,
+    "banger": -48,
+    "off": -42.6,
+    "def": -5.1
    },
    {
     "name": "Walker Duehr",
-    "rank": 859
+    "rank": 697,
+    "banger": -50,
+    "off": -55.7,
+    "def": 5.6
+   },
+   {
+    "name": "Isak Rosen",
+    "rank": 735,
+    "banger": -59,
+    "off": -38.4,
+    "def": -20.3
    }
   ],
   "ranked_d": [
    {
     "name": "Josh Morrissey",
-    "rank": 127
+    "rank": 95,
+    "banger": 74,
+    "off": 34.6,
+    "def": 39.0
    },
    {
     "name": "Neal Pionk",
-    "rank": 143
+    "rank": 130,
+    "banger": 54,
+    "off": -24.4,
+    "def": 78.5
    },
    {
     "name": "Mario Ferraro",
-    "rank": 265
-   },
-   {
-    "name": "Dylan DeMelo",
-    "rank": 316
-   },
-   {
-    "name": "Dylan Samberg",
-    "rank": 496
-   },
-   {
-    "name": "Elias Salomonsson",
-    "rank": 674
-   },
-   {
-    "name": "Haydn Fleury",
-    "rank": 677
-   },
-   {
-    "name": "Isaak Phillips",
-    "rank": 829
+    "rank": 369,
+    "banger": -5,
+    "off": -53.2,
+    "def": 47.9
    },
    {
     "name": "Jack St. Ivany",
-    "rank": 878
+    "rank": 411,
+    "banger": -12,
+    "off": -45.4,
+    "def": 33.8
+   },
+   {
+    "name": "Dylan Samberg",
+    "rank": 423,
+    "banger": -14,
+    "off": -53.5,
+    "def": 39.9
+   },
+   {
+    "name": "Isaak Phillips",
+    "rank": 478,
+    "banger": -20,
+    "off": -60.0,
+    "def": 40.2
+   },
+   {
+    "name": "Dylan DeMelo",
+    "rank": 495,
+    "banger": -22,
+    "off": -51.2,
+    "def": 29.4
+   },
+   {
+    "name": "Elias Salomonsson",
+    "rank": 535,
+    "banger": -27,
+    "off": -55.2,
+    "def": 28.2
    },
    {
     "name": "Henry Thrun",
-    "rank": 926
+    "rank": 613,
+    "banger": -37,
+    "off": -50.5,
+    "def": 13.7
+   },
+   {
+    "name": "Haydn Fleury",
+    "rank": 681,
+    "banger": -47,
+    "off": -65.4,
+    "def": 18.4
    }
   ],
   "pp1": {
@@ -32015,7 +34146,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
     if (DUP[l.toLowerCase()]) return (p.name.trim().charAt(0) + '. ' + l);
     return l;
   }
-  function star(p){ return p.returning ? '<span class="ln-star" title="missed 2025-26 · ranked on '+esc(p.src||'prior season')+'">*</span>' : ''; }
+  function star(p){ return ''; }   // (asterisk marker removed; prior-season fallback still ranks them)
   function tipOf(p){
     var s = p.returning ? ' (from '+esc(p.src||'prior')+', missed 2025-26)' : '';
     return esc(p.name)+s+' · PP TOI/GP full '+num(p.pp_full)+' | H2 '+num(p.pp_h2)+' | Q4 '+num(p.pp_q4);
@@ -32054,10 +34185,17 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   }
   function rankList(list){
     if(!list || !list.length) return '<div class="ln-rankrow"><span class="ln-empty">—</span></div>';
+    var scale = 0; list.forEach(function(p){ if(p.banger > scale) scale = p.banger; });
+    if(scale <= 0) scale = 1;   // bars scaled to the top banger score in this list (like the card)
     return list.map(function(p){
       var h = hrefs[p.name], nmv = esc(dispLast(p));
       var a = h ? '<a class="ln-p" href="'+h+'">'+nmv+'</a>' : '<span class="ln-p">'+nmv+'</span>';
-      return '<div class="ln-rankrow"><span class="ln-rk">'+p.rank+'</span>'+a+'</div>';
+      var wo = Math.max(0, Math.min(100, Math.round((p.off||0) / scale * 100)));
+      var wp = Math.max(0, Math.min(100 - wo, Math.round((p['def']||0) / scale * 100)));
+      return '<div class="ln-rankrow"><span class="ln-rk">'+p.rank+'</span>'+
+        '<span class="ln-rnm">'+a+'</span>'+
+        '<span class="dl-bar"><i class="off" style="width:'+wo+'%"></i><i class="per" style="width:'+wp+'%"></i></span>'+
+        '<span class="ln-rsc">'+Math.round(p.banger)+'</span></div>';
     }).join('');
   }
   function render(t){
@@ -32083,9 +34221,12 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
     h += '</div></div>';
     // Team fantasy-rank lists (overall skater rank), split F / D.
     if((t.ranked_f && t.ranked_f.length) || (t.ranked_d && t.ranked_d.length)){
-      h += '<div class="ln-ranks"><div class="ln-sub">Fantasy rank<span class="ln-hint">overall skater rank</span></div>'+
+      h += '<div class="ln-ranks"><div class="ln-sub">Fantasy rank<span class="ln-hint">overall skater rank · banger VOR</span></div>'+
            '<div class="ln-rankcols"><div><div class="ln-ranklab">Forwards</div>'+rankList(t.ranked_f)+'</div>'+
-           '<div><div class="ln-ranklab">Defense</div>'+rankList(t.ranked_d)+'</div></div></div>';
+           '<div><div class="ln-ranklab">Defense</div>'+rankList(t.ranked_d)+'</div></div>'+
+           '<div class="ln-rankfoot"><span class="ln-key"><i class="off"></i>offense</span>'+
+           '<span class="ln-key"><i class="per"></i>peripherals</span>'+
+           '<span class="ln-vor">value over replacement</span></div></div>';
     }
     if(t.flags && t.flags.length) h += '<div class="ln-flags">⚠ '+t.flags.map(esc).join('; ')+'</div>';
     panel.innerHTML = h;
