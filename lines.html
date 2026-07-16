@@ -674,6 +674,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   @media (max-width:720px){ .ln-cols { grid-template-columns:1fr; } }
   .ln-sub { font:700 11px/1 sans-serif; text-transform:uppercase; letter-spacing:.08em;
     color:var(--muted); margin:0 0 12px; }
+  .ln-sub-d { margin-top:22px; padding-top:14px; border-top:1px solid var(--line); }
   .ln-hint { font-weight:600; text-transform:none; letter-spacing:0; opacity:.8; margin-left:6px; }
   .ln-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:5px 0; border-bottom:1px solid var(--line); }
   .ln-tag { flex:0 0 34px; font:700 11px/1 ui-monospace,Menlo,monospace; color:var(--muted); }
@@ -28935,6 +28936,13 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
   function num(x){ return (x==null)?'–':(Math.round(x*100)/100).toFixed(2); }
   function last(n){ var i=(n||'').indexOf(' '); return i<0?n:n.slice(i+1); }  // drop first name
+  var DUP = {};   // per-team: normalized last name -> true when >1 distinct player shares it
+  function dispLast(p){
+    var l = last(p.name);
+    // Two players with the same last name on one chart get a first initial (B. Tkachuk).
+    if (DUP[l.toLowerCase()]) return (p.name.trim().charAt(0) + '. ' + l);
+    return l;
+  }
   function star(p){ return p.returning ? '<span class="ln-star" title="missed 2025-26 · ranked on '+esc(p.src||'prior season')+'">*</span>' : ''; }
   function tipOf(p){
     var s = p.returning ? ' (from '+esc(p.src||'prior')+', missed 2025-26)' : '';
@@ -28942,32 +28950,50 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   }
   function link(p){
     if(!p) return '<span class="ln-empty">—</span>';
-    var disp = esc(last(p.name)), h = hrefs[p.name];
+    var disp = esc(dispLast(p)), h = hrefs[p.name];
     return (h ? '<a class="ln-p" href="'+h+'" title="'+tipOf(p)+'">'+disp+'</a>'
               : '<span class="ln-p" title="'+tipOf(p)+'">'+disp+'</span>') + star(p);
   }
   function joinNames(arr){ return arr.map(link).join(SEP); }
   function ppChip(p){
     if(!p) return '<span class="ln-empty">—</span>';
-    var disp = esc(last(p.name)), h = hrefs[p.name];
+    var disp = esc(dispLast(p)), h = hrefs[p.name];
     var v = (p.pp_h2!=null) ? p.pp_h2 : p.pp_full;   // prior-season PP when no H2 sample
     var nameEl = h ? '<a class="n" href="'+h+'" title="'+tipOf(p)+'">'+disp+'</a>'
                    : '<span class="n" title="'+tipOf(p)+'">'+disp+'</span>';
     return '<span class="ln-ppchip">'+nameEl+star(p)+'<span class="u">'+num(v)+'</span></span>';
   }
+  function computeDup(t){   // find last names shared by 2+ distinct players shown for this team
+    var seen = {}, cnt = {};
+    function acct(p){
+      if(!p || seen[p.name]) return; seen[p.name] = 1;
+      var l = last(p.name).toLowerCase(); cnt[l] = (cnt[l]||0) + 1;
+    }
+    t.lines.forEach(function(ln){ acct(ln.LW); acct(ln.C); acct(ln.RW); });
+    t.pairs.forEach(function(pr){ acct(pr.L); acct(pr.R); });
+    t.pp1.F.forEach(acct); acct(t.pp1.D); t.pp2.F.forEach(acct); acct(t.pp2.D);
+    (t.f_extra||[]).forEach(acct); (t.d_extra||[]).forEach(acct);
+    DUP = {}; for(var k in cnt){ if(cnt[k] > 1) DUP[k] = true; }
+  }
+  function depthRow(list){
+    if(!list || !list.length) return '';
+    return '<div class="ln-depth"><span class="ln-tag">Depth</span><span>'+
+      list.map(function(p){ return esc(dispLast(p)); }).join(', ')+'</span></div>';
+  }
   function render(t){
+    computeDup(t);
     var h = '<div class="ln-head"><h2>'+esc(t.team)+' <span class="ln-code">'+t.code+'</span></h2></div>';
     h += '<div class="ln-coach">Coach: '+esc(t.coach||'?')+(t.coach_new?' <span class="ln-new">NEW</span>':'')+'</div>';
-    h += '<div class="ln-cols"><div class="ln-col"><div class="ln-sub">Lines &amp; pairs<span class="ln-hint">5v5 + PP TOI/GP</span></div>';
+    h += '<div class="ln-cols"><div class="ln-col"><div class="ln-sub">Forwards<span class="ln-hint">5v5 + PP TOI/GP</span></div>';
     t.lines.forEach(function(ln,i){
       h += '<div class="ln-row"><span class="ln-tag">L'+(i+1)+'</span>'+joinNames([ln.LW,ln.C,ln.RW])+'</div>';
     });
+    h += depthRow(t.f_extra);
+    h += '<div class="ln-sub ln-sub-d">Defense</div>';
     t.pairs.forEach(function(pr,i){
       h += '<div class="ln-row"><span class="ln-tag">D'+(i+1)+'</span>'+joinNames([pr.L,pr.R])+'</div>';
     });
-    var depth = (t.f_extra||[]).concat(t.d_extra||[]);
-    if(depth.length) h += '<div class="ln-depth"><span class="ln-tag">Depth</span><span>'+
-      depth.map(function(p){return esc(last(p.name));}).join(', ')+'</span></div>';
+    h += depthRow(t.d_extra);
     h += '</div><div class="ln-col"><div class="ln-sub">Power play<span class="ln-hint">PP TOI/GP · H2</span></div>';
     [['PP1',t.pp1],['PP2',t.pp2]].forEach(function(u){
       h += '<div class="ln-pp"><span class="ln-tag ln-pptag">'+u[0]+'</span><div class="ln-ppbody">'+
