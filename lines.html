@@ -710,7 +710,8 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   .ln-empty { color:var(--muted); }
   .ln-depth { display:flex; gap:6px; padding-top:10px; color:var(--muted); font-size:12.5px; }
   .ln-pp { display:flex; align-items:flex-start; gap:8px; padding:11px 0; border-bottom:1px solid var(--line); }
-  .ln-pptag { flex:0 0 34px; padding-top:7px; color:var(--accent); font-weight:700; }
+  .ln-pptag { flex:0 0 58px; padding-top:6px; color:var(--accent); font-weight:700;
+    font-size:11.5px; line-height:1.25; }
   .ln-ppbody { flex:1; }
   .ln-pprow { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-bottom:6px; }
   .ln-pprow:last-child { margin-bottom:0; }
@@ -923,7 +924,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
     h += depthRow(t.d_extra);
     h += '</div><div class="ln-col"><div class="ln-sub">Power play<span class="ln-hint">projected PP TOI/GP</span></div>';
     var tiers = t.pp_tiers || {};
-    [['PP1 locks','lock'],['PP1 / PP2','swing'],['PP2','pp2']].forEach(function(u){
+    [['PP1 locks','lock'],['In the mix','swing'],['PP2','pp2']].forEach(function(u){
       var grp = tiers[u[1]] || [];
       if(!grp.length) return;   // omit an empty tier (e.g. a locked PP1 with no swing)
       h += '<div class="ln-pp"><span class="ln-tag ln-pptag">'+u[0]+'</span><div class="ln-ppbody">'+
