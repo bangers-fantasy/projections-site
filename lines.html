@@ -732,10 +732,22 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   .ln-rankcols { display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:4px; }
   @media (max-width:720px){ .ln-rankcols { grid-template-columns:1fr; } }
   .ln-ranklab { font:700 11px/1 sans-serif; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 8px; }
-  .ln-rankrow { display:grid; grid-template-columns:34px 1fr 62px 30px; align-items:center; gap:9px; padding:4px 0; }
+  .ln-rankrow { display:grid; grid-template-columns:34px 1fr 92px 34px; align-items:center; gap:9px; padding:4px 0; }
   .ln-rk { font:600 12px/1 ui-monospace,Menlo,monospace; color:var(--muted); text-align:right; }
   .ln-rnm { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .ln-rsc { font:700 12.5px/1 ui-monospace,Menlo,monospace; color:var(--ink); text-align:right; }
+  .ln-rsc.neg { color:var(--muted); }
+  /* Diverging rank bar: zero (replacement) line at center; above-replacement extends right,
+     below extends left. Coral = offense, blue = peripherals (position carries the sign). */
+  .dv-bar { position:relative; display:flex; height:8px; width:100%; }
+  .dv-bar::after { content:''; position:absolute; left:50%; top:-1px; bottom:-1px; width:1px;
+    background:var(--muted); opacity:.55; transform:translateX(-.5px); }
+  .dv-half { flex:0 0 50%; display:flex; height:100%; gap:2px; background:var(--line); overflow:hidden; }
+  .dv-neg { justify-content:flex-end; border-radius:999px 0 0 999px; }
+  .dv-pos { justify-content:flex-start; border-radius:0 999px 999px 0; }
+  .dv-bar i { height:100%; border-radius:2px; min-width:2px; }
+  .dv-bar i.off { background:#f26b53; }
+  .dv-bar i.per { background:#5f93c6; }
   .ln-rankfoot { margin-top:12px; display:flex; flex-wrap:wrap; gap:5px 12px; font-size:10.5px; color:var(--muted); }
   .ln-key { display:inline-flex; align-items:center; gap:5px; }
   .ln-key i { width:9px; height:9px; border-radius:2px; display:inline-block; }
@@ -835,17 +847,31 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   }
   function rankList(list){
     if(!list || !list.length) return '<div class="ln-rankrow"><span class="ln-empty">—</span></div>';
-    var scale = 0; list.forEach(function(p){ if(p.banger > scale) scale = p.banger; });
-    if(scale <= 0) scale = 1;   // bars scaled to the top banger score in this list (like the card)
+    // Diverging bars around a zero (replacement) line: value above replacement extends RIGHT,
+    // below extends LEFT, so negatives read as negative and a below-replacement guy with decent
+    // peripherals no longer looks like he has value. Symmetric scale = the biggest positive OR
+    // negative component-stack in this group fills a half-track (comparable within the group).
+    var scale = 0;
+    list.forEach(function(p){
+      var off=p.off||0, per=p['def']||0;
+      var pos=Math.max(0,off)+Math.max(0,per), neg=Math.max(0,-off)+Math.max(0,-per);
+      if(pos>scale) scale=pos; if(neg>scale) scale=neg;
+    });
+    if(scale<=0) scale=1;
+    function seg(cls,v){ return v>0.4 ? '<i class="'+cls+'" style="width:'+Math.min(100,v/scale*100)+'%"></i>' : ''; }
     return list.map(function(p){
       var h = hrefs[p.name], nmv = esc(dispLast(p));
       var a = h ? '<a class="ln-p" href="'+h+'">'+nmv+'</a>' : '<span class="ln-p">'+nmv+'</span>';
-      var wo = Math.max(0, Math.min(100, Math.round((p.off||0) / scale * 100)));
-      var wp = Math.max(0, Math.min(100 - wo, Math.round((p['def']||0) / scale * 100)));
+      var off=p.off||0, per=p['def']||0;
+      // left (below zero): peripherals outer, offense next to the line; right (above): offense
+      // next to the line, peripherals outer.
+      var neg = seg('per', -per) + seg('off', -off);
+      var pos = seg('off',  off) + seg('per',  per);
       return '<div class="ln-rankrow"><span class="ln-rk">'+p.rank+'</span>'+
         '<span class="ln-rnm">'+a+'</span>'+
-        '<span class="dl-bar"><i class="off" style="width:'+wo+'%"></i><i class="per" style="width:'+wp+'%"></i></span>'+
-        '<span class="ln-rsc">'+Math.round(p.banger)+'</span></div>';
+        '<span class="dv-bar"><span class="dv-half dv-neg">'+neg+'</span>'+
+        '<span class="dv-half dv-pos">'+pos+'</span></span>'+
+        '<span class="ln-rsc'+(p.banger<0?' neg':'')+'">'+Math.round(p.banger)+'</span></div>';
     }).join('');
   }
   function catLeaders(t){
@@ -941,7 +967,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
            '<div><div class="ln-ranklab">Defense</div>'+rankList(t.ranked_d)+'</div></div>'+
            '<div class="ln-rankfoot"><span class="ln-key"><i class="off"></i>offense</span>'+
            '<span class="ln-key"><i class="per"></i>peripherals</span>'+
-           '<span class="ln-vor">value over replacement</span></div></div>';
+           '<span class="ln-vor">value over replacement · center line = 0 (left = below)</span></div></div>';
     }
     h += catLeaders(t);
     h += ppTrend(t);
