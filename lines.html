@@ -731,12 +731,12 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   .pt-cols { display:grid; grid-template-columns:1fr 1fr; gap:6px 28px; margin-top:4px; }
   @media (max-width:720px){ .pt-cols { grid-template-columns:1fr; } }
   .pt-title { font:700 11px/1 sans-serif; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:8px 0 0; }
-  .pt-empty { color:var(--muted); font-size:12px; padding:18px 0; }
-  .pt-svg { width:100%; height:auto; display:block; margin-top:6px; }
+  .pt-empty { color:var(--muted); font-size:12.5px; padding:18px 0; }
+  .pt-svg { width:100%; max-width:500px; height:auto; display:block; margin-top:6px; }
   .pt-grid { stroke:var(--line); stroke-width:1; }
-  .pt-ylab { fill:var(--muted); font:500 10px ui-monospace,Menlo,monospace; text-anchor:end; }
-  .pt-xlab { fill:var(--muted); font:600 10.5px ui-monospace,Menlo,monospace; text-anchor:middle; }
-  .pt-lab { fill:var(--ink); font:600 11px sans-serif; }
+  .pt-ylab { fill:var(--muted); font:600 12px ui-monospace,Menlo,monospace; text-anchor:end; }
+  .pt-xlab { fill:var(--muted); font:600 12px ui-monospace,Menlo,monospace; text-anchor:middle; }
+  .pt-lab { fill:var(--ink); font:400 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
   .pt-line { fill:none; stroke-width:2; }
   .pt-dot circle { cursor:default; }
 </style>
@@ -832,26 +832,28 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   }
   function ppChart(S, ymax){
     if(!S.length) return '<div class="pt-empty">no PP usage</div>';
-    var W=330, H=210, mL=22, mR=84, mT=10, mB=24, pw=W-mL-mR, ph=H-mT-mB;
+    // viewBox ~= real render width so SVG text renders ~1:1 (no upscaling) and matches the
+    // ranking text px. .pt-svg caps at this width so it never blows the labels up.
+    var W=500, H=236, mL=28, mR=112, mT=12, mB=30, pw=W-mL-mR, ph=H-mT-mB;
     function X(i){ return mL + pw*(i/3); }
     function Y(v){ return mT + ph*(1 - v/ymax); }
     var g='';
     for(var k=0;k<=ymax;k++){ var y=Y(k);
       g += '<line class="pt-grid" x1="'+mL+'" y1="'+y+'" x2="'+(mL+pw)+'" y2="'+y+'"/>'+
-           '<text class="pt-ylab" x="'+(mL-6)+'" y="'+(y+3)+'">'+k+'</text>'; }
-    ['Q1','Q2','Q3','Q4'].forEach(function(q,i){ g += '<text class="pt-xlab" x="'+X(i)+'" y="'+(H-8)+'">'+q+'</text>'; });
+           '<text class="pt-ylab" x="'+(mL-8)+'" y="'+(y+4)+'">'+k+'</text>'; }
+    ['Q1','Q2','Q3','Q4'].forEach(function(q,i){ g += '<text class="pt-xlab" x="'+X(i)+'" y="'+(H-9)+'">'+q+'</text>'; });
     var ends = S.map(function(s,si){ return { y:Y(s.q[3]), name:esc(dispLast(s)) }; });
     var order = ends.slice().sort(function(a,b){ return a.y-b.y; });
-    for(var j=1;j<order.length;j++){ if(order[j].y - order[j-1].y < 12) order[j].y = order[j-1].y + 12; }
+    for(var j=1;j<order.length;j++){ if(order[j].y - order[j-1].y < 16) order[j].y = order[j-1].y + 16; }
     S.forEach(function(s,si){
       var col='var(--pt-'+((si%6)+1)+')';
       var pts=s.q.map(function(v,i){ return X(i)+','+Y(v); }).join(' ');
       g += '<polyline class="pt-line" points="'+pts+'" stroke="'+col+'"/>';
-      s.q.forEach(function(v,i){ g += '<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="2.4" fill="'+col+'">'+
+      s.q.forEach(function(v,i){ g += '<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3" fill="'+col+'">'+
         '<title>'+esc(s.name)+' · Q'+(i+1)+': '+v.toFixed(2)+'</title></circle>'; });
       var e=ends[si];
-      g += '<circle cx="'+(mL+pw+7)+'" cy="'+e.y+'" r="3" fill="'+col+'"/>'+
-           '<text class="pt-lab" x="'+(mL+pw+13)+'" y="'+(e.y+3.5)+'">'+e.name+'</text>';
+      g += '<circle cx="'+(mL+pw+8)+'" cy="'+e.y+'" r="3.4" fill="'+col+'"/>'+
+           '<text class="pt-lab" x="'+(mL+pw+15)+'" y="'+(e.y+4)+'">'+e.name+'</text>';
     });
     return '<svg class="pt-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img">'+g+'</svg>';
   }
