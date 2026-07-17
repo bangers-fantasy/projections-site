@@ -851,9 +851,8 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
       g += '<polyline class="pt-line" points="'+pts+'" stroke="'+col+'"/>';
       s.q.forEach(function(v,i){ g += '<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3" fill="'+col+'">'+
         '<title>'+esc(s.name)+' · Q'+(i+1)+': '+v.toFixed(2)+'</title></circle>'; });
-      var e=ends[si];
-      g += '<circle cx="'+(mL+pw+8)+'" cy="'+e.y+'" r="3.4" fill="'+col+'"/>'+
-           '<text class="pt-lab" x="'+(mL+pw+15)+'" y="'+(e.y+4)+'">'+e.name+'</text>';
+      var e=ends[si];   // no separate label dot — the Q4 data point already carries the color
+      g += '<text class="pt-lab" x="'+(mL+pw+9)+'" y="'+(e.y+4)+'">'+e.name+'</text>';
     });
     return '<svg class="pt-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img">'+g+'</svg>';
   }
