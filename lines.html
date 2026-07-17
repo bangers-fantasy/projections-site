@@ -738,6 +738,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   .pt-ylab { fill:var(--muted); font:600 12px ui-monospace,Menlo,monospace; text-anchor:end; }
   .pt-xlab { fill:var(--muted); font:600 12px ui-monospace,Menlo,monospace; text-anchor:middle; }
   .pt-lab { fill:var(--ink); font:400 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  .pt-lead { fill:none; stroke:var(--muted); stroke-width:1; opacity:.55; }
   .pt-line { fill:none; stroke-width:2; }
   .pt-dot circle { cursor:default; }
 </style>
@@ -856,8 +857,11 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
         g += '<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3" '+mk+'>'+
           '<title>'+esc(s.name)+' · Q'+(i+1)+': '+v.toFixed(2)+(gp!=null?' ('+gp+' GP'+(sm?', small sample':'')+')':'')+'</title></circle>';
       });
-      var e=ends[si];   // no separate label dot — the Q4 data point already carries the color
-      g += '<text class="pt-lab" x="'+(mL+pw+9)+'" y="'+(e.y+4)+'">'+e.name+'</text>';
+      // subtle neutral leader from the line's Q4 endpoint to its (de-collided) label, so the
+      // name is unambiguously tied to its line even when endpoints cluster
+      var e=ends[si], ex=mL+pw, ey=Y(s.q[3]), lx=mL+pw+12;
+      g += '<polyline class="pt-lead" points="'+ex+','+ey+' '+(lx-6)+','+e.y+'"/>'+
+           '<text class="pt-lab" x="'+lx+'" y="'+(e.y+4)+'">'+e.name+'</text>';
     });
     return '<svg class="pt-svg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img">'+g+'</svg>';
   }
