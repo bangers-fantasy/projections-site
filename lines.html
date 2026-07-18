@@ -728,6 +728,17 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
     border:1px solid var(--line); border-radius:5px; padding:3px 4px; }
   .ln-flags { margin-top:16px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:12px; }
   .ln-lead { margin:0 0 18px; color:var(--muted); font-size:13px; max-width:70ch; }
+  .ln-review { display:flex; gap:10px; align-items:flex-start; margin:0 0 16px; padding:11px 14px;
+    border:1px solid var(--accent); border-radius:10px; background:var(--chip); font-size:13px;
+    line-height:1.5; color:var(--ink); max-width:78ch; }
+  .ln-review b { color:var(--accent); }
+  .ln-review .rv-ico { flex:0 0 auto; font-size:15px; line-height:1.4; color:var(--accent); }
+  .ln-teambtn.done { border-color:var(--accent); color:var(--ink); }
+  .ln-teambtn.done::before { content:'\2713\00a0'; color:var(--accent); font-weight:700; }
+  .ln-badge { display:inline-block; font:700 10px/1 sans-serif; letter-spacing:.06em;
+    text-transform:uppercase; border-radius:6px; padding:4px 6px; vertical-align:middle; }
+  .ln-badge.rev { color:#1f9d63; border:1px solid #1f9d63; }
+  .ln-badge.auto { color:var(--muted); border:1px solid var(--line); }
   .ln-ranks { margin-top:22px; padding-top:16px; border-top:1px solid var(--line); }
   .ln-rankcols { display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:4px; }
   @media (max-width:720px){ .ln-rankcols { grid-template-columns:1fr; } }
@@ -791,6 +802,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   <p class="ln-lead">Projected 2026-27 lines, PP units, and fantasy ranks. Tiers ranked on
   second-half deployment (5v5 + PP TOI/GP); usage-based, not verified chemistry.
   <span class="ln-legend"><span class="ln-inj">*</span>&nbsp;injured &mdash; kept in projected role.</span></p>
+  <div class="ln-review" id="ln-review"></div>
   <div class="ln-teams" id="ln-teams"></div>
   <div id="ln-panel"></div>
 </div>
@@ -800,6 +812,11 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   var data = window.__LINES__||[], hrefs = window.__HREFS__||{};
   var pick = document.getElementById('ln-teams'), panel = document.getElementById('ln-panel');
   var SEP = '<span class="ln-sep">-</span>';
+  // Manual-review frontier: teams are hand-reviewed alphabetically BY TEAM NAME. Everything
+  // at or before this name is done; bump these two as the review advances (e.g. -> Chicago).
+  var REVIEWED_THROUGH = "Carolina Hurricanes", REVIEWED_LABEL = "Carolina";
+  function isReviewed(t){ return (t.team||'').localeCompare(REVIEWED_THROUGH) <= 0; }
+  var DONE = {};   // team code -> reviewed?, so render() can keep the ✓ when switching teams
   function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
   function num(x){ return (x==null)?'–':(Math.round(x*100)/100).toFixed(2); }
   function last(n){ var i=(n||'').indexOf(' '); return i<0?n:n.slice(i+1); }  // drop first name
@@ -943,7 +960,10 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   }
   function render(t){
     computeDup(t);
-    var h = '<div class="ln-head"><h2>'+esc(t.team)+' <span class="ln-code">'+t.code+'</span></h2></div>';
+    var badge = isReviewed(t)
+      ? '<span class="ln-badge rev" title="Hand-reviewed: lines, deployment, and player bets checked against real usage.">&#10003; Reviewed</span>'
+      : '<span class="ln-badge auto" title="Automatic model projection - not yet hand-reviewed.">Auto</span>';
+    var h = '<div class="ln-head"><h2>'+esc(t.team)+' <span class="ln-code">'+t.code+'</span></h2>'+badge+'</div>';
     h += '<div class="ln-coach">Coach: '+esc(t.coach||'?')+(t.coach_new?' <span class="ln-new">NEW</span>':'')+'</div>';
     h += '<div class="ln-cols"><div class="ln-col"><div class="ln-sub">Forwards<span class="ln-hint">5v5 + PP TOI/GP</span></div>';
     t.lines.forEach(function(ln,i){
@@ -976,15 +996,25 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
     h += catLeaders(t);
     h += ppTrend(t);
     panel.innerHTML = h;
-    Array.prototype.forEach.call(pick.children,function(b){ b.className='ln-teambtn'+(b.getAttribute('data-code')===t.code?' on':''); });
+    Array.prototype.forEach.call(pick.children,function(b){ var c=b.getAttribute('data-code');
+      b.className='ln-teambtn'+(DONE[c]?' done':'')+(c===t.code?' on':''); });
     try{ localStorage.setItem('ln-team', t.code); }catch(e){}
   }
   data.forEach(function(t){
-    var b = document.createElement('button'); b.type='button'; b.className='ln-teambtn';
+    var done = isReviewed(t); DONE[t.code] = done;
+    var b = document.createElement('button'); b.type='button';
+    b.className = 'ln-teambtn'+(done?' done':'');
     b.textContent = t.code; b.setAttribute('data-code', t.code);
     b.onclick = function(){ render(t); };
     pick.appendChild(b);
   });
+  var rvCount = data.filter(isReviewed).length;
+  var rv = document.getElementById('ln-review');
+  if(rv) rv.innerHTML = '<span class="rv-ico">&#10003;</span><span>These depth charts are being '+
+    '<b>hand-reviewed alphabetically</b> - lines, deployment, and player projections checked '+
+    'against real usage. <b>Reviewed through '+REVIEWED_LABEL+'</b> ('+rvCount+' teams). Teams '+
+    'later in the alphabet still show the automatic model projection and haven\'t been manually '+
+    'reviewed yet - a &#10003; on the team button marks the ones that have.</span>';
   // Deep-link ?team=CODE (from a player card) wins over the last-viewed team.
   var urlTeam = null;
   try{ urlTeam = new URLSearchParams(window.location.search).get('team'); }catch(e){}
