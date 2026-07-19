@@ -66,7 +66,7 @@ background:rgba(255,255,255,.85);box-shadow:0 0 0 1px rgba(0,0,0,.25)}
 .cons tr.you td{font-weight:700;color:var(--ink)}
 .cons tr.you td:first-child{box-shadow:inset 3px 0 0 var(--green)}
 .consbar{display:inline-block;height:8px;border-radius:4px;background:var(--blue);vertical-align:middle}
-.periph{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:6px}
+.periph{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px;margin-top:6px}
 .pcard h3{font-size:.9rem;margin:0 0 .1rem}.pcard .pr{font-size:.74rem;color:var(--muted);margin:0 0 .5rem}
 .pmiss{display:flex;justify-content:space-between;gap:8px;font-size:.8rem;padding:3px 0;border-bottom:1px solid var(--grid)}
 .pmiss .pn{color:var(--ink2)}.pmiss .pe{font-variant-numeric:tabular-nums;font-weight:600}
@@ -84,7 +84,7 @@ border-left:3px solid var(--base)}
 border-radius:5px;padding:1px 6px;font-variant-numeric:tabular-nums}
 .bvfcat .bc{font-weight:700;color:var(--ink2)}.bvfcat u{color:var(--ink);text-decoration-color:#eda100}
 /* per-category strip plots (small multiples) */
-.catgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px 22px;margin-top:6px}
+.catgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:10px 22px;margin-top:6px}
 .cstrip{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:8px}
 .cslabel{font-size:.8rem;font-weight:700;color:var(--ink2)}
 .cstrack{position:relative;height:26px}
@@ -130,7 +130,7 @@ transform:translateX(-50%);box-shadow:0 0 0 2px var(--surface);opacity:.85}
 :root:where(:not([data-theme=light])) .pbsplit h4.miss{color:#e66767}}
 :root[data-theme=dark] .pbsplit h4.win{color:#0ca30c}:root[data-theme=dark] .pbsplit h4.miss{color:#e66767}
 /* deep-dive cards */
-.ddgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:6px}
+.ddgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;margin-top:6px}
 .ddcard{background:var(--plane);border:1px solid var(--ring);border-radius:12px;padding:14px 16px}
 .ddcard.you{border-color:var(--green)}
 .ddhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem}
@@ -164,7 +164,7 @@ padding:3px 10px;font-variant-numeric:tabular-nums;color:var(--ink2)}
 .spk b{color:var(--ink2);font-weight:600}
 .grid.opt td{font-variant-numeric:tabular-nums}
 .optbar{display:inline-block;height:8px;border-radius:4px;background:#eda100;vertical-align:middle;margin-right:5px}
-.batiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:6px}
+.batiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:12px;margin-top:6px}
 .batile{background:var(--plane);border:1px solid var(--ring);border-radius:10px;padding:14px;text-align:center}
 .batile .bal{font-size:.78rem;color:var(--ink2);min-height:2.4em}
 .batile .bar{font-size:1.7rem;font-weight:700;font-variant-numeric:tabular-nums;margin-top:.3rem}
@@ -183,8 +183,31 @@ padding:3px 10px;font-variant-numeric:tabular-nums;color:var(--ink2)}
 @media (prefers-color-scheme:dark){:root:where(:not([data-theme=light])) .lfsplit h3.win{color:#0ca30c}
 :root:where(:not([data-theme=light])) .lfsplit h3.miss{color:#e66767}}
 :root[data-theme=dark] .lfsplit h3.win{color:#0ca30c}:root[data-theme=dark] .lfsplit h3.miss{color:#e66767}
-@media(max-width:560px){.barrow{grid-template-columns:92px 1fr 40px}.axis{padding:0 70px 0 102px}.blabel{font-size:.78rem}.lfsplit{grid-template-columns:1fr}}
-@media(max-width:560px){.barrow{grid-template-columns:92px 1fr 40px}.axis{padding:0 70px 0 102px}.blabel{font-size:.78rem}}
+html,body{overflow-x:hidden}
+@media(max-width:640px){
+.viz-root{padding:14px}
+.card{padding:16px 15px;border-radius:12px}
+.hero h1{font-size:1.5rem}
+.lede,.sub{font-size:.9rem}
+.barrow{grid-template-columns:88px 1fr 38px;gap:8px}
+.axis{padding:0 66px 0 96px}
+.blabel{font-size:.76rem}
+.bval{font-size:.76rem}
+.lfsplit{grid-template-columns:1fr;gap:14px}
+.srow{grid-template-columns:104px 1fr;gap:8px}
+.slabel{font-size:.76rem}
+.catgrid{gap:8px 0}
+.pbsplit{grid-template-columns:1fr}
+.champs{gap:5px 6px}
+}
+@media(max-width:400px){
+.viz-root{padding:11px}
+.card{padding:14px 12px}
+.hero h1{font-size:1.34rem}
+.barrow{grid-template-columns:76px 1fr 34px}
+.axis{padding:0 60px 0 82px}
+.srow{grid-template-columns:88px 1fr}
+}
 </style></head><body><div class="viz-root">
 <header class="hero">
   <p style="margin:0 0 .6rem"><a href="index.html" style="color:inherit;opacity:.7;text-decoration:none;font-size:.9rem">&larr; Bangers Fantasy Hockey projections</a></p>
@@ -204,8 +227,8 @@ padding:3px 10px;font-variant-numeric:tabular-nums;color:var(--ink2)}
   correlation). Bars show the 90% margin of error; <b>overlapping bars mean a statistical tie</b>.</p>
   <div class="axis"><span>0</span><span>.25</span><span>.50</span><span>.75</span><span>1.0</span></div>
   <div class="bars"><div class="barrow crowd"><div class="blabel">Wisdom of the Crowd</div><div class="track"><span class="fill" style="width:81.6%"></span><span class="ci" style="left:77.6%;width:7.4%"></span></div><div class="bval">0.816</div></div><div class="barrow "><div class="blabel">Lineup Experts</div><div class="track"><span class="fill" style="width:81.2%"></span><span class="ci" style="left:76.8%;width:8.0%"></span></div><div class="bval">0.812</div></div><div class="barrow you"><div class="blabel">Bangers Fantasy Hockey</div><div class="track"><span class="fill" style="width:80.6%"></span><span class="ci" style="left:76.3%;width:7.8%"></span></div><div class="bval">0.806</div></div><div class="barrow "><div class="blabel">A&G Blake</div><div class="track"><span class="fill" style="width:79.6%"></span><span class="ci" style="left:75.1%;width:8.0%"></span></div><div class="bval">0.796</div></div><div class="barrow "><div class="blabel">A&G Nate</div><div class="track"><span class="fill" style="width:79.5%"></span><span class="ci" style="left:75.1%;width:8.0%"></span></div><div class="bval">0.795</div></div><div class="barrow "><div class="blabel">Datsyuk to Zetterberg</div><div class="track"><span class="fill" style="width:79.2%"></span><span class="ci" style="left:74.4%;width:8.9%"></span></div><div class="bval">0.792</div></div><div class="barrow "><div class="blabel">Daily Faceoff</div><div class="track"><span class="fill" style="width:79.1%"></span><span class="ci" style="left:74.3%;width:8.8%"></span></div><div class="bval">0.791</div></div><div class="barrow "><div class="blabel">The Athletic</div><div class="track"><span class="fill" style="width:77.9%"></span><span class="ci" style="left:73.2%;width:8.4%"></span></div><div class="bval">0.779</div></div><div class="barrow "><div class="blabel">Kubota</div><div class="track"><span class="fill" style="width:77.4%"></span><span class="ci" style="left:72.5%;width:9.1%"></span></div><div class="bval">0.774</div></div></div>
-  <table class="grid"><thead><tr><th>Source</th><th>Spearman</th><th>P@25</th>
-  <th>P@50</th><th>P@100</th><th>nDCG@100</th></tr></thead><tbody><tr class="crowd"><td>Wisdom of the Crowd</td><td>0.816</td><td>0.64</td><td>0.68</td><td>0.78</td><td>0.938</td></tr><tr><td>Lineup Experts</td><td>0.812</td><td>0.68</td><td>0.68</td><td>0.79</td><td>0.930</td></tr><tr class="you"><td>Bangers Fantasy Hockey</td><td>0.806</td><td>0.68</td><td>0.62</td><td>0.79</td><td>0.944</td></tr><tr><td>A&G Blake</td><td>0.796</td><td>0.68</td><td>0.66</td><td>0.79</td><td>0.938</td></tr><tr><td>A&G Nate</td><td>0.795</td><td>0.64</td><td>0.66</td><td>0.79</td><td>0.940</td></tr><tr><td>Datsyuk to Zetterberg</td><td>0.792</td><td>0.68</td><td>0.64</td><td>0.80</td><td>0.937</td></tr><tr><td>Daily Faceoff</td><td>0.791</td><td>0.64</td><td>0.66</td><td>0.77</td><td>0.933</td></tr><tr><td>The Athletic</td><td>0.779</td><td>0.72</td><td>0.62</td><td>0.78</td><td>0.942</td></tr><tr><td>Kubota</td><td>0.774</td><td>0.68</td><td>0.70</td><td>0.75</td><td>0.916</td></tr></tbody></table>
+  <div class="scroll"><table class="grid"><thead><tr><th>Source</th><th>Spearman</th><th>P@25</th>
+  <th>P@50</th><th>P@100</th><th>nDCG@100</th></tr></thead><tbody><tr class="crowd"><td>Wisdom of the Crowd</td><td>0.816</td><td>0.64</td><td>0.68</td><td>0.78</td><td>0.938</td></tr><tr><td>Lineup Experts</td><td>0.812</td><td>0.68</td><td>0.68</td><td>0.79</td><td>0.930</td></tr><tr class="you"><td>Bangers Fantasy Hockey</td><td>0.806</td><td>0.68</td><td>0.62</td><td>0.79</td><td>0.944</td></tr><tr><td>A&G Blake</td><td>0.796</td><td>0.68</td><td>0.66</td><td>0.79</td><td>0.938</td></tr><tr><td>A&G Nate</td><td>0.795</td><td>0.64</td><td>0.66</td><td>0.79</td><td>0.940</td></tr><tr><td>Datsyuk to Zetterberg</td><td>0.792</td><td>0.68</td><td>0.64</td><td>0.80</td><td>0.937</td></tr><tr><td>Daily Faceoff</td><td>0.791</td><td>0.64</td><td>0.66</td><td>0.77</td><td>0.933</td></tr><tr><td>The Athletic</td><td>0.779</td><td>0.72</td><td>0.62</td><td>0.78</td><td>0.942</td></tr><tr><td>Kubota</td><td>0.774</td><td>0.68</td><td>0.70</td><td>0.75</td><td>0.916</td></tr></tbody></table></div>
   <p class="foot">The <span style="color:#c07f00;font-weight:600">Wisdom of the Crowd</span>, the simple average of
   every projection, tops the board. That's the classic result: no individual reliably beats the consensus. The
   whole field is tight up here, with <b>every margin-of-error bar overlapping</b>, so the leaders are statistically
