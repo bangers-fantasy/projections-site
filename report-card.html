@@ -44,7 +44,13 @@ border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.35)}
 .tcat{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .trank{font-size:1.5rem;font-weight:700}.trank span{font-size:.8rem;color:var(--muted);font-weight:400}
 .tsub{font-size:.72rem;color:var(--ink2)}
-.scroll{overflow-x:auto}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* keep the row-label (first) column pinned while the data scrolls sideways on narrow screens */
+.scroll .grid th:first-child,.scroll .grid td:first-child,
+.scroll .cons th:first-child,.scroll .cons td:first-child,
+.scroll .heat .rlabel{position:sticky;left:0;z-index:2;background:var(--surface);
+box-shadow:1px 0 0 var(--grid)}
+.scroll .grid thead th:first-child,.scroll .cons thead th:first-child{background:var(--surface)}
 .heat{border-collapse:separate;border-spacing:3px;width:100%;min-width:520px}
 .heat th{color:var(--muted);font-size:.78rem;font-weight:600;padding:4px}
 .heat .rlabel{text-align:left;color:var(--ink2);white-space:nowrap;padding-right:10px}
@@ -199,6 +205,16 @@ html,body{overflow-x:hidden}
 .catgrid{gap:8px 0}
 .pbsplit{grid-template-columns:1fr}
 .champs{gap:5px 6px}
+/* tables: smaller cells + wrapping pinned labels so more columns fit before a sideways scroll */
+.grid,.cons{font-size:.8rem}
+.grid th,.grid td,.cons th,.cons td{padding:6px 6px}
+.heat .cell{min-width:30px;padding:7px 0;font-size:.78rem}
+.heat.mo .cell{min-width:42px}
+.heat .rlabel{white-space:normal;max-width:104px;padding-right:8px;line-height:1.15}
+.scroll .grid td:first-child,.scroll .grid th:first-child,
+.scroll .cons td:first-child,.scroll .cons th:first-child{max-width:118px}
+/* the stress-test sparkline is a 5-chip column that crushes into a tall sliver on phones; hide it */
+.grid.stt td:last-child,.grid.stt th:last-child{display:none}
 }
 @media(max-width:400px){
 .viz-root{padding:11px}
