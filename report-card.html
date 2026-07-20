@@ -205,6 +205,11 @@ padding:3px 10px;font-variant-numeric:tabular-nums;color:var(--ink2)}
 .mrk.you .mrkl{color:var(--ink)}.mrk.you .mrkn{color:var(--green)}
 .mrk.crowd{background:var(--plane)}.mrk.crowd .mrkl{color:#c07f00;font-weight:700}
 .lenscap{font-size:.72rem;color:var(--muted);margin:0 0 .3rem;text-transform:uppercase;letter-spacing:.03em}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr));gap:12px;margin-top:8px}
+.gcard{background:var(--plane);border:1px solid var(--ring);border-radius:10px;padding:12px 14px;border-left:3px solid var(--blue)}
+.gcard h4{font-size:.9rem;margin:0 0 .25rem}
+.gcard p{font-size:.82rem;color:var(--ink2);margin:0;line-height:1.4}
+.gcard .gk{display:block;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem}
 .heat.pct .cell{font-weight:600;min-width:46px}
 .heat.pct tr.yourow .cell{box-shadow:inset 0 0 0 2px var(--green)}
 html,body{overflow-x:hidden}
@@ -302,9 +307,42 @@ html,body{overflow-x:hidden}
 </section>
 
 <section class="card">
+  <h2>The stats we use, in plain English</h2>
+  <p class="sub">Five terms show up throughout the report. Here's what each one means before you hit the charts.</p>
+  <div class="gloss">
+    <div class="gcard"><h4><span class="gk">the value number</span>Z-score value</h4>
+    <p>A player's whole fantasy value as one number. In each category we count how many standard deviations above
+    or below the league average a player is, then add those up. Zero is exactly average, higher is better. It puts
+    goals, hits and blocks on one shared scale so no single stat runs away with it, and it's the same formula for
+    every list, so nobody gets a home-field edge from their own league settings.</p></div>
+    <div class="gcard"><h4><span class="gk">value, position-adjusted</span>VORP</h4>
+    <p>Value Over Replacement Player. The same z-score value, but measured against the last draftable player at a
+    position instead of against zero. A 12-team league starts about 72 forwards and 48 defensemen, so a defenseman
+    is judged against the 48th-best D. It credits scarcity: an elite defenseman is worth more than his raw totals
+    because the drop-off behind him is steep.</p></div>
+    <div class="gcard"><h4><span class="gk">how far off a stat was</span>Percentage error</h4>
+    <p>How far a projection landed from reality in a single category. We add up every player's miss and divide by
+    what those players actually produced, so it reads as a percent, and lower is better. Aggregating this way (a
+    weighted percentage error) keeps a zero or tiny actual, common in power-play points, from blowing the number
+    up the way a naive per-player percentage would.</p></div>
+    <div class="gcard"><h4><span class="gk">how good the draft board was</span>Spearman rank correlation</h4>
+    <p>Our headline draft-utility score. It measures how closely a list's ranking order matches the real
+    end-of-season order. 1.0 is a perfect match, 0 is a coin flip, and negative is backwards. It rewards putting
+    players in the right order, which is the whole job of a draft board.</p></div>
+    <div class="gcard"><h4><span class="gk">where a player ranked, 0 to 100</span>Value percentile</h4>
+    <p>A player's spot on a value ranking from 0 to 100. 99 is a league-leader, 50 is the middle of the pack. We
+    use it to line up where a list ranked a player, where the field ranked him, and where he actually finished, all
+    on the same scale. (The draft-utility table also shows <b>precision@25/50/100</b>, the share of a list's top 25,
+    50 or 100 that truly belonged there, and <b>nDCG</b>, the same idea weighted toward the very top of the board.)</p></div>
+  </div>
+</section>
+
+<section class="card">
   <h2>Draft utility: whose ranking recovered real value best?</h2>
-  <p class="sub">How closely each projector's value ranking matched the actual end-of-season order (a Spearman rank
-  correlation). Bars show the 90% margin of error; <b>overlapping bars mean a statistical tie</b>.</p>
+  <p class="sub">This is the headline. How closely each list's ranking matched the order players actually finished
+  in, scored as a Spearman rank correlation where <b>1.0 is a perfect board and higher is better</b> (0.80 means it
+  recovered most of the real order). Bars show the 90% margin of error, so <b>overlapping bars mean a statistical
+  tie</b>. The table adds precision@25/50/100 and nDCG; all four terms are defined in the glossary just above.</p>
   <div class="axis"><span>0</span><span>.25</span><span>.50</span><span>.75</span><span>1.0</span></div>
   <div class="bars"><div class="barrow crowd"><div class="blabel">Wisdom of the Crowd</div><div class="track"><span class="fill" style="width:81.6%"></span><span class="ci" style="left:77.6%;width:7.4%"></span></div><div class="bval">0.816</div></div><div class="barrow "><div class="blabel">Lineup Experts</div><div class="track"><span class="fill" style="width:81.2%"></span><span class="ci" style="left:76.8%;width:8.0%"></span></div><div class="bval">0.812</div></div><div class="barrow you"><div class="blabel">Bangers Fantasy Hockey</div><div class="track"><span class="fill" style="width:80.6%"></span><span class="ci" style="left:76.3%;width:7.8%"></span></div><div class="bval">0.806</div></div><div class="barrow "><div class="blabel">A&G Blake</div><div class="track"><span class="fill" style="width:79.6%"></span><span class="ci" style="left:75.1%;width:8.0%"></span></div><div class="bval">0.796</div></div><div class="barrow "><div class="blabel">A&G Nate</div><div class="track"><span class="fill" style="width:79.5%"></span><span class="ci" style="left:75.1%;width:8.0%"></span></div><div class="bval">0.795</div></div><div class="barrow "><div class="blabel">Datsyuk to Zetterberg</div><div class="track"><span class="fill" style="width:79.2%"></span><span class="ci" style="left:74.4%;width:8.9%"></span></div><div class="bval">0.792</div></div><div class="barrow "><div class="blabel">Daily Faceoff</div><div class="track"><span class="fill" style="width:79.1%"></span><span class="ci" style="left:74.3%;width:8.8%"></span></div><div class="bval">0.791</div></div><div class="barrow "><div class="blabel">The Athletic</div><div class="track"><span class="fill" style="width:77.9%"></span><span class="ci" style="left:73.2%;width:8.4%"></span></div><div class="bval">0.779</div></div><div class="barrow "><div class="blabel">Kubota</div><div class="track"><span class="fill" style="width:77.4%"></span><span class="ci" style="left:72.5%;width:9.1%"></span></div><div class="bval">0.774</div></div></div>
   <div class="scroll"><table class="grid"><thead><tr><th>Source</th><th>Spearman</th><th>P@25</th>
@@ -472,9 +510,9 @@ html,body{overflow-x:hidden}
   check where those top picks actually finished, both <b>position-adjusted (VORP)</b>, so a scarce elite defenseman
   gets credited at its real draft slot instead of being buried by raw scoring. A banger-league wrinkle: the
   consensus #1 was <b>Brady Tkachuk</b>, a hits-and-PIM monster rather than a pure scorer, who finished
-  #4. The actual VORP leader was <b>Connor McDavid</b>. Colours:
+  #4. The actual VORP leader was <b>Connor McDavid</b>. Colors:
   <span style="color:#006300;font-weight:600">top-15</span>,
-  <span style="color:#c07f00;font-weight:600">16&ndash;40</span>, <span style="color:#d03b3b;font-weight:600">cratered</span>.
+  <span style="color:#c07f00;font-weight:600">16 to 40</span>, <span style="color:#d03b3b;font-weight:600">cratered</span>.
   Almost every board's biggest top-10 bust was the same player, <b>Auston Matthews</b> (finished
   #44), the season's universal lock that cratered, so the "biggest crack" column shows each
   list's <i>next</i>-worst hold instead.</p>
