@@ -189,6 +189,19 @@ padding:3px 10px;font-variant-numeric:tabular-nums;color:var(--ink2)}
 @media (prefers-color-scheme:dark){:root:where(:not([data-theme=light])) .lfsplit h3.win{color:#0ca30c}
 :root:where(:not([data-theme=light])) .lfsplit h3.miss{color:#e66767}}
 :root[data-theme=dark] .lfsplit h3.win{color:#0ca30c}:root[data-theme=dark] .lfsplit h3.miss{color:#e66767}
+/* TL;DR + two-lens methodology intro */
+.tldr{margin:.2rem 0 0;padding-left:1.1rem;color:var(--ink2);font-size:.92rem}
+.tldr li{margin:.5rem 0}.tldr b{color:var(--ink)}
+.lenses{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:10px}
+.lenshead{font-size:.92rem;margin:0 0 .3rem}
+.lensnote{font-size:.83rem;color:var(--ink2);margin:0 0 .6rem}
+.mrank{display:flex;flex-direction:column;gap:2px}
+.mrk{display:grid;grid-template-columns:22px 1fr auto;align-items:baseline;gap:8px;padding:4px 8px;border-radius:6px;font-size:.86rem}
+.mrk .mrkn{color:var(--muted);font-size:.76rem;text-align:right;font-variant-numeric:tabular-nums}
+.mrk .mrkv{color:var(--ink2);font-variant-numeric:tabular-nums}
+.mrk.you{background:var(--plane);font-weight:700}
+.mrk.you .mrkl{color:var(--ink)}.mrk.you .mrkn{color:var(--green)}
+.mrk.crowd{background:var(--plane)}.mrk.crowd .mrkl{color:#c07f00;font-weight:700}
 html,body{overflow-x:hidden}
 @media(max-width:640px){
 .viz-root{padding:14px}
@@ -200,6 +213,7 @@ html,body{overflow-x:hidden}
 .blabel{font-size:.76rem}
 .bval{font-size:.76rem}
 .lfsplit{grid-template-columns:1fr;gap:14px}
+.lenses{grid-template-columns:1fr;gap:16px}
 .srow{grid-template-columns:104px 1fr;gap:8px}
 .slabel{font-size:.76rem}
 .catgrid{gap:8px 0}
@@ -230,12 +244,53 @@ html,body{overflow-x:hidden}
   <h1>2025-26 Fantasy Hockey Projection Report Card</h1>
   <p class="lede">How 11 public projection sets, <b>Bangers Fantasy Hockey</b> included, plus a
   <span style="color:#c07f00;font-weight:600">Wisdom of the Crowd</span> benchmark (the simple average of them
-  all), did against the 2025-26 season. Every projector's raw category numbers become one fair overall value
-  (a roto z-score, so no projector's own formula gets home-field advantage), then get scored on how well the
-  resulting draft order matched reality. Everything is measured per full season, so injuries aren't punished
-  (in head-to-head, a hurt player gets replaced). The headline compares the 9 entries that project all
-  7 value categories, on 270 shared players.</p>
+  all), did against the 2025-26 season, on 270 shared players. Same players, same yardstick, for
+  everyone.</p>
 </header>
+
+<section class="card">
+  <h2>The short version</h2>
+  <p class="sub">Who to trust for your banger draft, in four lines.</p>
+  <ul class="tldr">
+    <li><b>The crowd beat everyone.</b> The simple average of all the lists graded out ahead of every individual
+    projector. No single expert reliably beats the group.</li>
+    <li><b>Among the humans, Lineup Experts and Bangers Fantasy Hockey led the pack</b>, though the whole top of
+    the field is close enough to be a statistical tie. The Athletic and Kubota trailed it.</li>
+    <li><b>Nobody can predict hits.</b> Last season's hit total forecasts this season as well as any model does,
+    so if you draft for hits you can skip the projections and just look up last year.</li>
+    <li><b>Hugging the consensus won this year.</b> The crowd was sharp, so the contrarian lists mostly diverged
+    into error. That reverses in seasons when the consensus is soft.</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>How we scored it, two lenses</h2>
+  <p class="sub">The method, briefly. Everything starts prorated to a full 82-game season, so a player who missed
+  time to injury doesn't punish or reward anyone, since in a real league you just replace him. Then we grade two
+  ways, simplest first. Both run on the 9 entries that project all 7 categories; the three lists that skip
+  one (Dobber, Laidlaw, Cullen) get fair same-category boards further down.</p>
+  <div class="lenses">
+    <div>
+      <h3 class="lenshead">Lens 1 &middot; Raw accuracy (MAPE)</h3>
+      <p class="lensnote">The simplest question is how far off the actual numbers were. For each category we measure
+      MAPE, the average percent a projection missed by, then average each list's placing across all eight
+      categories. Lower means more accurate on more stats.</p>
+      <div class="mrank"><div class="mrk crowd"><span class="mrkn">1</span><span class="mrkl">Wisdom of the Crowd</span><span class="mrkv">0.05</span></div><div class="mrk"><span class="mrkn">2</span><span class="mrkl">Lineup Experts</span><span class="mrkv">0.26</span></div><div class="mrk you"><span class="mrkn">3</span><span class="mrkl">Bangers Fantasy Hockey</span><span class="mrkv">0.29</span></div><div class="mrk"><span class="mrkn">4</span><span class="mrkl">Datsyuk to Zetterberg</span><span class="mrkv">0.40</span></div><div class="mrk"><span class="mrkn">5</span><span class="mrkl">The Athletic</span><span class="mrkv">0.46</span></div><div class="mrk"><span class="mrkn">6</span><span class="mrkl">A&G Nate</span><span class="mrkv">0.58</span></div><div class="mrk"><span class="mrkn">7</span><span class="mrkl">A&G Blake</span><span class="mrkv">0.58</span></div><div class="mrk"><span class="mrkn">8</span><span class="mrkl">Daily Faceoff</span><span class="mrkv">0.66</span></div><div class="mrk"><span class="mrkn">9</span><span class="mrkl">Kubota</span><span class="mrkv">0.84</span></div></div>
+    </div>
+    <div>
+      <h3 class="lenshead">Lens 2 &middot; Draft value (z-score)</h3>
+      <p class="lensnote">Raw accuracy isn't the whole story, because nailing everyone's hit totals doesn't help if
+      the value order is wrong. So we fold the seven categories into one neutral roto z-score, the same formula for
+      every list, and score how closely each ranked board matched the real end-of-season order.</p>
+      <div class="mrank"><div class="mrk crowd"><span class="mrkn">1</span><span class="mrkl">Wisdom of the Crowd</span><span class="mrkv">0.816</span></div><div class="mrk"><span class="mrkn">2</span><span class="mrkl">Lineup Experts</span><span class="mrkv">0.812</span></div><div class="mrk you"><span class="mrkn">3</span><span class="mrkl">Bangers Fantasy Hockey</span><span class="mrkv">0.806</span></div><div class="mrk"><span class="mrkn">4</span><span class="mrkl">A&G Blake</span><span class="mrkv">0.796</span></div><div class="mrk"><span class="mrkn">5</span><span class="mrkl">A&G Nate</span><span class="mrkv">0.795</span></div><div class="mrk"><span class="mrkn">6</span><span class="mrkl">Datsyuk to Zetterberg</span><span class="mrkv">0.792</span></div><div class="mrk"><span class="mrkn">7</span><span class="mrkl">Daily Faceoff</span><span class="mrkv">0.791</span></div><div class="mrk"><span class="mrkn">8</span><span class="mrkl">The Athletic</span><span class="mrkv">0.779</span></div><div class="mrk"><span class="mrkn">9</span><span class="mrkl">Kubota</span><span class="mrkv">0.774</span></div></div>
+    </div>
+  </div>
+  <p class="foot">The two lenses agree on the podium, the crowd then Lineup Experts and Bangers, and reshuffle the
+  middle, which is exactly where getting the value <i>order</i> right pulls apart from nailing the raw numbers.
+  Everything below goes deeper: position scarcity (VORP), consistency, the optimism tax, the bust-avoidance test,
+  and a full per-category breakdown. The whole approach is built in the spirit of Apples &amp; Ginos and Hockey
+  Pool-Aid, who held the field to account first.</p>
+</section>
 
 <section class="card">
   <h2>Draft utility: whose ranking recovered real value best?</h2>
