@@ -163,8 +163,27 @@
              text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
              border-radius: 3px; padding: 0 3px; margin-left: 4px; vertical-align: 1px; }
   .projcard td.pj.adj { font-weight: 600; }
-  .adjnote { font-size: 11.5px; color: var(--muted); margin: 8px 2px 0; line-height: 1.45; }
+  /* Context-adjusted footnote. It lives BELOW the hero row at full width, never inside
+     .projwrap. The hero is a wrapping flex row, so an item's hypothetical size decides
+     whether the next item fits beside it — and a paragraph's max-content width is the
+     whole paragraph on one line. Any note at all (median ~230 chars) therefore blew the
+     table's basis past the container and bumped the positional ladder onto its own row,
+     which is why cards with an adjustment looked "split" and cards without one didn't.
+     Long notes are also clamped to two lines here: they're a running reasoning log, and
+     the tail of one shouldn't be the tallest thing on the card. */
+  .adjnote { margin: 20px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
+  .adjnote p { font-size: 11.5px; color: var(--muted); margin: 0; line-height: 1.5; }
   .adjnote strong { color: var(--ink); }
+  .adjnote-cb { position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none; }
+  .adjnote p.clamp { display: -webkit-box; -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2; overflow: hidden; }
+  .adjnote-cb:checked ~ p.clamp { display: block; overflow: visible; }
+  .adjnote-more { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700;
+          color: var(--accent); cursor: pointer; user-select: none; }
+  .adjnote-more::after { content: "Show the full reasoning \2193"; }
+  .adjnote-cb:focus-visible ~ .adjnote-more { outline: 2px solid var(--accent);
+          outline-offset: 3px; border-radius: 3px; }
+  .adjnote-cb:checked ~ .adjnote-more::after { content: "Hide \2191"; }
 
   /* Similar & complementary players box */
   .mk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
