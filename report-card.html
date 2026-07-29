@@ -307,9 +307,48 @@ html,body{overflow-x:hidden}
 .axis{padding:0 60px 0 82px}
 .srow{grid-template-columns:88px 1fr}
 }
-</style></head><body><div class="viz-root">
+</style><style>
+  .sitehdr { position: sticky; top: 0; z-index: 50;
+          background: linear-gradient(135deg, #16283a 0%, #1f3b52 100%);
+          color: #fff; box-shadow: 0 2px 12px rgba(16,32,48,.18); }
+  .sitehdr .inner { max-width: 1120px; margin: 0 auto; padding: 13px 24px;
+          display: flex; gap: 18px; align-items: center; justify-content: space-between;
+          flex-wrap: wrap; }
+  .sitehdr a.brand { display: flex; align-items: center; gap: 10px; font-weight: 700;
+          letter-spacing: -.01em; white-space: nowrap; text-decoration: none; color: inherit; }
+  .sitehdr .mark { font-size: 22px; line-height: 1; }
+  .sitehdr .txt { display: flex; flex-direction: column; line-height: 1.16; }
+  .sitehdr .txt b { font-size: 18px; }
+  .sitehdr .txt small { font-size: 12px; font-weight: 400; color: #9fb8cf; }
+  .sitehdr nav { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+  .sitehdr nav a { display: inline-flex; align-items: center; padding: 8px 14px;
+          font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap;
+          color: #c6d8ea; border-radius: 8px; transition: background .12s, color .12s; }
+  .sitehdr nav a:hover { background: rgba(255,255,255,.10); color: #fff; }
+  .sitehdr nav a.on { background: rgba(255,255,255,.15); color: #fff; }
+  /* Same wrap rules as the main site header: six nowrap links overflow a phone row, and an
+     ancestor with overflow-x hidden would clip the last one away with no way to reach it. */
+  @media (max-width: 600px) {
+    .sitehdr .inner { padding: 11px 14px; gap: 10px; }
+    .sitehdr .mark { font-size: 20px; }
+    .sitehdr .txt b { font-size: 16px; }
+    .sitehdr nav { flex: 1 1 100%; width: 100%; min-width: 0; gap: 0; row-gap: 2px;
+            justify-content: flex-start; }
+    .sitehdr nav a { padding: 8px 10px; font-size: 13.5px; }
+  }
+</style></head><body><header class="sitehdr"><div class="inner">
+  <a class="brand" href="index.html"><span class="mark">&#127954;</span><span class="txt"><b>@HockeyBangers</b><small>2026-27 projections</small></span></a>
+  <nav>
+    <a href="compare.html">Compare</a>
+    <a href="lines.html">Lines</a>
+    <a href="regression.html">Movers</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="method.html">Method</a>
+    <a class="on" href="report-card.html">Report Card</a>
+  </nav>
+</div></header>
+<div class="viz-root">
 <header class="hero">
-  <p style="margin:0 0 .6rem"><a href="index.html" style="color:inherit;opacity:.7;text-decoration:none;font-size:.9rem">&larr; Bangers Fantasy Hockey projections</a></p>
   <h1>2025-26 Fantasy Hockey Projection Report Card</h1>
   <p class="lede">How 11 public projection sets, <b>Bangers Fantasy Hockey</b> included, plus a
   <span style="color:#c07f00;font-weight:600">Wisdom of the Crowd</span> benchmark (the simple average of them
