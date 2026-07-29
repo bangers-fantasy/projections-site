@@ -304,6 +304,13 @@
   .cat-charts + .chart-sub { margin-top: 18px; padding-top: 16px;
           border-top: 1px solid var(--line); }
   .cat-charts { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+  /* A metric plus the sub-metrics it breaks into (PPP -> PPG + PPA): one bordered
+     group so the halves read as belonging to the total above them. */
+  .chart-group { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0 10px;
+          border: 1px solid var(--line); border-radius: 10px; padding: 4px 8px 6px; }
+  .chart-group-sub { display: flex; flex-wrap: wrap; gap: 0 10px;
+          border-left: 1px dashed var(--line); padding-left: 10px; }
+  .chart-group-sub .chart-title { color: var(--muted); }
   .chart-gp { font-size: 11px; color: var(--muted); margin: -2px 2px 10px;
           letter-spacing: .02em; }
   .chart-gp b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
