@@ -853,13 +853,14 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer.html", "Aaron Ekblad": "aaron-ekbla
   var SEP = '<span class="ln-sep">-</span>';
   // Manual-review frontier: teams are hand-reviewed alphabetically BY TEAM NAME. Everything
   // at or before this name is done; bump these two as the review advances (e.g. -> Chicago).
-  var REVIEWED_THROUGH = "Columbus Blue Jackets", REVIEWED_LABEL = "Columbus";
+  var REVIEWED_THROUGH = "Dallas Stars", REVIEWED_LABEL = "Dallas";
   function isReviewed(t){ return (t.team||'').localeCompare(REVIEWED_THROUGH) <= 0; }
   // Date each team's hand review was signed off (shown next to the badge). Add a row as review advances.
   var REVIEW_DATES = {
     "Anaheim Ducks":"Jul 27","Boston Bruins":"Jul 27","Buffalo Sabres":"Jul 27",
     "Calgary Flames":"Jul 27","Carolina Hurricanes":"Jul 17","Chicago Blackhawks":"Jul 18",
-    "Colorado Avalanche":"Jul 19","Columbus Blue Jackets":"Jul 19"
+    "Colorado Avalanche":"Jul 19","Columbus Blue Jackets":"Jul 19",
+    "Dallas Stars":"Jul 28"
   };
   var DONE = {};   // team code -> reviewed?, so render() can keep the ✓ when switching teams
   function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
