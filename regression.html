@@ -11,7 +11,8 @@
     --shadow: 0 1px 2px rgba(16,32,48,.06), 0 8px 24px rgba(16,32,48,.06);
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
           margin: 0; background: var(--bg); color: var(--ink); line-height: 1.4;
           -webkit-font-smoothing: antialiased; }
@@ -60,7 +61,20 @@
 
   .wrap { max-width: 1120px; margin: 0 auto; padding: 26px 24px 60px; }
   .eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase;
-          letter-spacing: .08em; color: var(--muted); margin: 0 0 10px 2px; }
+          letter-spacing: .08em; color: var(--muted); margin: 0 0 10px 2px;
+          /* Jump-link target: clear the sticky header. --hdr-h is measured at load
+             (the header is 2 rows on desktop and up to 4 on a phone); the literal is
+             the no-JS fallback. */
+          scroll-margin-top: var(--hdr-h, 132px); }
+  /* Category labels on the banner and the projection table link down to the box that
+     explains them. Dashed underline so they read as jumps without shouting. */
+  a.catjump { color: inherit; text-decoration: none;
+          border-bottom: 1px dashed rgba(var(--accent-rgb), .5); }
+  a.catjump:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .hb a.catjump { border-bottom-color: rgba(255,255,255,.34); }
+  .hb a.catjump:hover { color: #fff; border-bottom-color: #fff; }
+  /* Briefly tint the heading you landed on, so the jump is legible on a long card. */
+  .eyebrow:target { color: var(--accent); }
   .card { background: var(--card); border-radius: 16px; padding: 26px;
           box-shadow: var(--shadow); margin-bottom: 22px; }
 
@@ -95,6 +109,10 @@
   table.projcard tr.toi td { color: #5f7183; }
   table.projcard tr.toi td.metric { color: #48586a; }
   table.projcard tr.toi td.pj { color: #2f4d66; }
+  /* H1 / H2 halves of 2025-26 — supporting detail beside the season they split, so they
+     stay lighter than the three headline columns. */
+  table.projcard th.half { color: var(--muted); font-weight: 700; padding-left: 14px; }
+  table.projcard td.half { font-size: 13.5px; color: #8395a6; padding-left: 14px; }
   /* Projection table + banger panel side by side */
   .proj-side { flex: 1 1 300px; min-width: 240px; display: flex; flex-direction: column;
           justify-content: flex-start; align-self: stretch; }
@@ -296,7 +314,10 @@
   .cat-blurb { font-size: 13.5px; color: #5b6b7b; margin: 0 0 18px; }
   .cat-grid { display: grid; grid-template-columns: minmax(300px, 360px) 1fr; gap: 28px;
           align-items: start; }
-  @media (max-width: 720px) { .cat-grid { grid-template-columns: 1fr; } }
+  /* Stack early. A 176px chart plus the 14px gap needs ~370px, so between 720 and 900
+     the chart column fits exactly one per row and the charts string out vertically
+     beside a 3-row table's worth of dead space. Full width instead lays them 3-4 across. */
+  @media (max-width: 900px) { .cat-grid { grid-template-columns: 1fr; gap: 20px; } }
   .cat-table { min-width: 0; max-width: 100%; overflow-x: auto; }
   .cat-right { min-width: 0; }
   .chart-sub { font-size: 11px; font-weight: 700; text-transform: uppercase;
@@ -328,6 +349,11 @@
   .chart-title { font-size: 12px; font-weight: 700; color: #2b3f52; text-align: center;
           margin-bottom: 2px; }
   .qsvg { width: 100%; height: auto; display: block; }
+  /* Value + baseline labels sit on top of the series they describe. paint-order draws a
+     card-coloured outline behind the glyphs first, so a label crossing the line reads as
+     text on the card rather than as struck through. */
+  .qsvg text.lbl { paint-order: stroke; stroke: var(--card); stroke-width: 2.8px;
+          stroke-linejoin: round; }
   .chart-none { font-size: 11px; color: #b6c0ca; text-align: center; padding: 26px 0; }
 
   .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
@@ -433,6 +459,7 @@
   :root[data-theme="dark"] table.projcard tr.toi td { color: #90a2b5; }
   :root[data-theme="dark"] table.projcard tr.toi td.metric { color: #b6c4d2; }
   :root[data-theme="dark"] table.projcard tr.toi td.pj { color: #cfe0ef; }
+  :root[data-theme="dark"] table.projcard td.half { color: #8296a9; }
   :root[data-theme="dark"] .flag { background: #1b2530; }
   :root[data-theme="dark"] .flag.risk { background: #2a1a1a; }
   :root[data-theme="dark"] .flag.boost { background: #16261d; }
@@ -698,14 +725,39 @@
     .hb-stats { grid-template-columns: 1fr; }
     .hb-score b { font-size: 30px; }
 
-    /* Keep number columns readable but scrollable if they still overflow. */
-    table.projcard th, table.projcard td { padding-left: 14px; }
+    /* Six columns (projection, 2025-26, H1, H2, Prev 3) have to fit ~310px of content
+       width or Prev 3 sits off-screen behind a scroll nobody looks for. Tighten the
+       gutters and step the type down; .projwrap still scrolls if it overflows anyway. */
+    table.projcard th, table.projcard td { padding-left: 8px; }
+    table.projcard th { font-size: 11px; }
+    table.projcard th span { font-size: 8.5px; }
+    table.projcard td { font-size: 13.5px; }
+    table.projcard td.metric { font-size: 12px; }
+    table.projcard td.pj { font-size: 15px; }
+    table.projcard th.half, table.projcard td.half { padding-left: 8px; font-size: 12.5px; }
     .chart-note, .method, .bp-note { max-width: 100%; }
+
+    /* Charts 2-up rather than one full-width chart per row. The SVG is a 184-wide
+       viewBox scaled by CSS, so a full-width box on a phone magnifies every font,
+       stroke and dot ~2x and makes the card several screens longer. Half width lands
+       each chart back near its native size and halves the scrolling. */
+    .cat-charts { gap: 10px; }
+    .chart-box { width: calc(50% - 5px); }
+    /* A metric with sub-charts (PPP -> PPG + PPA) keeps the total on its own row and
+       puts the two halves side by side beneath it, with the divider turned horizontal. */
+    .chart-group { flex: 1 1 100%; padding: 4px 8px 8px; gap: 0; }
+    .chart-group > .chart-box { width: 100%; }
+    .chart-group-sub { flex: 1 1 100%; gap: 10px; border-left: 0; padding-left: 0;
+            border-top: 1px dashed var(--line); padding-top: 6px; margin-top: 4px; }
+    .chart-group-sub .chart-box { width: calc(50% - 5px); }
+  }
+  @media (max-width: 340px) {
+    /* Below this a half-width chart shrinks the axis labels past readable, so go 1-up. */
+    .chart-box, .chart-group-sub .chart-box { width: 100%; }
   }
   @media (max-width: 380px) {
     .hb-tiles, .hb-scores { grid-template-columns: 1fr 1fr; gap: 8px; }
     .hb-title { font-size: 22px; }
-    .chart-box { width: 100%; }
   }
 </style></head>
 <body>
@@ -812,6 +864,16 @@ window.__REGR__ = {"generated":"2025-26","categories":[{"key":"shooting","title"
 </script>
 </div>
 <script>
+/* Feed the real sticky-header height to the jump-link scroll offset (--hdr-h). The header
+   is two rows wide-screen and up to four on a phone, so a hardcoded offset either hides
+   the heading behind the header or leaves a gap. The CSS fallback covers JS being off. */
+(function(){
+  var h=document.querySelector('header.top');
+  if(!h) return;
+  function set(){document.documentElement.style.setProperty('--hdr-h',(h.offsetHeight+14)+'px');}
+  set();
+  window.addEventListener('resize',set);
+})();
 (function(){
   var input=document.getElementById('q'), box=document.getElementById('ac'),
       form=document.getElementById('searchform'), names=window.__PLAYERS__||[],
