@@ -356,6 +356,22 @@
           stroke-linejoin: round; }
   .chart-none { font-size: 11px; color: #b6c0ca; text-align: center; padding: 26px 0; }
 
+  /* Metrics worth highlighting — the auto-picked charts, each with the claim it proves. */
+  .hl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+          gap: 14px; margin-top: 14px; }
+  .hl-item { border: 1px solid var(--line); border-radius: 12px; padding: 12px 12px 10px;
+          display: flex; flex-direction: column; }
+  .hl-item .chart-box { width: 100%; margin: 2px 0 4px; }
+  .hl-tag { font-size: 10.5px; font-weight: 800; text-transform: uppercase;
+          letter-spacing: .05em; color: var(--accent); margin-bottom: 4px; }
+  .hl-why { font-size: 12px; line-height: 1.45; color: #5b6b7b; margin: 4px 0 0; }
+  @media (max-width: 600px) {
+    .hl-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .hl-item { padding: 9px 9px 8px; }
+    .hl-why { font-size: 11px; }
+  }
+  @media (max-width: 340px) { .hl-grid { grid-template-columns: 1fr; } }
+
   .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
   .empty .big { font-size: 44px; margin-bottom: 8px; }
   .err { background: #fff5f4; border: 1px solid #f2c0ba; color: #a3271b;
@@ -460,6 +476,7 @@
   :root[data-theme="dark"] table.projcard tr.toi td.metric { color: #b6c4d2; }
   :root[data-theme="dark"] table.projcard tr.toi td.pj { color: #cfe0ef; }
   :root[data-theme="dark"] table.projcard td.half { color: #8296a9; }
+  :root[data-theme="dark"] .hl-why { color: #a8b8c8; }
   :root[data-theme="dark"] .flag { background: #1b2530; }
   :root[data-theme="dark"] .flag.risk { background: #2a1a1a; }
   :root[data-theme="dark"] .flag.boost { background: #16261d; }
