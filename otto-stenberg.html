@@ -826,6 +826,33 @@
           color: var(--ink); }
   .pr-empty { font-size: 13px; color: var(--muted); padding: 10px 0; }
 
+  .tb-btns { display: flex; flex-wrap: wrap; gap: 5px; margin: 4px 0 18px; }
+  .tb-btn { font: 700 11px/1 ui-monospace,Menlo,monospace; padding: 7px 9px; cursor: pointer;
+          border-radius: 7px; border: 1px solid var(--line); background: transparent;
+          color: var(--muted); letter-spacing: .02em; }
+  .tb-btn:hover { border-color: var(--accent); color: var(--ink); }
+  .tb-btn.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .tb-team { font-weight: 700; font-size: 15px; margin-bottom: 10px; }
+  .tb-n { font-weight: 400; font-size: 11.5px; color: var(--muted); margin-left: 8px; }
+  .tb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px 18px; }
+  .tb-p { display: flex; gap: 8px; align-items: baseline; padding: 4px 0; font-size: 13.5px;
+          border-bottom: 1px solid var(--line); }
+  .tb-pos { font: 700 10px/1.6 ui-monospace,Menlo,monospace; color: var(--muted);
+          min-width: 22px; }
+
+  .lk-card { display: flex; gap: 16px; align-items: flex-start;
+          border: 1px dashed var(--line); background: transparent; }
+  .lk-ico { font-size: 22px; line-height: 1.2; }
+  .lk-body { flex: 1; }
+  .lk-h { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .lk-p { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 0 0 12px;
+          max-width: 60ch; }
+  .lk-soon { display: inline-block; font: 700 11px/1 inherit; letter-spacing: .04em;
+          text-transform: uppercase; padding: 7px 11px; border-radius: 999px;
+          background: var(--line); color: var(--muted); }
+  .lk-cta { display: inline-block; font-weight: 600; font-size: 13px; padding: 8px 14px;
+          border-radius: 8px; background: var(--accent); color: #fff; text-decoration: none; }
+
   .pl-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
   .pl-collab { font: 700 11px/1 inherit; text-transform: uppercase; letter-spacing: .06em;
           color: var(--muted); margin-bottom: 9px; }
@@ -868,6 +895,11 @@
     .mv-cols { grid-template-columns: 1fr; gap: 18px; }
     .pr-row { grid-template-columns: 26px minmax(0,1fr) 40px; gap: 8px; }
     .pr-bar { display: none; }
+    .tb-grid { grid-template-columns: 1fr; }
+    .lk-card { flex-direction: column; gap: 10px; }
+  }
+  @media (max-width: 860px) {
+    .tb-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   /* ---------- Policy pages + site footer ---------- */
