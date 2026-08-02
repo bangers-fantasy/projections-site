@@ -802,6 +802,9 @@
   .sf-copy { white-space: nowrap; }
   @media (max-width: 620px) {
     .sf-in { flex-direction: column; gap: 10px; padding: 18px 16px 22px; }
+    /* .sf-note's flex-basis is a WIDTH on the wide layout; once the container turns into a
+       column that same 320px becomes a HEIGHT and opens a large empty gap. */
+    .sf-note { flex: none; }
   }
 </style></head>
 <body>
