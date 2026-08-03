@@ -566,6 +566,39 @@
     .s-square .hb-tile span { font-size: 8.5px; margin: 2px 0 7px; }
   }
 
+  /* ---------- The square + its jump list ---------- */
+  /* The square keeps its own size (aspect-ratio gives it a definite height, so `stretch`
+     never squashes it); the list takes whatever width is left and matches its height. */
+  .sq-row { display: flex; flex-wrap: wrap; align-items: stretch; gap: 22px;
+          margin-bottom: 22px; }
+  .sq-row .share { flex: 0 1 520px; margin-bottom: 0; }
+  .toc { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column;
+          background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+          padding: 16px 20px 18px; box-shadow: var(--shadow); }
+  .toc-head { font-size: 11px; font-weight: 700; text-transform: uppercase;
+          letter-spacing: .08em; color: var(--muted); margin: 0 0 2px; }
+  .toc-list { flex: 1; display: flex; flex-direction: column; }
+  .toc-item { flex: 1 0 auto; display: flex; align-items: center; gap: 12px;
+          padding: 9px 0; border-top: 1px solid var(--line); text-decoration: none;
+          color: inherit; transition: color .12s; }
+  .toc-item:first-child { border-top: 0; }
+  .toc-item:hover, .toc-item:focus-visible { color: var(--accent); }
+  .toc-t { min-width: 0; }
+  .toc-t b { display: block; font-size: 14.5px; font-weight: 700; letter-spacing: -.01em; }
+  .toc-t span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .toc-go { margin-left: auto; flex: none; font-size: 16px; line-height: 1;
+          color: var(--muted); transition: transform .12s; }
+  .toc-item:hover .toc-go { color: var(--accent); transform: translateX(2px); }
+  @media (prefers-reduced-motion: reduce) {
+    .toc-item:hover .toc-go { transform: none; }
+  }
+  @media (max-width: 560px) {
+    .sq-row { gap: 16px; }
+    .toc { padding: 14px 16px 16px; }
+    .toc-item { padding: 8px 0; }
+    .toc-t b { font-size: 14px; }
+  }
+
   .hb-bio { font-size: 13px; font-weight: 600; color: #b9b6c0; margin: 18px 0 0;
           padding-top: 15px; border-top: 1px solid rgba(255,255,255,.10); }
   .hb-note { font-size: 12px; line-height: 1.5; color: #8f8c96; margin: 16px 0 0; }
