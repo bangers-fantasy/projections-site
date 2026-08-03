@@ -378,15 +378,20 @@
           padding: 16px 18px; border-radius: 12px; font-size: 15px; }
 
   /* ---------- HockeyBangers projection banner (the hero) ---------- */
-  .hb { border-radius: 18px; overflow: hidden; padding: 30px 34px 26px; margin-bottom: 22px;
+  /* The club primary rides in as --wash on the element, so the data colours can stay
+     fixed across every card and identity lives in the background instead. */
+  .hb { --wash: rgba(0,0,0,0); --cardline: rgba(245,81,121,.26);
+          border-radius: 18px; overflow: hidden; padding: 24px 30px 22px; margin-bottom: 22px;
           color: #f4f2f6; box-shadow: 0 10px 30px rgba(0,0,0,.30);
-          background: linear-gradient(135deg, #201f24 0%, #2b2833 55%, #232028 100%); }
+          background:
+            radial-gradient(120% 140% at 100% 0%, var(--wash) 0%, rgba(0,0,0,0) 62%),
+            linear-gradient(135deg, #201f24 0%, #2b2833 55%, #232028 100%); }
   .hb-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .14em;
-          text-transform: uppercase; color: #cbb98f; margin: 0 0 8px; }
-  .hb-title { font-size: 34px; font-weight: 800; letter-spacing: -.005em; line-height: 1.02;
-          text-transform: uppercase; margin: 0 0 6px; }
-  .hb-name { font-size: 26px; font-weight: 600; margin: 0 0 6px; }
-  .hb-sub { font-size: 14px; font-weight: 600; color: var(--muted); margin: 0 0 20px; }
+          text-transform: uppercase; color: #cbb98f; margin: 0 0 4px; }
+  .hb-title { font-size: 29px; font-weight: 800; letter-spacing: -.005em; line-height: 1.05;
+          text-transform: uppercase; margin: 0; }
+  .hb-name { font-size: 27px; font-weight: 600; line-height: 1.15; margin: 0 0 5px; }
+  .hb-sub { font-size: 14px; font-weight: 600; color: #9a97a2; margin: 0; }
   .team-link { color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor; }
   .team-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
   .wn { list-style: none; margin: 0; padding: 0; }
@@ -407,50 +412,133 @@
           font: 600 13px/1 sans-serif; cursor: pointer; padding: 12px 2px 0; }
   .wn-more:hover { background: transparent; text-decoration: underline; }
 
-  .hb-tiles { display: grid; grid-template-columns: repeat(4, minmax(0,1fr));
-          gap: 12px; margin-bottom: 14px; max-width: 640px; }
-  .hb-tile { background: rgba(255,255,255,.055); border-radius: 12px; padding: 12px 14px; }
-  .hb-tile b { display: block; font-size: 26px; font-weight: 800; line-height: 1.05;
+  /* ---------- Card header: masthead | ranks over player | scores ---------- */
+  /* 2 rows by 2 columns, so the rows align by structure rather than by 2 column heights
+     happening to match. */
+  .hb-head { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.5fr);
+          gap: 16px 22px; margin-bottom: 10px; align-items: stretch; }
+  .hb-head > * { min-width: 0; }
+  .hb-brand, .hb-who { display: flex; flex-direction: column; justify-content: center; }
+  .hb-ranks { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 34px; }
+  .hb-rank { display: flex; flex-direction: column; justify-content: center;
+          text-align: right; }
+  .hb-rank b { display: block; font-size: 20px; font-weight: 800; line-height: 1.15;
           font-variant-numeric: tabular-nums; }
-  .hb-tile span { font-size: 12.5px; color: #9a97a2; }
+  .hb-rank span { display: block; font-size: 10.5px; color: #9a97a2; margin-top: 1px;
+          white-space: nowrap; }
+  /* The hash is a marker, not part of the number. */
+  .hb-rank .hash { font-style: normal; font-size: .62em; color: #9a97a2;
+          margin-right: 1px; vertical-align: .14em; }
 
-  .hb-scores { display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
-          gap: 12px; margin-bottom: 16px; max-width: 640px; }
-  .hb-score { border-radius: 12px; padding: 12px 15px 14px; }
-  .hb-score b { display: block; font-size: 34px; font-weight: 800; line-height: 1.02;
+  .hb-strip { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+  .hb-tile { background: rgba(255,255,255,.055); border: 1px solid var(--cardline);
+          border-radius: 12px; padding: 9px 11px 10px; display: flex;
+          flex-direction: column; }
+  .hb-tile b { display: block; font-size: 21px; font-weight: 800; line-height: 1.05;
           font-variant-numeric: tabular-nums; }
-  .hb-score span { font-size: 14px; font-weight: 500; color: #d7d5da; }
-  .hb-score .hb-bar { margin-top: 10px; }
-  .hb-score.tot { background: rgba(230,211,163,.10); }
-  .hb-score.tot b { color: #e6d3a3; }
-  .hb-score.tot .hb-bar i { background: #e6d3a3; }
-  .hb-score.off { background: rgba(240,102,79,.12); }
-  .hb-score.off b { color: #f26b53; }
-  .hb-score.off .hb-bar i { background: #f26b53; }
-  .hb-score.per { background: rgba(95,147,198,.15); }
-  .hb-score.per b { color: #78acdc; }
-  .hb-score.per .hb-bar i { background: #78acdc; }
+  .hb-tile span { font-size: 10.5px; color: #9a97a2; margin: 1px 0 8px; }
+  /* Never padding on .hb-bar: the track paints the padding box while the fill renders in
+     the content box, so any padding drops the fill clean out of its own track. */
+  .hb-tile .hb-bar { margin-top: auto; height: 6px; }
+  .hb-tile.tot { background: color-mix(in srgb, #f55179 11%, transparent); }
+  .hb-tile.tot b { color: #f55179; }
+  .hb-tile.tot .hb-bar i { background: #f55179; }
+  .hb-tile.off { background: color-mix(in srgb, #eeb400 13%, transparent); }
+  .hb-tile.off b { color: #eeb400; }
+  .hb-tile.off .hb-bar i { background: #eeb400; }
+  .hb-tile.per { background: color-mix(in srgb, #9b6efa 16%, transparent); }
+  .hb-tile.per b { color: #9b6efa; }
+  .hb-tile.per .hb-bar i { background: #9b6efa; }
 
-  .hb-bar { height: 8px; border-radius: 999px; background: rgba(255,255,255,.13);
+  .hb-bar { height: 7px; border-radius: 999px; background: rgba(255,255,255,.13);
           overflow: hidden; }
   .hb-bar i { display: block; height: 100%; border-radius: 999px; }
 
-  .hb-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 660px; }
-  .hb-col { border-radius: 14px; padding: 15px 17px; display: grid; gap: 13px; }
-  .hb-col.off { background: rgba(150,52,42,.20); }
-  .hb-col.per { background: rgba(42,72,112,.24); }
-  .hb-col.off .hb-bar i { background: #f26b53; }
-  .hb-col.per .hb-bar i { background: #5f93c6; }
-  .hb-l { font-size: 14.5px; margin-bottom: 6px; color: #ecebef; }
-  .hb-row { display: flex; align-items: center; gap: 11px; }
-  .hb-row .hb-bar { flex: 1; }
-  .hb-v { font-size: 15px; font-weight: 700; min-width: 36px; text-align: right;
+  /* ---------- Panels ---------- */
+  .pnl { background: rgba(255,255,255,.045); border: 1px solid var(--cardline);
+          border-radius: 16px; padding: 15px 15px 14px; display: flex;
+          flex-direction: column; min-width: 0; }
+  .pnl-head { display: flex; align-items: baseline; justify-content: space-between;
+          gap: 8px; margin-bottom: 2px; }
+  .pnl-t { font-size: 13px; font-weight: 700; color: #ecebef; }
+  .pnl-tag { font: 700 9.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+          letter-spacing: .1em; text-transform: uppercase; color: #f55179; flex: none; }
+  .pnl-body { flex: 1; display: flex; flex-direction: column; justify-content: center;
+          padding-top: 10px; min-height: 0; }
+  .pnl.nohead .pnl-body { padding-top: 0; }
+  .hb-deckrow { margin-bottom: 12px; }
+
+  /* Categories as a strip: 8 across, code over value over a short bar. */
+  .hb-hstrip { display: grid; grid-template-columns: repeat(8, minmax(0,1fr));
+          gap: 14px; width: 100%; }
+  .hb-hcell { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .hb-hk { font: 700 9.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+          letter-spacing: .1em; color: #8f8c96; }
+  .hb-hk a, .hb-hk a.catjump { color: inherit; text-decoration: none; border-bottom: 0; }
+  .hb-hcell.off .hb-hk, .hb-hcell.off .hb-hk a { color: #eeb400; }
+  .hb-hcell.per .hb-hk, .hb-hcell.per .hb-hk a { color: #9b6efa; }
+  .hb-hv { font-size: 17px; font-weight: 800; color: #ecebef; line-height: 1.05;
+          font-variant-numeric: tabular-nums; margin-bottom: 3px; }
+  .hb-hcell.off .hb-bar i { background: #eeb400; }
+  .hb-hcell.per .hb-bar i { background: #9b6efa; }
+  .hb-hcell.tot .hb-bar i { background: #b6b3bd; }
+
+  /* Columns run 1 : 1.6 and the radar panel is square, so its width sets the row height
+     and the quadrant stretches to match. Equal heights by grid, not by arithmetic. */
+  .hb-grid { display: grid; grid-template-columns: minmax(0,.86fr) minmax(0,1.95fr);
+          gap: 14px; align-items: stretch; }
+  .pnl.sq .cr-hold { width: 100%; height: 100%; display: flex; align-items: center;
+          justify-content: center; }
+  .pnl.sq .cr-hold svg { width: 100%; height: auto; }
+  /* Absolute so the plot contributes no height of its own; otherwise it drives the row
+     and the square radar floats in a box far taller than it needs. */
+  .pnl.grow .pnl-body { position: relative; }
+  .pnl.grow .pnl-body > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .cr { display: block; overflow: visible; }
+  .cr-ring { fill: none; stroke: rgba(255,255,255,.10); stroke-width: 1; }
+  .cr-ring.mid { stroke: rgba(255,255,255,.22); stroke-dasharray: 3 3; }
+  .cr-spoke { stroke: rgba(255,255,255,.10); stroke-width: 1; }
+  .cr-shape { stroke-linejoin: round; stroke-width: 2; }
+  .cr-dot { stroke: #262330; stroke-width: 2; }
+  .cr-cat { font-size: 10px; font-weight: 800; letter-spacing: .04em; fill: #d7d5da; }
+  .cr-cat.off { fill: #eeb400; }
+  .cr-cat.per { fill: #9b6efa; }
+  .cr-val { font-size: 10px; font-weight: 700; fill: #8f8c96;
           font-variant-numeric: tabular-nums; }
-  .hb-note { font-size: 12.5px; line-height: 1.5; color: #8f8c96; margin: 20px 0 0; }
+
+  .cq { display: block; overflow: visible; }
+  .cq-frame { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 1; }
+  .cq-med { stroke: rgba(255,255,255,.34); stroke-width: 1; stroke-dasharray: 3 3; }
+  .cq-me { stroke: #262330; stroke-width: 2.5; }
+  .cq-axis { font-size: 9px; font-weight: 700; fill: #8f8c96; letter-spacing: .06em; }
+  .cq-quad { font-size: 11.5px; font-weight: 700; fill: rgba(255,255,255,.46);
+          letter-spacing: .03em; }
+  .cq-lab { font-size: 10px; font-weight: 800; fill: #ecebef; }
+
+  .hb-bio { font-size: 13px; font-weight: 600; color: #b9b6c0; margin: 18px 0 0;
+          padding-top: 15px; border-top: 1px solid rgba(255,255,255,.10); }
+  .hb-note { font-size: 12px; line-height: 1.5; color: #8f8c96; margin: 16px 0 0; }
+  .hb-note.read { color: #b9b6c0; margin: 10px 0 0; }
+  .hb-note.read b { color: #ecebef; font-variant-numeric: tabular-nums; }
+  .hb-bio + .hb-note.read { margin-top: 10px; }
+  .hb-note.read + .hb-note { margin-top: 10px; }
+
+  @media (max-width: 900px) {
+    .hb-grid { grid-template-columns: minmax(0,1fr); }
+    .hb-head { grid-template-columns: minmax(0,1fr); gap: 18px; }
+    .hb-ranks { justify-content: flex-start; gap: 26px; }
+    .hb-rank { text-align: left; }
+    .pnl.sq .cr-hold svg { max-height: none; }
+    .pnl.grow .pnl-body { position: static; }
+    .pnl.grow .pnl-body > svg { position: static; height: auto; }
+  }
+  @media (max-width: 760px) {
+    .hb-hstrip { grid-template-columns: repeat(4, 1fr); row-gap: 14px; }
+  }
   @media (max-width: 640px) {
-    .hb-tiles, .hb-scores { grid-template-columns: repeat(2, 1fr); }
-    .hb-stats { grid-template-columns: 1fr; }
-    .hb-title { font-size: 27px; }
+    .hb-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .hb-title { font-size: 25px; }
   }
 
   /* ---------- Dark mode (toggle in header; defaults to OS preference) ---------- */
@@ -735,12 +823,9 @@
     .proj-side { min-width: 0; flex-basis: 100%; }
 
     /* HockeyBangers banner: smaller type + padding on phones. */
-    .hb { padding: 22px 18px 20px; }
-    .hb-title { font-size: 25px; }
-    .hb-name { font-size: 22px; margin-bottom: 18px; }
-    .hb-tiles, .hb-scores { grid-template-columns: repeat(2, 1fr); }
-    .hb-stats { grid-template-columns: 1fr; }
-    .hb-score b { font-size: 30px; }
+    .hb { padding: 20px 16px 18px; }
+    .hb-title { font-size: 24px; }
+    .hb-name { font-size: 22px; }
 
     /* Six columns (projection, 2025-26, H1, H2, Prev 3) have to fit ~310px of content
        width or Prev 3 sits off-screen behind a scroll nobody looks for. Tighten the
@@ -773,7 +858,7 @@
     .chart-box, .chart-group-sub .chart-box { width: 100%; }
   }
   @media (max-width: 380px) {
-    .hb-tiles, .hb-scores { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .hb-strip { grid-template-columns: 1fr 1fr; gap: 8px; }
     .hb-title { font-size: 22px; }
   }
 
