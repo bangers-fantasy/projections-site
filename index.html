@@ -380,7 +380,7 @@
   /* ---------- HockeyBangers projection banner (the hero) ---------- */
   /* The club primary rides in as --wash on the element, so the data colours can stay
      fixed across every card and identity lives in the background instead. */
-  .hb { --wash: rgba(0,0,0,0); --cardline: rgba(245,81,121,.26);
+  .hb { --wash: rgba(0,0,0,0); --cardline: rgba(255,210,77,.26);
           border-radius: 18px; overflow: hidden; padding: 24px 30px 22px; margin-bottom: 22px;
           color: #f4f2f6; box-shadow: 0 10px 30px rgba(0,0,0,.30);
           background:
@@ -440,15 +440,15 @@
   /* Never padding on .hb-bar: the track paints the padding box while the fill renders in
      the content box, so any padding drops the fill clean out of its own track. */
   .hb-tile .hb-bar { margin-top: auto; height: 6px; }
-  .hb-tile.tot { background: color-mix(in srgb, #f55179 11%, transparent); }
-  .hb-tile.tot b { color: #f55179; }
-  .hb-tile.tot .hb-bar i { background: #f55179; }
-  .hb-tile.off { background: color-mix(in srgb, #eeb400 13%, transparent); }
-  .hb-tile.off b { color: #eeb400; }
-  .hb-tile.off .hb-bar i { background: #eeb400; }
-  .hb-tile.per { background: color-mix(in srgb, #9b6efa 16%, transparent); }
-  .hb-tile.per b { color: #9b6efa; }
-  .hb-tile.per .hb-bar i { background: #9b6efa; }
+  .hb-tile.tot { background: color-mix(in srgb, #FFD24D 11%, transparent); }
+  .hb-tile.tot b { color: #FFD24D; }
+  .hb-tile.tot .hb-bar i { background: #FFD24D; }
+  .hb-tile.off { background: color-mix(in srgb, #FF6B5E 13%, transparent); }
+  .hb-tile.off b { color: #FF6B5E; }
+  .hb-tile.off .hb-bar i { background: #FF6B5E; }
+  .hb-tile.per { background: color-mix(in srgb, #63B3F5 16%, transparent); }
+  .hb-tile.per b { color: #63B3F5; }
+  .hb-tile.per .hb-bar i { background: #63B3F5; }
 
   .hb-bar { height: 7px; border-radius: 999px; background: rgba(255,255,255,.13);
           overflow: hidden; }
@@ -462,7 +462,7 @@
           gap: 8px; margin-bottom: 2px; }
   .pnl-t { font-size: 13px; font-weight: 700; color: #ecebef; }
   .pnl-tag { font: 700 9.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-          letter-spacing: .1em; text-transform: uppercase; color: #f55179; flex: none; }
+          letter-spacing: .1em; text-transform: uppercase; color: #FFD24D; flex: none; }
   .pnl-body { flex: 1; display: flex; flex-direction: column; justify-content: center;
           padding-top: 10px; min-height: 0; }
   .pnl.nohead .pnl-body { padding-top: 0; }
@@ -475,12 +475,12 @@
   .hb-hk { font: 700 9.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
           letter-spacing: .1em; color: #8f8c96; }
   .hb-hk a, .hb-hk a.catjump { color: inherit; text-decoration: none; border-bottom: 0; }
-  .hb-hcell.off .hb-hk, .hb-hcell.off .hb-hk a { color: #eeb400; }
-  .hb-hcell.per .hb-hk, .hb-hcell.per .hb-hk a { color: #9b6efa; }
+  .hb-hcell.off .hb-hk, .hb-hcell.off .hb-hk a { color: #FF6B5E; }
+  .hb-hcell.per .hb-hk, .hb-hcell.per .hb-hk a { color: #63B3F5; }
   .hb-hv { font-size: 17px; font-weight: 800; color: #ecebef; line-height: 1.05;
           font-variant-numeric: tabular-nums; margin-bottom: 3px; }
-  .hb-hcell.off .hb-bar i { background: #eeb400; }
-  .hb-hcell.per .hb-bar i { background: #9b6efa; }
+  .hb-hcell.off .hb-bar i { background: #FF6B5E; }
+  .hb-hcell.per .hb-bar i { background: #63B3F5; }
   .hb-hcell.tot .hb-bar i { background: #b6b3bd; }
 
   /* Columns run 1 : 1.6 and the radar panel is square, so its width sets the row height
@@ -502,8 +502,8 @@
   .cr-shape { stroke-linejoin: round; stroke-width: 2; }
   .cr-dot { stroke: #262330; stroke-width: 2; }
   .cr-cat { font-size: 10px; font-weight: 800; letter-spacing: .04em; fill: #d7d5da; }
-  .cr-cat.off { fill: #eeb400; }
-  .cr-cat.per { fill: #9b6efa; }
+  .cr-cat.off { fill: #FF6B5E; }
+  .cr-cat.per { fill: #63B3F5; }
   .cr-val { font-size: 10px; font-weight: 700; fill: #8f8c96;
           font-variant-numeric: tabular-nums; }
 
@@ -515,6 +515,56 @@
   .cq-quad { font-size: 11.5px; font-weight: 700; fill: rgba(255,255,255,.46);
           letter-spacing: .03em; }
   .cq-lab { font-size: 10px; font-weight: 800; fill: #ecebef; }
+
+  /* ---------- The square that gets posted ---------- */
+  .share { --wash: rgba(0,0,0,0); width: 520px; max-width: 100%; aspect-ratio: 1 / 1;
+          border-radius: 20px; padding: 26px 26px 22px; margin-bottom: 22px; color: #f4f2f6;
+          display: flex; flex-direction: column; overflow: hidden;
+          box-shadow: 0 14px 40px rgba(0,0,0,.34);
+          background:
+            radial-gradient(130% 110% at 50% 4%, var(--wash) 0%, rgba(0,0,0,0) 64%),
+            linear-gradient(150deg, #201f24 0%, #2b2833 58%, #232028 100%); }
+  .sh-top { display: flex; align-items: flex-start; justify-content: space-between;
+          gap: 14px; }
+  .sh-eyebrow { font: 700 11px/1 -apple-system, BlinkMacSystemFont, sans-serif;
+          letter-spacing: .16em; text-transform: uppercase; color: #cbb98f; margin: 0; }
+  .sh-name { font-size: 26px; font-weight: 800; letter-spacing: -.015em; margin: 9px 0 4px;
+          line-height: 1.06; }
+  .sh-meta { font-size: 12.5px; font-weight: 600; color: #9a97a2; margin: 0; }
+  .sh-ranks { display: flex; gap: 16px; flex: none; }
+  .sh-rk { text-align: right; }
+  .sh-rk b { display: block; font-size: 26px; font-weight: 800; line-height: 1;
+          color: #FFD24D; font-variant-numeric: tabular-nums; }
+  .sh-rk span { font: 700 9.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+          letter-spacing: .1em; text-transform: uppercase; color: #8f8c96; }
+  .sh-plot { flex: 1; display: flex; align-items: center; justify-content: center;
+          min-height: 0; padding: 6px 0; }
+  .sh-plot svg { width: auto; height: 100%; max-width: 100%; }
+  .sh-cap { font-size: 10.5px; line-height: 1.45; color: #8f8c96; text-align: center;
+          margin: 0 0 12px; }
+  /* The card's own score tiles, sized down for a 520px crop. */
+  .s-square { margin-bottom: 0; gap: 9px; border-top: 1px solid rgba(255,255,255,.10);
+          padding-top: 14px; }
+  .s-square .hb-tile { background: none; border: 0; padding: 0; }
+  .s-square .hb-tile b { font-size: 23px; }
+  .s-square .hb-tile span { font: 700 9.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+          letter-spacing: .1em; text-transform: uppercase; color: #8f8c96; margin: 3px 0 9px; }
+  /* 2 classes so the 640px .hb-strip rule cannot win and wrap these to 2 rows, which
+     would eat the height the radar needs to stay legible inside a 1:1 crop. */
+  @media (max-width: 640px) {
+    .hb-strip.s-square { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 7px; }
+  }
+  @media (max-width: 560px) {
+    .share { padding: 18px 16px 16px; }
+    .sh-name { font-size: 20px; margin: 7px 0 3px; }
+    .sh-meta { font-size: 11.5px; }
+    .sh-rk b { font-size: 20px; }
+    .sh-ranks { gap: 12px; }
+    .sh-cap { font-size: 9.5px; margin-bottom: 9px; }
+    .s-square { padding-top: 10px; }
+    .s-square .hb-tile b { font-size: 18px; }
+    .s-square .hb-tile span { font-size: 8.5px; margin: 2px 0 7px; }
+  }
 
   .hb-bio { font-size: 13px; font-weight: 600; color: #b9b6c0; margin: 18px 0 0;
           padding-top: 15px; border-top: 1px solid rgba(255,255,255,.10); }
