@@ -853,6 +853,24 @@
   .lk-cta { display: inline-block; font-weight: 600; font-size: 13px; padding: 8px 14px;
           border-radius: 8px; background: var(--accent); color: #fff; text-decoration: none; }
 
+  /* Locked placeholders. These are EMPTY elements: the data they stand in for was never
+     rendered into the page, so there is nothing behind them to reveal. */
+  .lk-a, .lk-b { display: block; height: 9px; border-radius: 999px; background: var(--line); }
+  .lk-a { width: 62%; }
+  .lk-b { width: 26%; }
+  .dl-row.lk .dl-nm { display: flex; align-items: center; }
+  .dl-row.lk .lk-a { width: 78%; opacity: .75; }
+  .dl-foot.dl-lk { font-size: 11.5px; color: var(--muted); padding-top: 9px; }
+  .lk-inline { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.1fr);
+          gap: 26px; align-items: center; margin-top: 6px; }
+  .lk-rows { display: flex; flex-direction: column; gap: 11px; }
+  .lk-row { display: grid; grid-template-columns: 1fr 64px; gap: 12px; align-items: center; }
+  .lk-msg b { display: block; font-size: 13.5px; margin-bottom: 5px; }
+  .lk-msg span { display: block; font-size: 12.5px; line-height: 1.55; color: var(--muted);
+          margin-bottom: 10px; }
+  .lk-msg a { font-size: 12.5px; font-weight: 600; }
+  @media (max-width: 720px) { .lk-inline { grid-template-columns: 1fr; gap: 16px; } }
+
   .navbtn.pro { border: 1px solid rgba(255,255,255,.34); }
   .st-shot { margin: 4px 0 0; }
   .st-shot img { width: 100%; height: auto; display: block; border-radius: 10px;
