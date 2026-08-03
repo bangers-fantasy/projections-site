@@ -219,6 +219,40 @@
           outline-offset: 3px; border-radius: 3px; }
   .adjnote-cb:checked ~ .adjnote-more::after { content: "Hide \2191"; }
 
+  /* Profile rarity + scarcity medals (top of the makeup card) */
+  .rr { display: flex; gap: 22px; align-items: flex-start; flex-wrap: wrap;
+          padding-bottom: 22px; margin-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .rr-dial { flex: 0 0 142px; background: #f5f8fb; border: 1px solid var(--line);
+          border-radius: 14px; padding: 15px 13px; text-align: center; }
+  .rr-big { font-size: 42px; font-weight: 800; line-height: 1; letter-spacing: -.02em;
+          font-variant-numeric: tabular-nums; }
+  .rr-sup { font-size: 15px; font-weight: 700; vertical-align: 6px; color: var(--muted); }
+  .rr-lab { font-size: 10px; font-weight: 700; text-transform: uppercase;
+          letter-spacing: .06em; color: var(--muted); margin-top: 6px; }
+  .rr-scale { height: 6px; border-radius: 99px; margin-top: 11px; position: relative;
+          background: linear-gradient(90deg, #7a8a99 0%, #2b6cb0 60%, #b7791f 100%); }
+  .rr-scale i { position: absolute; top: -4px; width: 14px; height: 14px; border-radius: 99px;
+          background: var(--card); border: 3px solid var(--ink); transform: translateX(-50%); }
+  .rr-body { flex: 1 1 320px; min-width: 260px; }
+  .rr-head { font-size: 16.5px; font-weight: 800; margin: 0 0 5px; letter-spacing: -.01em;
+          color: #22303d; }
+  .rr-txt { font-size: 13.5px; margin: 0 0 15px; line-height: 1.55; color: var(--ink); }
+  .rr-mhead { font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+          letter-spacing: .06em; color: var(--muted); margin-bottom: 8px; }
+  .rr-medals { display: flex; gap: 10px; flex-wrap: wrap; }
+  .rr-medal { flex: 1 1 190px; min-width: 180px; background: #f5f8fb;
+          border: 1px solid var(--line); border-radius: 11px; padding: 11px 13px; }
+  .rr-medal.gold { border-color: #b7791f; background: #fdf6e6; }
+  .rr-mtop { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .rr-mname { font-size: 13px; font-weight: 800; letter-spacing: -.01em; color: #22303d; }
+  .rr-mof { margin-left: auto; font-size: 10px; font-weight: 800; letter-spacing: .05em;
+          text-transform: uppercase; color: #1c5fa8; background: #eaf2fb; padding: 3px 8px;
+          border-radius: 999px; white-space: nowrap; }
+  .rr-medal.gold .rr-mof { color: #fff; background: #b7791f; }
+  .rr-mwhy { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .rr-mnone { font-size: 12.5px; color: var(--muted); background: #f5f8fb;
+          border: 1px dashed var(--line); border-radius: 11px; padding: 11px 13px; }
+  @media (max-width: 640px) { .rr-dial { flex: 1 1 100%; } }
   /* Similar & complementary players box */
   .mk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
   .mk-head { font-size: 15px; font-weight: 800; color: #2b3f52; }
@@ -699,6 +733,14 @@
   :root[data-theme="dark"] .mk-badge { color: #8fc0f0; background: #16283a; }
   :root[data-theme="dark"] .mk-badge.cov { color: #7fd0a0; background: #16261d; }
   :root[data-theme="dark"] .rd-cell { background: #1b2530; }
+  :root[data-theme="dark"] .rr-dial { background: #1b2530; }
+  :root[data-theme="dark"] .rr-head { color: #eaf1f8; }
+  :root[data-theme="dark"] .rr-medal { background: #1b2530; }
+  :root[data-theme="dark"] .rr-medal.gold { border-color: #e0b256; background: #2a2113; }
+  :root[data-theme="dark"] .rr-mname { color: #dce6f0; }
+  :root[data-theme="dark"] .rr-mof { color: #8fc0f0; background: #16283a; }
+  :root[data-theme="dark"] .rr-medal.gold .rr-mof { color: #1b2733; background: #e0b256; }
+  :root[data-theme="dark"] .rr-mnone { background: #1b2530; }
   :root[data-theme="dark"] .rd-title { color: #dce6f0; }
   :root[data-theme="dark"] .rd-focal { fill: rgba(90,170,235,.26); stroke: #6fb0e8; }
   :root[data-theme="dark"] .rd-ref { fill: rgba(90,170,235,.13); stroke: rgba(120,180,235,.7); }
