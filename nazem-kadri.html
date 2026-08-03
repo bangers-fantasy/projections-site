@@ -1018,13 +1018,44 @@
           color: var(--ink); }
   .pr-empty { font-size: 13px; color: var(--muted); padding: 10px 0; }
 
+  /* ---------- Archetype strip (Players page) ---------- */
+  .ar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 4px; }
+  .ar-tile { --wash: rgba(0,0,0,0); display: flex; flex-direction: column; align-items: center;
+          text-align: center; gap: 2px; padding: 15px 12px 13px; border-radius: 14px;
+          text-decoration: none; color: #f4f2f6; overflow: hidden;
+          transition: transform .12s, box-shadow .12s;
+          background:
+            radial-gradient(120% 100% at 50% 0%, var(--wash) 0%, rgba(0,0,0,0) 62%),
+            linear-gradient(150deg, #201f24 0%, #2b2833 58%, #232028 100%);
+          box-shadow: inset 0 0 0 1px rgba(255,255,255,.07); }
+  .ar-tile:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16),
+          0 10px 26px rgba(0,0,0,.30); }
+  .ar-q { font: 700 9.5px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+          letter-spacing: .12em; text-transform: uppercase; color: #FFD24D; }
+  .ar-nm { font-size: 15.5px; font-weight: 800; letter-spacing: -.015em; margin-top: 7px; }
+  .ar-meta { font-size: 11.5px; font-weight: 600; color: #9a97a2; }
+  .ar-plot { display: block; width: 100%; margin: 4px 0 2px; }
+  /* Capped, not just fluid: a 1-column phone tile is ~340px wide, and letting a 190px
+     drawing fill it scales every label and stroke to nearly twice its intended size. */
+  .ar-plot svg { display: block; width: 100%; max-width: 230px; height: auto;
+          margin: 0 auto; }
+  .ar-tail { font-size: 11.5px; line-height: 1.45; color: #8f8c96; }
+  @media (max-width: 900px) { .ar-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .ar-grid { grid-template-columns: 1fr; } }
+
   .tb-btns { display: flex; flex-wrap: wrap; gap: 5px; margin: 4px 0 18px; }
   .tb-btn { font: 700 11px/1 ui-monospace,Menlo,monospace; padding: 7px 9px; cursor: pointer;
           border-radius: 7px; border: 1px solid var(--line); background: transparent;
           color: var(--muted); letter-spacing: .02em; }
+  /* --tb is the club's own primary, lifted to clear a contrast floor. It only paints the
+     hovered and selected states, so 32 codes at rest stay a quiet index. */
+  .tb-btn[style*="--tb"]:hover { border-color: var(--tb); color: var(--tb); }
   .tb-btn:hover { border-color: var(--accent); color: var(--ink); }
   .tb-btn.on { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .tb-team { font-weight: 700; font-size: 15px; margin-bottom: 10px; }
+  .tb-btn.on[style*="--tb"] { background: var(--tb); border-color: var(--tb); color: #14131a; }
+  .tb-team { font-weight: 700; font-size: 15px; margin-bottom: 10px;
+          padding-left: 11px; border-left: 4px solid var(--tb, var(--accent));
+          line-height: 1.3; }
   .tb-n { font-weight: 400; font-size: 11.5px; color: var(--muted); margin-left: 8px; }
   .tb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px 18px; }
   .tb-p { display: flex; gap: 8px; align-items: baseline; padding: 4px 0; font-size: 13.5px;
