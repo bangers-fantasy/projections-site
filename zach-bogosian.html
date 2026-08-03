@@ -972,11 +972,19 @@
   .hs-cell span { font-size: 11.5px; color: #9fb8cf; }
 
   .ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px; }
-  .ex-tile { display: block; padding: 15px 16px; border: 1px solid var(--line);
+  .ex-tile { display: flex; align-items: flex-start; gap: 14px;
+          padding: 15px 16px; border: 1px solid var(--line);
           border-radius: 12px; text-decoration: none; background: var(--card);
           transition: border-color .12s, transform .12s; }
   .ex-tile:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .ex-ico { font-size: 20px; line-height: 1; display: block; margin-bottom: 8px; }
+  /* The glyph sits on the player card's own ground, which is the surface the card
+     palette was contrast-checked against, so it reads the same in either theme. */
+  .ex-ico { flex: none; width: 58px; height: 58px; border-radius: 13px;
+          display: flex; align-items: center; justify-content: center;
+          background: linear-gradient(150deg, #201f24 0%, #2b2833 58%, #232028 100%);
+          box-shadow: inset 0 0 0 1px rgba(255,255,255,.07); }
+  .ex-ico svg { display: block; overflow: visible; }
+  .ex-txt { min-width: 0; }
   .ex-tile b { display: block; font-size: 15px; color: var(--ink); margin-bottom: 4px; }
   .ex-d { display: block; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
 
