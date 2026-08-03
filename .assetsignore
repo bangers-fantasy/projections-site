@@ -1,0 +1,12 @@
+# Files in site/ that must NOT be uploaded as public static assets.
+# Same syntax as .gitignore. Wrangler skips anything matching a line here.
+#
+# .git is the important one: Cloudflare builds from a clone, so without this the whole
+# repository history would be served at /.git/ alongside the site.
+.git
+.assetsignore
+wrangler.toml
+
+# GitHub Pages' custom-domain marker. Kept in the repo because it is the rollback path
+# back to GitHub, but it is not part of the site.
+CNAME
