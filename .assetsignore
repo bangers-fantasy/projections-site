@@ -4,9 +4,18 @@
 # .git is the important one: Cloudflare builds from a clone, so without this the whole
 # repository history would be served at /.git/ alongside the site.
 .git
+.gitignore
 .assetsignore
 wrangler.toml
 
 # GitHub Pages' custom-domain marker. Kept in the repo because it is the rollback path
 # back to GitHub, but it is not part of the site.
 CNAME
+
+# macOS Finder droppings. .DS_Store was being served at https://hockeybangers.com/.DS_Store
+# (200, 6 KB): it is a directory index, so it hands over file names — including any draft or
+# unpublished page sitting in the folder — and it is one of the first paths a scanner asks
+# for. Deleted from the repo as well as ignored here.
+.DS_Store
+._*
+Thumbs.db

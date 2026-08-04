@@ -1,0 +1,10 @@
+# site/ is its own repository (bangers-fantasy/projections-site) and the parent's
+# .gitignore does NOT reach into it, which is how .DS_Store came to be committed here on
+# 2026-07-15 and then served at https://hockeybangers.com/.DS_Store.
+#
+# .assetsignore is what stops these being SERVED; this is what stops them being committed.
+# Both, because either one alone leaves a hole: a file wrangler skips can still sit in a
+# public GitHub repo, and a file git ignores can still be uploaded from the working copy.
+.DS_Store
+._*
+Thumbs.db
