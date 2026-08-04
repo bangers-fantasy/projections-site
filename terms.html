@@ -777,6 +777,17 @@
   .navdiv { width: 1px; align-self: stretch; margin: 6px 8px; background: rgba(255,255,255,.16); }
   a.brandlink { text-decoration: none; color: inherit; }
 
+  /* ---------- unlocked vs locked ----------
+     The shared unlock module stamps data-pro on <html>, and every surface that changes
+     for a buyer keys off it here rather than reaching into the DOM. `.proonly` is the
+     paid nav and the account panel; `.freeonly` is the pitch and the locked teasers that
+     stand in for them. Neither hides anything secret: the payload is not in the page at
+     all until it is decrypted, so this is layout, not security. */
+  .proonly { display: none !important; }
+  :root[data-pro="open"] .proonly { display: revert !important; }
+  :root[data-pro="open"] a.navbtn.proonly { display: inline-flex !important; }
+  :root[data-pro="open"] .freeonly { display: none !important; }
+
   /* ---------- Compare view ---------- */
   .cmp-lead-in { margin: 0 0 18px; color: var(--muted); font-size: 14px; max-width: 60ch; }
   .cmp-slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -1212,6 +1223,19 @@
   .st-appwrap { margin: 0 0 18px; }
   .st-frame { width: 100%; height: 88vh; min-height: 620px; border: 1px solid var(--line);
           border-radius: 12px; background: #fff; display: block; }
+  /* The two tool pages give the studio the whole width. It carries its own two-column
+     layout, its own scrolling and a table many columns wide, so the site's 1120px reading
+     measure only squeezes it. */
+  .wrap.tool-wide { max-width: 1560px; }
+  .tool-frame { height: calc(100vh - var(--hdr-h, 150px) - 40px); min-height: 560px;
+          margin-bottom: 14px; }
+  .tool-boot { font-size: 13px; color: var(--muted); padding: 40px 0; text-align: center; }
+  .st-acct { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+          margin-top: 14px; }
+  .st-acct .lk-pill { margin: 0; }
+  .st-out { font: 600 12.5px/1 inherit; color: var(--muted); background: none; border: 0;
+          padding: 6px 2px; cursor: pointer; text-decoration: underline; }
+  .st-out:hover { color: var(--ink); }
   @media (max-width: 900px) {
     .cr-split { grid-template-columns: 1fr; gap: 22px; }
     .st-feats { grid-template-columns: 1fr 1fr; }
@@ -1312,6 +1336,9 @@
       <a class="navbtn" href="method">Method</a>
       <a class="navbtn" href="report-card">Report Card</a>
       <a class="navbtn pro" href="draft-tools">Draft Tools</a>
+      <a class="navbtn pro proonly" href="rankings">Rankings</a>
+      <a class="navbtn pro proonly" href="draft-board">Draft Board</a>
+      <a class="navbtn pro proonly" href="compare">Compare</a>
       <span class="navdiv"></span>
       <button type="button" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode" onclick="var r=document.documentElement,t=r.getAttribute('data-theme')==='dark'?'light':'dark';r.setAttribute('data-theme',t);try{localStorage.setItem('theme',t);}catch(e){}">&#9789;</button>
     </nav>
@@ -1414,5 +1441,116 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   document.addEventListener('click',function(e){if(!form.contains(e.target))close();});
 })();
 </script>
+
+<script>
+(function(){
+  // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
+  var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
+  var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
+  var SRC = "locked/pro.enc?v=3bff2ce5e9d4";
+  var subs = [], data = null, state = "locked", pending = null;
+
+  // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
+  // off it, and each gated block registers a hydrator through onOpen below.
+  function emit(){
+    document.documentElement.setAttribute("data-pro", state);
+    if(state !== "open") return;
+    var queue = subs; subs = [];
+    queue.forEach(function(fn){ try{ fn(data); }catch(e){} });
+  }
+
+  function b64(s){ var raw = atob(s), a = new Uint8Array(raw.length);
+    for(var i=0;i<raw.length;i++) a[i] = raw.charCodeAt(i); return a; }
+
+  async function unpack(buf){
+    // gzip is undone in the browser so the download is ~4x smaller. DecompressionStream
+    // needs Chrome 80 / Safari 16.4 / Firefox 113; older browsers land in the catch below.
+    var ds = new DecompressionStream("gzip");
+    var stream = new Blob([buf]).stream().pipeThrough(ds);
+    return new Uint8Array(await new Response(stream).arrayBuffer());
+  }
+
+  async function fetchPayload(pw){
+    var res = await fetch(SRC, {cache:"force-cache"});
+    if(!res.ok) throw new Error("payload");
+    var all = b64((await res.text()).trim());
+    var salt = all.slice(0, SALT), iv = all.slice(SALT, SALT+IV),
+        body = all.slice(SALT+IV);                 // ciphertext||tag, as WebCrypto wants
+
+    var base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw),
+                 "PBKDF2", false, ["deriveKey"]);
+    var key = await crypto.subtle.deriveKey(
+      {name:"PBKDF2", salt:salt, iterations:ITER, hash:"SHA-256"},
+      base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+
+    var plain = await unpack(await crypto.subtle.decrypt({name:"AES-GCM", iv:iv}, key, body));
+    var text = new TextDecoder().decode(plain);
+    // A known header at the front of the plaintext. Without it a wrong password yields
+    // garbage that looks like success until something else falls over.
+    if(text.slice(0, MAGIC.length) !== MAGIC) throw new Error("password");
+    return JSON.parse(text.slice(MAGIC.length));
+  }
+
+  function unlock(pw, remember){
+    if(state === "open") return Promise.resolve(true);
+    if(pending) return pending;                    // 2 blocks asking at once share one fetch
+    state = "opening"; emit();
+    pending = fetchPayload(pw).then(function(d){
+      data = d; state = "open"; pending = null;
+      // Private browsing throws here. The unlock still holds for this page, it just will
+      // not survive a reload, which is better than refusing to open at all.
+      if(remember !== false){ try{ localStorage.setItem(KEY, pw); }catch(e){} }
+      emit();
+      return true;
+    }).catch(function(err){
+      pending = null; state = "locked"; emit();
+      // A stored password that no longer works (rotated payload) clears itself rather
+      // than failing quietly on every page for the rest of the season.
+      try{ localStorage.removeItem(KEY); }catch(e){}
+      throw err;
+    });
+    return pending;
+  }
+
+  window.HBPro = {
+    get state(){ return state; },
+    get data(){ return data; },
+    unlock: unlock,
+    // Python's round(), not JavaScript's. They differ on exact halves — Python sends them
+    // to the nearest EVEN integer, Math.round always sends them up — and every score a
+    // hydrator prints sits next to one Python rounded. Without this, a neighbour on a card
+    // ladder could read 161 while his own card reads 160.
+    round: function(x){
+      var f = Math.floor(x), d = x - f;
+      if(d > 0.5) return f + 1;
+      if(d < 0.5) return f;
+      return (f % 2 === 0) ? f : f + 1;
+    },
+    // Registers a hydrator. Fires straight away when the payload is already in hand, so a
+    // block that registers late never misses the event.
+    onOpen: function(fn){
+      if(state === "open"){ try{ fn(data); }catch(e){} } else subs.push(fn);
+    },
+    signOut: function(){
+      try{ localStorage.removeItem(KEY); }catch(e){}
+      window.location.reload();
+    },
+    reason: function(err){
+      if(err && err.message === "payload")
+        return "The locked file couldn't be loaded. Try again.";
+      if(!window.DecompressionStream)
+        return "This browser is too old to open Draft Tools. Try a current Chrome, Safari or Firefox.";
+      return "That password didn't work.";
+    }
+  };
+
+  var saved; try{ saved = localStorage.getItem(KEY); }catch(e){}
+  // Silent on failure: this is the automatic re-open on a page the buyer just navigated
+  // to, not a password they typed, so there is no form to put an error beside.
+  if(saved) unlock(saved).catch(function(){});
+  else emit();
+})();
+</script>
+
 <footer class="sitefoot"><div class="sf-in"><div class="sf-links"><a href="terms">Terms</a><a href="privacy">Privacy</a><a href="refund">Refunds</a></div><div class="sf-note">Projections are estimates. No affiliation with the NHL, the NHLPA, or any NHL club.</div><div class="sf-copy">&copy; 2026 Hockey Bangers</div></div></footer>
 </body></html>
