@@ -1345,6 +1345,25 @@
   .uw-mail:hover { text-decoration: underline; }
   .uw-contact span { display: block; font-size: 13px; line-height: 1.55;
           color: var(--muted); }
+  /* Contact form. The honeypot has to be genuinely invisible AND out of the tab order:
+     `display:none` is what naive bots look for to skip a field, so move it off-screen
+     instead and let them fill it. */
+  .ct-hp { position: absolute; left: -9999px; width: 1px; height: 1px;
+          overflow: hidden; }
+  .ct-h2 { font-size: 18px; margin: 26px 0 4px; letter-spacing: -.01em; }
+  .ct-form { display: flex; flex-direction: column; gap: 14px; max-width: 560px;
+          margin-top: 14px; position: relative; }
+  .ct-f { display: flex; flex-direction: column; gap: 6px; }
+  .ct-f span { font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+          letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .ct-f input, .ct-f textarea { font: 400 15px/1.5 inherit; padding: 11px 13px;
+          border-radius: 9px; border: 1px solid var(--line); background: var(--card);
+          color: var(--ink); width: 100%; }
+  .ct-f input:focus, .ct-f textarea:focus { outline: none; border-color: var(--accent);
+          box-shadow: 0 0 0 3px rgba(43,108,176,.14); }
+  .ct-f textarea { resize: vertical; min-height: 120px; }
+  .ct-form .st-btn { align-self: flex-start; padding: 11px 24px; font-size: 15px; }
+  .ct-fine { font-size: 12.5px; line-height: 1.55; color: var(--muted); margin: 0; }
   .uw-sign { font-size: 13.5px; line-height: 1.65; color: var(--muted);
           margin: 20px 0 0; padding-top: 16px; border-top: 1px solid var(--line); }
   .uw-sign a { color: var(--accent); }
@@ -1498,7 +1517,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=f7617870a51d";
+  var SRC = "locked/pro.enc?v=416d17bc50e7";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -1702,5 +1721,5 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   document.addEventListener('click',function(e){if(!form.contains(e.target))close();});
 })();
 </script>
-<footer class="sitefoot"><div class="sf-in"><div class="sf-links"><a href="terms">Terms</a><a href="privacy">Privacy</a><a href="refund">Refunds</a></div><div class="sf-note">Projections are estimates. No affiliation with the NHL, the NHLPA, or any NHL club.</div><div class="sf-copy">&copy; 2026 Hockey Bangers</div></div></footer>
+<footer class="sitefoot"><div class="sf-in"><div class="sf-links"><a href="contact">Contact</a><a href="terms">Terms</a><a href="privacy">Privacy</a><a href="refund">Refunds</a></div><div class="sf-note">Projections are estimates. No affiliation with the NHL, the NHLPA, or any NHL club.</div><div class="sf-copy">&copy; 2026 Hockey Bangers</div></div></footer>
 </body></html>
