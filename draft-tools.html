@@ -797,6 +797,12 @@
           color: #c6d8ea; border-radius: 8px; transition: background .12s, color .12s; }
   .navbtn:hover { background: rgba(255,255,255,.10); color: #fff; }
   .navbtn.on { background: rgba(255,255,255,.15); color: #fff; }
+  /* The 3 paid tools are children of Draft Tools, not siblings of Players and Lines: that
+     page is where they are bought and where a buyer's account lives. Indented under it,
+     with a rule down the left so the grouping survives when the pill highlights. */
+  .navbtn.sub { margin-left: 12px; padding-left: 14px; font-size: 13.5px;
+          border-left: 2px solid rgba(255,255,255,.16); border-radius: 0 8px 8px 0; }
+  .navbtn.sub:hover, .navbtn.sub.on { border-left-color: var(--accent); }
   .navdiv { height: 1px; margin: 6px 8px; background: rgba(255,255,255,.16); }
   a.brandlink { text-decoration: none; color: inherit; }
 
@@ -1212,6 +1218,10 @@
   .dl-foot.dl-lk { display: flex; flex-wrap: wrap; gap: 9px 12px; align-items: center;
           font-size: 11.5px; color: var(--muted); padding-top: 11px; }
   .dl-foot.dl-lk p { margin: 0; flex: 1 1 190px; }
+  /* Buyers only: the ladder ranks him our way, this is the way out to their own. */
+  .dl-mine { display: inline-block; margin-top: 9px; font-size: 12px; font-weight: 600;
+          color: var(--accent); text-decoration: none; }
+  .dl-mine:hover { text-decoration: underline; }
 
   .lk-inline { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.1fr);
           gap: 26px; align-items: center; margin-top: 6px; }
@@ -1247,18 +1257,36 @@
           border: 0; background: var(--accent); color: #fff; }
   .st-msg { font-size: 12.5px; color: var(--muted); margin-top: 10px; min-height: 1em; }
   .st-msg.bad { color: #d4644a; }
-  .st-appwrap { margin: 0 0 18px; }
-  .st-frame { width: 100%; height: 88vh; min-height: 620px; border: 1px solid var(--line);
-          border-radius: 12px; background: #fff; display: block; }
   /* The two tool pages give the studio the whole width. It carries its own two-column
-     layout, its own scrolling and a table many columns wide, so the site's 1120px reading
-     measure only squeezes it. */
+     layout and a table many columns wide, so the site's 1120px reading measure only
+     squeezes it. */
   .wrap.tool-wide { max-width: 1560px; }
-  .tool-frame { height: calc(100vh - var(--hdr-h, 150px) - 40px); min-height: 560px;
-          margin-bottom: 14px; }
-  .tool-boot { font-size: 13px; color: var(--muted); padding: 40px 0; text-align: center; }
+  /* The studio is grafted into the page, not framed. build_pro.py scopes its whole
+     stylesheet to this id, so everything inside is its own and all this does is draw the
+     edge. No border-radius and no overflow, on purpose: `overflow` in any form except
+     `visible` makes this box the nearest scrollport, and the studio's sticky sidebar would
+     stop sticking to the page. */
+  #banger-studio { border: 1px solid var(--line); margin-bottom: 14px; }
+  /* Shown only while the payload decrypts. It cannot live inside the mount: `opening`
+     hides .proonly AND .freeonly, so a returning buyer would watch a blank page. */
+  .tool-boot { display: none; font-size: 13px; color: var(--muted); padding: 60px 0;
+          text-align: center; }
+  :root[data-pro="opening"] .tool-boot { display: block; }
+  /* The buyer's hub: one door per tool, each big enough to say what it is for. */
+  .st-tools { display: grid; gap: 12px; margin-top: 20px;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .st-tool { display: flex; flex-direction: column; gap: 7px; padding: 18px 18px 16px;
+          border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
+          text-decoration: none; color: inherit;
+          transition: border-color .12s, transform .12s; }
+  .st-tool:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .st-tool b { font-size: 16px; letter-spacing: -.01em; }
+  .st-tool span { font-size: 13.5px; color: var(--muted); line-height: 1.5; flex: 1; }
+  .st-tool em { font-style: normal; font-size: 13px; font-weight: 600;
+          color: var(--accent); }
   .st-acct { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
-          margin-top: 14px; }
+          margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .st-note { font-size: 12.5px; color: var(--muted); }
   .st-acct .lk-pill { margin: 0; }
   .st-out { font: 600 12.5px/1 inherit; color: var(--muted); background: none; border: 0;
           padding: 6px 2px; cursor: pointer; text-decoration: underline; }
@@ -1367,9 +1395,9 @@
         <a class="navbtn" href="report-card">Report Card</a>
         <span class="navdiv"></span>
         <a class="navbtn pro on" href="draft-tools">Draft Tools</a>
-        <a class="navbtn pro proonly" href="rankings">Rankings</a>
-        <a class="navbtn pro proonly" href="draft-board">Draft Board</a>
-        <a class="navbtn pro proonly" href="compare">Compare</a>
+        <a class="navbtn sub proonly" href="rankings">Custom Rankings</a>
+        <a class="navbtn sub proonly" href="draft-board">Draft Board</a>
+        <a class="navbtn sub proonly" href="compare">Compare</a>
       </nav>
       <noscript><style>
         /* The panel is a JS dropdown. Without JS it would be a nav nobody can open, so
@@ -1406,7 +1434,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=4c64a46a1c66";
+  var SRC = "locked/pro.enc?v=08f5c033d2c8";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -1511,7 +1539,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
 })();
 </script>
 
-<div class="wrap"><div class="card proonly"><div class="eyebrow">Your access</div><h1 class="cr-h1">Draft Tools are open</h1><p class="cr-lede">This browser holds your season password, so Rankings, Draft Board and Compare are all in the menu above. The Positional ranking block on a player card and Fantasy rank on the Lines page fill themselves in too.</p><div class="st-acct"><a class="lk-pill" href="rankings">Custom Rankings</a><a class="lk-pill" href="draft-board">Draft Board</a><a class="lk-pill" href="compare">Compare</a><button type="button" class="st-out" id="st-out">Forget the password on this browser</button></div></div><div class="card cr-top freeonly"><div class="cr-split"><div class="cr-pitch"><h1 class="cr-h1">Custom Draft Tools</h1><p class="cr-lede">The free site ranks skaters the way our league counts them. Yours almost certainly counts them differently, and that changes who is worth drafting. Draft Tools rescores all 876 projected skaters against your settings, then gives you the tools to draft off them: side-by-side compares, a live draft board, and the whole projection set as a CSV.</p><p class="st-buy"><span class="lk-soon">Coming soon</span> Access opens for the 2026-27 season.</p></div><div class="cr-gate" id="st-gate"><div class="eyebrow">Already have a password?</div><p class="cr-gsub">Enter it once and this browser remembers it for the season, on every page.</p><div class="st-row"><input type="password" id="st-pw" class="st-in" placeholder="Season password" autocomplete="off" autocapitalize="off" autocorrect="false" spellcheck="false"><button type="button" id="st-go" class="st-btn">Unlock</button></div><div class="st-msg" id="st-msg"></div></div></div><div class="st-feats"><div class="st-f"><b>Custom rankings</b><span>Score every skater on the categories your league actually counts, and drop the ones it does not.</span></div><div class="st-f"><b>Your roster shape</b><span>Replacement level comes from your league&rsquo;s size, starting slots and bench, so a 3rd center is priced like one.</span></div><div class="st-f"><b>Compare</b><span>4 or more skaters side by side on their whole projected line, with the leader in each category called out.</span></div><div class="st-f"><b>Draft board</b><span>A live board for draft night that keeps up as picks come off it.</span></div><div class="st-f"><b>Value over replacement</b><span>Every player measured against the best skater still sitting on your waiver wire.</span></div><div class="st-f"><b>CSV export</b><span>Take the whole projection set out and draft from it wherever you like.</span></div></div></div><div class="card freeonly"><div class="eyebrow">The controls</div><figure class="st-shot"><img src="img/custom-rankings.webp" width="1400" height="819" loading="lazy" alt="The settings panel. On the left, a league preset, a scoring-format toggle for head-to-head, roto or points, team and week counts, and boxes for every starting roster slot including C, LW, RW, D, F, UTIL and bench. On the right, 17 category checkboxes each with its own weight slider. A blue Export CSV button sits below."><figcaption>17 categories, each with a weight you can move. Set the roster your league actually uses and the board rebuilds as you type.</figcaption></figure></div><div class="card freeonly"><div class="eyebrow">Draft night</div><figure class="st-shot"><img src="img/draft-board.webp" width="1075" height="380" loading="lazy" alt="The draft board part way through a draft. Down the left, the draft seat and a roster filling in slot by slot with 3 players taken. Across the top, tiles for the current pick, your next pick and how many picks away it is. Every row carries buttons to mark a player as yours, as gone, or to add him to a shortlist, and the ranked board fades out below them."><figcaption>Mark a player gone as the room takes him, mark the ones you take yourself, and the rest keeps up. Your roster fills by slot, the clock counts down to your next pick, and the category balance shows what you&rsquo;re still light on. The ranked board is faded here because it&rsquo;s the part behind the password.</figcaption></figure></div><div class="card freeonly"><div class="eyebrow">Compare</div><figure class="st-shot"><img src="img/compare-tool.webp" width="1070" height="815" loading="lazy" alt="The compare tool. Connor McDavid, Nathan MacKinnon, Brady Tkachuk and Nikita Kucherov plotted together on a 7-axis radar covering goals, assists, PP points, shots, hits, blocks and penalty minutes, each axis scaled to the leader among them, with a colour key underneath."><figcaption>Put 4 or more skaters on one radar, each axis scaled to the best of them. Hits, blocks and penalty minutes all count <em>up</em> in a banger league, so the shape says who wins which category before you read a single number.</figcaption></figure></div>
+<div class="wrap"><div class="eyebrow proonly">Draft Tools</div><div class="card proonly st-hub"><h1 class="cr-h1">Your draft tools are open</h1><p class="cr-lede">This browser remembers your season password, so all 3 tools sit under Draft Tools in the menu, and the Positional ranking block on a player card and Fantasy rank on the Lines page fill themselves in as you go.</p><div class="st-tools"><a class="st-tool" href="rankings"><b>Custom Rankings</b><span>Every projected skater rescored on the categories your league counts, against the roster it starts and the waiver wire you would actually replace him from.</span><em>Open the rankings &rarr;</em></a><a class="st-tool" href="draft-board"><b>Draft Board</b><span>The same board, for the room. Mark players gone as they go, mark the ones you take, and watch your roster fill and your weak categories show up.</span><em>Open the board &rarr;</em></a><a class="st-tool" href="compare"><b>Compare</b><span>Up to 4 skaters side by side on their whole projected line, with the leader in each category called out.</span><em>Compare skaters &rarr;</em></a></div><div class="st-acct"><span class="st-note">Signed in on this browser.</span><button type="button" class="st-out" id="st-out">Forget the password on this browser</button></div></div><div class="card cr-top freeonly"><div class="cr-split"><div class="cr-pitch"><h1 class="cr-h1">Custom Draft Tools</h1><p class="cr-lede">The free site ranks skaters the way our league counts them. Yours almost certainly counts them differently, and that changes who is worth drafting. Draft Tools rescores all 876 projected skaters against your settings, then gives you the tools to draft off them: side-by-side compares, a live draft board, and the whole projection set as a CSV.</p><p class="st-buy"><span class="lk-soon">Coming soon</span> Access opens for the 2026-27 season.</p></div><div class="cr-gate" id="st-gate"><div class="eyebrow">Already have a password?</div><p class="cr-gsub">Enter it once and this browser remembers it for the season, on every page.</p><div class="st-row"><input type="password" id="st-pw" class="st-in" placeholder="Season password" autocomplete="off" autocapitalize="off" autocorrect="false" spellcheck="false"><button type="button" id="st-go" class="st-btn">Unlock</button></div><div class="st-msg" id="st-msg"></div></div></div><div class="st-feats"><div class="st-f"><b>Custom rankings</b><span>Score every skater on the categories your league actually counts, and drop the ones it does not.</span></div><div class="st-f"><b>Your roster shape</b><span>Replacement level comes from your league&rsquo;s size, starting slots and bench, so a 3rd center is priced like one.</span></div><div class="st-f"><b>Compare</b><span>4 or more skaters side by side on their whole projected line, with the leader in each category called out.</span></div><div class="st-f"><b>Draft board</b><span>A live board for draft night that keeps up as picks come off it.</span></div><div class="st-f"><b>Value over replacement</b><span>Every player measured against the best skater still sitting on your waiver wire.</span></div><div class="st-f"><b>CSV export</b><span>Take the whole projection set out and draft from it wherever you like.</span></div></div></div><div class="card freeonly"><div class="eyebrow">The controls</div><figure class="st-shot"><img src="img/custom-rankings.webp" width="1400" height="819" loading="lazy" alt="The settings panel. On the left, a league preset, a scoring-format toggle for head-to-head, roto or points, team and week counts, and boxes for every starting roster slot including C, LW, RW, D, F, UTIL and bench. On the right, 17 category checkboxes each with its own weight slider. A blue Export CSV button sits below."><figcaption>17 categories, each with a weight you can move. Set the roster your league actually uses and the board rebuilds as you type.</figcaption></figure></div><div class="card freeonly"><div class="eyebrow">Draft night</div><figure class="st-shot"><img src="img/draft-board.webp" width="1075" height="380" loading="lazy" alt="The draft board part way through a draft. Down the left, the draft seat and a roster filling in slot by slot with 3 players taken. Across the top, tiles for the current pick, your next pick and how many picks away it is. Every row carries buttons to mark a player as yours, as gone, or to add him to a shortlist, and the ranked board fades out below them."><figcaption>Mark a player gone as the room takes him, mark the ones you take yourself, and the rest keeps up. Your roster fills by slot, the clock counts down to your next pick, and the category balance shows what you&rsquo;re still light on. The ranked board is faded here because it&rsquo;s the part behind the password.</figcaption></figure></div><div class="card freeonly"><div class="eyebrow">Compare</div><figure class="st-shot"><img src="img/compare-tool.webp" width="1070" height="815" loading="lazy" alt="The compare tool. Connor McDavid, Nathan MacKinnon, Brady Tkachuk and Nikita Kucherov plotted together on a 7-axis radar covering goals, assists, PP points, shots, hits, blocks and penalty minutes, each axis scaled to the leader among them, with a colour key underneath."><figcaption>Put 4 or more skaters on one radar, each axis scaled to the best of them. Hits, blocks and penalty minutes all count <em>up</em> in a banger league, so the shape says who wins which category before you read a single number.</figcaption></figure></div>
 <script>
 (function(){
   // The password box on the Draft Tools page. The crypto lives in the shared module

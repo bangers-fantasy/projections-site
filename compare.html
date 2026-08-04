@@ -797,6 +797,12 @@
           color: #c6d8ea; border-radius: 8px; transition: background .12s, color .12s; }
   .navbtn:hover { background: rgba(255,255,255,.10); color: #fff; }
   .navbtn.on { background: rgba(255,255,255,.15); color: #fff; }
+  /* The 3 paid tools are children of Draft Tools, not siblings of Players and Lines: that
+     page is where they are bought and where a buyer's account lives. Indented under it,
+     with a rule down the left so the grouping survives when the pill highlights. */
+  .navbtn.sub { margin-left: 12px; padding-left: 14px; font-size: 13.5px;
+          border-left: 2px solid rgba(255,255,255,.16); border-radius: 0 8px 8px 0; }
+  .navbtn.sub:hover, .navbtn.sub.on { border-left-color: var(--accent); }
   .navdiv { height: 1px; margin: 6px 8px; background: rgba(255,255,255,.16); }
   a.brandlink { text-decoration: none; color: inherit; }
 
@@ -1212,6 +1218,10 @@
   .dl-foot.dl-lk { display: flex; flex-wrap: wrap; gap: 9px 12px; align-items: center;
           font-size: 11.5px; color: var(--muted); padding-top: 11px; }
   .dl-foot.dl-lk p { margin: 0; flex: 1 1 190px; }
+  /* Buyers only: the ladder ranks him our way, this is the way out to their own. */
+  .dl-mine { display: inline-block; margin-top: 9px; font-size: 12px; font-weight: 600;
+          color: var(--accent); text-decoration: none; }
+  .dl-mine:hover { text-decoration: underline; }
 
   .lk-inline { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.1fr);
           gap: 26px; align-items: center; margin-top: 6px; }
@@ -1247,18 +1257,36 @@
           border: 0; background: var(--accent); color: #fff; }
   .st-msg { font-size: 12.5px; color: var(--muted); margin-top: 10px; min-height: 1em; }
   .st-msg.bad { color: #d4644a; }
-  .st-appwrap { margin: 0 0 18px; }
-  .st-frame { width: 100%; height: 88vh; min-height: 620px; border: 1px solid var(--line);
-          border-radius: 12px; background: #fff; display: block; }
   /* The two tool pages give the studio the whole width. It carries its own two-column
-     layout, its own scrolling and a table many columns wide, so the site's 1120px reading
-     measure only squeezes it. */
+     layout and a table many columns wide, so the site's 1120px reading measure only
+     squeezes it. */
   .wrap.tool-wide { max-width: 1560px; }
-  .tool-frame { height: calc(100vh - var(--hdr-h, 150px) - 40px); min-height: 560px;
-          margin-bottom: 14px; }
-  .tool-boot { font-size: 13px; color: var(--muted); padding: 40px 0; text-align: center; }
+  /* The studio is grafted into the page, not framed. build_pro.py scopes its whole
+     stylesheet to this id, so everything inside is its own and all this does is draw the
+     edge. No border-radius and no overflow, on purpose: `overflow` in any form except
+     `visible` makes this box the nearest scrollport, and the studio's sticky sidebar would
+     stop sticking to the page. */
+  #banger-studio { border: 1px solid var(--line); margin-bottom: 14px; }
+  /* Shown only while the payload decrypts. It cannot live inside the mount: `opening`
+     hides .proonly AND .freeonly, so a returning buyer would watch a blank page. */
+  .tool-boot { display: none; font-size: 13px; color: var(--muted); padding: 60px 0;
+          text-align: center; }
+  :root[data-pro="opening"] .tool-boot { display: block; }
+  /* The buyer's hub: one door per tool, each big enough to say what it is for. */
+  .st-tools { display: grid; gap: 12px; margin-top: 20px;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .st-tool { display: flex; flex-direction: column; gap: 7px; padding: 18px 18px 16px;
+          border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
+          text-decoration: none; color: inherit;
+          transition: border-color .12s, transform .12s; }
+  .st-tool:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .st-tool b { font-size: 16px; letter-spacing: -.01em; }
+  .st-tool span { font-size: 13.5px; color: var(--muted); line-height: 1.5; flex: 1; }
+  .st-tool em { font-style: normal; font-size: 13px; font-weight: 600;
+          color: var(--accent); }
   .st-acct { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
-          margin-top: 14px; }
+          margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .st-note { font-size: 12.5px; color: var(--muted); }
   .st-acct .lk-pill { margin: 0; }
   .st-out { font: 600 12.5px/1 inherit; color: var(--muted); background: none; border: 0;
           padding: 6px 2px; cursor: pointer; text-decoration: underline; }
@@ -1367,9 +1395,9 @@
         <a class="navbtn" href="report-card">Report Card</a>
         <span class="navdiv"></span>
         <a class="navbtn pro" href="draft-tools">Draft Tools</a>
-        <a class="navbtn pro proonly" href="rankings">Rankings</a>
-        <a class="navbtn pro proonly" href="draft-board">Draft Board</a>
-        <a class="navbtn pro proonly on" href="compare">Compare</a>
+        <a class="navbtn sub proonly" href="rankings">Custom Rankings</a>
+        <a class="navbtn sub proonly" href="draft-board">Draft Board</a>
+        <a class="navbtn sub proonly on" href="compare">Compare</a>
       </nav>
       <noscript><style>
         /* The panel is a JS dropdown. Without JS it would be a nav nobody can open, so
@@ -1406,7 +1434,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=4c64a46a1c66";
+  var SRC = "locked/pro.enc?v=08f5c033d2c8";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
