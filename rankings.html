@@ -1442,7 +1442,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=5ac51248adcb";
+  var SRC = "locked/pro.enc?v=138c99eabc73";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -1581,15 +1581,13 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
       .replace("__PLAYER_DATA__", function(){ return JSON.stringify(data.players); })
       .replace("__MODE__", function(){ return "rankings"; });
     mount.appendChild(js);
-    // How far down the viewport the tool starts. The studio parks its sticky sidebar here
-    // so it sits under the site header rather than behind it.
-    function top(){
-      var h = document.querySelector("header.top");
-      box.style.setProperty("--hb-top", (h ? h.offsetHeight : 0) + "px");
-    }
-    top();
-    window.addEventListener("resize", top);
+    // Nothing else to do. The studio has no sticky column and no scroll container of its
+    // own any more, so it needs no measurements from the page it now lives in.
   });
+  // How the board links a name to its card and a club to its depth chart. window.__HREFS__
+  // is already on every page for the search box; the studio reads it if it is there, which
+  // is why the standalone export quietly renders plain text instead of dead links.
+  window.__TEAMHREF__ = "lines?team=";
 })();
 </script>
 </div>
