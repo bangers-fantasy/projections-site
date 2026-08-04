@@ -1333,6 +1333,17 @@
           margin: 16px 0 18px; padding: 12px 14px; border-radius: 10px;
           background: var(--bg); border: 1px solid var(--line); }
   .cr-moving b { color: var(--ink); }
+  /* Sits under the password box. Accent border down the left so it reads as a thing to
+     notice rather than another paragraph of small print. */
+  .uw-contact { margin: 0 0 18px; padding: 14px 16px; border-radius: 10px;
+          background: var(--bg); border: 1px solid var(--line);
+          border-left: 3px solid var(--accent); }
+  .uw-contact b { display: block; font-size: 14.5px; color: var(--ink); }
+  .uw-mail { display: inline-block; margin: 6px 0 4px; font-weight: 700; font-size: 16px;
+          color: var(--accent); text-decoration: none; word-break: break-all; }
+  .uw-mail:hover { text-decoration: underline; }
+  .uw-contact span { display: block; font-size: 13px; line-height: 1.55;
+          color: var(--muted); }
   .uw-sign { font-size: 13.5px; line-height: 1.65; color: var(--muted);
           margin: 20px 0 0; padding-top: 16px; border-top: 1px solid var(--line); }
   .uw-sign a { color: var(--accent); }
@@ -1486,7 +1497,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=03973bd1d3d4";
+  var SRC = "locked/pro.enc?v=f7617870a51d";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
