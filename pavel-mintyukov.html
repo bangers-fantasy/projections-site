@@ -1314,6 +1314,21 @@
   .st-tool span { font-size: 13.5px; color: var(--muted); line-height: 1.5; flex: 1; }
   .st-tool em { font-style: normal; font-size: 13px; font-weight: 600;
           color: var(--accent); }
+  /* The post-purchase page. One card, 4 mutually exclusive states, switched by the
+     data-uw attribute the unlock script sets. Everything hidden by default so a buyer
+     never sees the wrong state flash past while the payload decrypts. */
+  .uw .uw-state { display: none; }
+  .uw[data-uw="working"] .uw-working, .uw[data-uw="open"] .uw-open,
+  .uw[data-uw="failed"] .uw-failed, .uw[data-uw="nokey"] .uw-nokey { display: block; }
+  .uw-pwbox { display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+          margin: 20px 0 14px; padding: 16px 18px; border-radius: 12px;
+          background: var(--bg); border: 1px solid var(--line); }
+  .uw-lab { flex: 1 1 100%; font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+          letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .uw-pw { font: 700 19px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+          color: var(--ink); word-break: break-all; flex: 1 1 auto; }
+  .uw-warn { font-size: 13.5px; line-height: 1.6; color: var(--muted); margin: 0 0 4px; }
+  .uw-warn b { color: var(--ink); }
   .st-acct { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
           margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
   .st-note { font-size: 12.5px; color: var(--muted); }
@@ -1464,7 +1479,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=1ea68c111b3c";
+  var SRC = "locked/pro.enc?v=cdb61b2d8e09";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
