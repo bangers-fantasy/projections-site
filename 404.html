@@ -252,6 +252,16 @@
   .rr-mwhy { font-size: 12px; color: var(--muted); line-height: 1.45; }
   .rr-mnone { font-size: 12.5px; color: var(--muted); background: #f5f8fb;
           border: 1px dashed var(--line); border-radius: 11px; padding: 11px 13px; }
+  .rr-mhead + .rr-medals, .rr-mhead + .rr-traits { margin-bottom: 14px; }
+  .rr-medals + .rr-mhead, .rr-traits + .rr-mhead { margin-top: 14px; }
+  .rr-traits { display: flex; gap: 8px; flex-wrap: wrap; }
+  .rr-trait { display: flex; align-items: baseline; gap: 7px; background: #eef3f8;
+          border: 1px solid var(--line); border-radius: 999px; padding: 5px 13px; }
+  .rr-tname { font-size: 12px; font-weight: 800; letter-spacing: -.01em; color: #22303d;
+          white-space: nowrap; }
+  .rr-twhy { font-size: 11.5px; color: var(--muted); }
+  .rr-solo { flex: 1 1 100%; }
+  @media (max-width: 520px) { .rr-trait { flex: 1 1 100%; border-radius: 11px; } }
   @media (max-width: 640px) { .rr-dial { flex: 1 1 100%; } }
   /* Similar & complementary players box */
   .mk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
@@ -741,6 +751,8 @@
   :root[data-theme="dark"] .rr-mof { color: #8fc0f0; background: #16283a; }
   :root[data-theme="dark"] .rr-medal.gold .rr-mof { color: #1b2733; background: #e0b256; }
   :root[data-theme="dark"] .rr-mnone { background: #1b2530; }
+  :root[data-theme="dark"] .rr-trait { background: #1b2530; }
+  :root[data-theme="dark"] .rr-tname { color: #dce6f0; }
   :root[data-theme="dark"] .rd-title { color: #dce6f0; }
   :root[data-theme="dark"] .rd-focal { fill: rgba(90,170,235,.26); stroke: #6fb0e8; }
   :root[data-theme="dark"] .rd-ref { fill: rgba(90,170,235,.13); stroke: rgba(120,180,235,.7); }
