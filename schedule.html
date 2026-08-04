@@ -767,14 +767,37 @@
   :root[data-theme="dark"] .ac-item { border-bottom-color: #26313d; }
   :root[data-theme="dark"] .ac-item.on, :root[data-theme="dark"] .ac-item:hover { background: #223143; }
 
-  /* Header top-row nav — quiet typographic links; active = soft pill. */
-  .navlinks { display: flex; align-items: center; gap: 2px; }
-  .navbtn { display: inline-flex; align-items: center; padding: 8px 14px;
-          font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap;
+  /* Header nav — a single menu button and a panel that drops out of it.
+     It used to be a flat row of links. A buyer sees 9 of them, which on a phone wrapped to
+     3 rows of a sticky header and left barely half the screen for the page underneath, and
+     that got worse with every page added. One button costs one tap and stays one row on
+     every page, paid or not, at every width. */
+  .navbar { display: flex; align-items: center; gap: 6px; position: relative; }
+  .navtoggle { display: inline-flex; align-items: center; gap: 9px; padding: 9px 14px;
+          font-size: 14px; font-weight: 600; color: #dceaf7; cursor: pointer;
+          background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16);
+          border-radius: 9px; transition: background .12s; }
+  .navtoggle:hover { background: rgba(255,255,255,.16); }
+  .navtoggle[aria-expanded="true"] { background: rgba(255,255,255,.18); }
+  /* The 3 bars, drawn from one element so there is no extra markup to keep in step. */
+  .navtoggle .bars { position: relative; width: 16px; height: 2px; border-radius: 2px;
+          background: currentColor; }
+  .navtoggle .bars::before, .navtoggle .bars::after { content: ""; position: absolute;
+          left: 0; width: 16px; height: 2px; border-radius: 2px; background: currentColor; }
+  .navtoggle .bars::before { top: -5px; }
+  .navtoggle .bars::after { top: 5px; }
+  .navlinks { position: absolute; top: calc(100% + 9px); right: 0; z-index: 30;
+          display: flex; flex-direction: column; align-items: stretch; gap: 1px;
+          min-width: 208px; padding: 7px; border-radius: 12px;
+          background: #14283b; border: 1px solid rgba(255,255,255,.14);
+          box-shadow: 0 18px 40px rgba(6,16,26,.44); }
+  .navlinks[hidden] { display: none; }
+  .navbtn { display: flex; align-items: center; padding: 9px 12px;
+          font-size: 14.5px; font-weight: 600; text-decoration: none; white-space: nowrap;
           color: #c6d8ea; border-radius: 8px; transition: background .12s, color .12s; }
   .navbtn:hover { background: rgba(255,255,255,.10); color: #fff; }
   .navbtn.on { background: rgba(255,255,255,.15); color: #fff; }
-  .navdiv { width: 1px; align-self: stretch; margin: 6px 8px; background: rgba(255,255,255,.16); }
+  .navdiv { height: 1px; margin: 6px 8px; background: rgba(255,255,255,.16); }
   a.brandlink { text-decoration: none; color: inherit; }
 
   /* ---------- unlocked vs locked ----------
@@ -965,16 +988,14 @@
     .topinner { padding: 11px 14px; gap: 10px; flex-wrap: wrap; }
     .brand-mark { font-size: 20px; }
     .brand-txt b { font-size: 16px; }
-    /* The nav MUST wrap on phones. It is a nowrap flex row, so six links plus the
-       theme toggle overflow a 390px viewport — and `overflow-x: hidden` on body
-       clipped the overflow silently, leaving Report Card unreachable with no
-       scrollbar to reveal it. Give the nav its own full-width row and let it wrap. */
-    .navlinks { gap: 0; flex: 1 1 100%; width: 100%; min-width: 0; flex-wrap: wrap;
-            justify-content: flex-start; row-gap: 2px; }
-    .navbtn { padding: 8px 10px; font-size: 13.5px; }
-    .navdiv { display: none; }   /* a 1px rule reads as a stray mark once the row wraps */
+    /* The nav used to need its own wrapping full-width row here, because nine nowrap links
+       overflowed a 390px viewport and `overflow-x: hidden` on body clipped the last one
+       away with no scrollbar to reach it. The menu button replaced all of that: the header
+       is one row at every width, and the panel is absolute so it cannot push anything. */
+    .navtoggle { padding: 8px 12px; font-size: 13.5px; }
+    .navlinks { min-width: 194px; }
     /* The bare `button` rule below is for the search form's "Show card". It also catches
-       the theme toggle, which then stretches into a wide empty box beside Report Card. */
+       the theme toggle, which then stretches into a wide empty box beside the menu. */
     .theme-toggle { flex: 0 0 auto; padding: 6px 10px; }
     .searchbar form { padding: 10px 14px; flex-wrap: wrap; gap: 8px; }
     .search { flex: 1 1 100%; min-width: 0; }
@@ -1334,20 +1355,32 @@
 <header class="top">
   <div class="topinner">
     <a class="brandlink" href="./"><div class="brand"><span class="brand-mark">&#127954;</span><span class="brand-txt"><b>@HockeyBangers</b><small>2026-27 projections</small></span></div></a>
-    <nav class="navlinks">
-      <a class="navbtn" href="players">Players</a>
-      <a class="navbtn" href="lines">Lines</a>
-      <a class="navbtn" href="regression">Movers</a>
-      <a class="navbtn on" href="schedule">Schedule</a>
-      <a class="navbtn" href="method">Method</a>
-      <a class="navbtn" href="report-card">Report Card</a>
-      <a class="navbtn pro" href="draft-tools">Draft Tools</a>
-      <a class="navbtn pro proonly" href="rankings">Rankings</a>
-      <a class="navbtn pro proonly" href="draft-board">Draft Board</a>
-      <a class="navbtn pro proonly" href="compare">Compare</a>
-      <span class="navdiv"></span>
+    <div class="navbar">
       <button type="button" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode" onclick="var r=document.documentElement,t=r.getAttribute('data-theme')==='dark'?'light':'dark';r.setAttribute('data-theme',t);try{localStorage.setItem('theme',t);}catch(e){}">&#9789;</button>
-    </nav>
+      <button type="button" class="navtoggle" id="navtoggle" aria-expanded="false" aria-controls="navmenu"><span class="bars"></span>Menu</button>
+      <nav class="navlinks" id="navmenu" hidden>
+        <a class="navbtn" href="players">Players</a>
+        <a class="navbtn" href="lines">Lines</a>
+        <a class="navbtn" href="regression">Movers</a>
+        <a class="navbtn on" href="schedule">Schedule</a>
+        <a class="navbtn" href="method">Method</a>
+        <a class="navbtn" href="report-card">Report Card</a>
+        <span class="navdiv"></span>
+        <a class="navbtn pro" href="draft-tools">Draft Tools</a>
+        <a class="navbtn pro proonly" href="rankings">Rankings</a>
+        <a class="navbtn pro proonly" href="draft-board">Draft Board</a>
+        <a class="navbtn pro proonly" href="compare">Compare</a>
+      </nav>
+      <noscript><style>
+        /* The panel is a JS dropdown. Without JS it would be a nav nobody can open, so
+           fall back to the flat row the header carried before. */
+        .navtoggle { display: none; }
+        .navlinks[hidden] { display: flex; position: static; flex-direction: row;
+                flex-wrap: wrap; min-width: 0; padding: 0; background: none; border: 0;
+                box-shadow: none; }
+        .navdiv { display: none; }
+      </style></noscript>
+    </div>
   </div>
   <div class="searchbar">
     <form method="get" action="/" id="searchform" autocomplete="off">
@@ -1373,7 +1406,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=53dd588952ab";
+  var SRC = "locked/pro.enc?v=34d1c5b62c87";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -1595,15 +1628,31 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
 </div>
 </div>
 <script>
-/* Feed the real sticky-header height to the jump-link scroll offset (--hdr-h). The header
-   is two rows wide-screen and up to four on a phone, so a hardcoded offset either hides
-   the heading behind the header or leaves a gap. The CSS fallback covers JS being off. */
+/* Feed the real sticky-header height to the jump-link scroll offset (--hdr-h). Two rows
+   now that the nav is a menu button, but the search row still wraps on a narrow phone, so
+   measure it rather than hardcode it. The CSS fallback covers JS being off. */
 (function(){
   var h=document.querySelector('header.top');
   if(!h) return;
   function set(){document.documentElement.style.setProperty('--hdr-h',(h.offsetHeight+14)+'px');}
   set();
   window.addEventListener('resize',set);
+})();
+/* The menu. Closes on a second click, on Escape, and on any click outside it — a dropdown
+   left open over the page is worse than the long nav row it replaced. */
+(function(){
+  var btn=document.getElementById('navtoggle'), menu=document.getElementById('navmenu');
+  if(!btn||!menu) return;
+  function show(open){
+    menu.hidden=!open;
+    btn.setAttribute('aria-expanded',open?'true':'false');
+  }
+  btn.addEventListener('click',function(e){e.stopPropagation();show(menu.hidden);});
+  menu.addEventListener('click',function(e){e.stopPropagation();});
+  document.addEventListener('click',function(){show(false);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&!menu.hidden){show(false);btn.focus();}
+  });
 })();
 (function(){
   var input=document.getElementById('q'), box=document.getElementById('ac'),
