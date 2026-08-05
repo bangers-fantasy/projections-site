@@ -1547,7 +1547,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=165f5cc4fa4c";
+  var SRC = "locked/pro.enc?v=4e8d0dba8790";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -1786,7 +1786,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   var SEP = '<span class="ln-sep">-</span>';
   // Manual-review frontier: teams are hand-reviewed alphabetically BY TEAM NAME. Everything
   // at or before this name is done; bump these two as the review advances (e.g. -> Chicago).
-  var REVIEWED_THROUGH = "Ottawa Senators", REVIEWED_LABEL = "Ottawa";
+  var REVIEWED_THROUGH = "Philadelphia Flyers", REVIEWED_LABEL = "Philadelphia";
   // Teams INSIDE the alphabetical frontier that were deliberately passed over and are not
   // hand-reviewed. Without this they would inherit the badge from the cutoff alone and
   // claim a review that never happened. Value is the short name shown in the blurb.
@@ -1802,10 +1802,10 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
     "Los Angeles Kings":"Jul 29","Minnesota Wild":"Jul 29",
     "Montreal Canadiens":"Aug 4","Nashville Predators":"Aug 4",
     "New Jersey Devils":"Aug 4","New York Islanders":"Aug 5","New York Rangers":"Aug 5",
-    "Ottawa Senators":"Aug 5"
-    // Aug 2026 pass: PHI, PIT, SJS, SEA (and STL through WPG) have new overrides + bets live
-    // but are HELD BACK from the badge pending Phil's manual check. Add their rows and
-    // advance REVIEWED_THROUGH only once he signs them off.
+    "Ottawa Senators":"Aug 5","Philadelphia Flyers":"Aug 5"
+    // Aug 2026 pass: PIT, SJS, SEA and STL through WPG have new overrides + bets live but are
+    // HELD BACK from the badge pending Phil's manual check. Add their rows and advance
+    // REVIEWED_THROUGH only once he signs them off.
   };
   var DONE = {};   // team code -> reviewed?, so render() can keep the ✓ when switching teams
   function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
