@@ -49,11 +49,16 @@
   /* The site mark is the same artwork as the favicon. Two things about that source file
      drive this rule: it ships with a solid white background rather than transparency, so
      it sits on a rounded white chip instead of directly on the navy header where it would
-     read as a white square; and the artwork only fills the middle 54% of the PNG, so
-     background-size zooms past the baked-in padding rather than rendering a 16px logo
-     inside a 30px box. */
+     read as a white square; and the ink only fills the middle 52% of the PNG (bbox 43-136
+     of 180), so background-size has to zoom past the baked-in padding or the logo renders
+     at 16px inside a 30px box.
+     Sizing is bounded on the other side by the chip's own corner radius. The crossed
+     sticks are a square whose blades run into all four corners, and a 7px radius eats
+     anything inset less than 7-7/sqrt(2) = 2.05px. At 168% the ink measured 26.3px in a
+     30px box, a 1.85px inset, which clipped the blades off and left the mark unreadable.
+     140% lands the ink at 21.9px, clear of the arc by 4px. */
   .brand-mark { width: 30px; height: 30px; display: block; border-radius: 7px; flex: none;
-          background: #fff url("/apple-touch-icon.png") no-repeat center / 168%; }
+          background: #fff url("/apple-touch-icon.png") no-repeat center / 140%; }
   .brand-txt { display: flex; flex-direction: column; line-height: 1.16; }
   .brand-txt b { font-size: 18px; }
   .brand small { font-size: 12px; font-weight: 400; color: #9fb8cf; }
@@ -1543,7 +1548,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=9add837f5231";
+  var SRC = "locked/pro.enc?v=9a42cd9b45ec";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
