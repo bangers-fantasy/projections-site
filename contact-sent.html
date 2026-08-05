@@ -46,7 +46,14 @@
           flex-wrap: wrap; }
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 700;
           letter-spacing: -.01em; white-space: nowrap; }
-  .brand-mark { font-size: 22px; line-height: 1; }
+  /* The site mark is the same artwork as the favicon. Two things about that source file
+     drive this rule: it ships with a solid white background rather than transparency, so
+     it sits on a rounded white chip instead of directly on the navy header where it would
+     read as a white square; and the artwork only fills the middle 54% of the PNG, so
+     background-size zooms past the baked-in padding rather than rendering a 16px logo
+     inside a 30px box. */
+  .brand-mark { width: 30px; height: 30px; display: block; border-radius: 7px; flex: none;
+          background: #fff url("/apple-touch-icon.png") no-repeat center / 168%; }
   .brand-txt { display: flex; flex-direction: column; line-height: 1.16; }
   .brand-txt b { font-size: 18px; }
   .brand small { font-size: 12px; font-weight: 400; color: #9fb8cf; }
@@ -1028,7 +1035,7 @@
   }
   @media (max-width: 600px) {
     .topinner { padding: 11px 14px; gap: 10px; }
-    .brand-mark { font-size: 20px; }
+    .brand-mark { width: 26px; height: 26px; border-radius: 6px; }
     .brand-txt b { font-size: 16px; }
     /* The nav used to need its own wrapping full-width row here, because nine nowrap links
        overflowed a 390px viewport and `overflow-x: hidden` on body clipped the last one
@@ -1483,7 +1490,7 @@
 <body>
 <header class="top">
   <div class="topinner">
-    <a class="brandlink" href="./"><div class="brand"><span class="brand-mark">&#127954;</span><span class="brand-txt"><b>@HockeyBangers</b><small>2026-27 projections</small></span></div></a>
+    <a class="brandlink" href="./"><div class="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-txt"><b>@HockeyBangers</b><small>2026-27 projections</small></span></div></a>
     <div class="searchbar">
       <form method="get" action="/" id="searchform" autocomplete="off">
         <div class="search">
@@ -1536,7 +1543,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=428212a03804";
+  var SRC = "locked/pro.enc?v=9add837f5231";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
