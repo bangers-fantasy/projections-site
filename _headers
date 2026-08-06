@@ -30,3 +30,13 @@
 /locked/*
   Cache-Control: public, max-age=31536000, immutable
   X-Robots-Tag: noindex
+
+# The shared stylesheet and search index, lifted out of the pages 2026-08-06. Both carry
+# ?v=<sha256[:10]> in every <link>/<script>, so the URL changes whenever the content does
+# and these can be cached hard. Without this they would revalidate on every page view and
+# most of the point of extracting them (one download for a whole visit) would be lost.
+/site.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/players.js
+  Cache-Control: public, max-age=31536000, immutable
