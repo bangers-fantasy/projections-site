@@ -1313,6 +1313,35 @@
   .cr-lede { font-size: 14.5px; line-height: 1.6; color: var(--muted); margin: 0; }
   .cr-gate { border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
   .cr-gsub { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; line-height: 1.5; }
+
+  /* ---------- the buy decision ----------
+     Price, button and risk line sit together directly under the lede, because those are the
+     3 things a decision needs and they used to be spread across the column or missing. */
+  .st-buy.cr-lead { margin: 18px 0 0; }
+  /* The pitch page's button carries the whole page, so it is bigger than the .lk-cta used
+     inline elsewhere. Scoped to this block rather than changing .lk-cta everywhere. */
+  .cr-lead .lk-cta { font-size: 15.5px; padding: 13px 26px; border-radius: 10px; }
+  .cr-price { margin: 10px 0 0; font-size: 14px; color: var(--fg); }
+  .cr-price b { font-size: 16px; }
+  .cr-risk { margin: 8px 0 0; font-size: 12.5px; line-height: 1.55; color: var(--muted); }
+  /* The returning buyer's box, collapsed. It was the whole right column for a minority of
+     this page's readers. */
+  .st-have { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .st-have > summary { cursor: pointer; font-size: 13px; font-weight: 600;
+          color: var(--accent); list-style: none; }
+  .st-have > summary::-webkit-details-marker { display: none; }
+  .st-have > summary::after { content: " \2192"; }
+  .st-have[open] > summary { margin-bottom: 12px; }
+  /* The right column: what is being sold, at a glance, on the first screen. */
+  .cr-proof { display: flex; flex-direction: column; gap: 16px; }
+  .cr-proof figure { margin: 0; }
+  .cr-proof img { width: 100%; height: auto; display: block; border-radius: 10px;
+          border: 1px solid var(--line); }
+  .cr-proof figcaption { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  /* The closing restatement of the offer, after the evidence. */
+  .cr-close { text-align: center; }
+  .cr-close .cr-lede { margin: 0 auto; max-width: 62ch; }
+  .cr-close .cr-price { margin-top: 10px; }
   .st-feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 24px;
           margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
   .st-f b { display: block; font-size: 13.5px; margin-bottom: 4px; }
@@ -1580,7 +1609,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=5df68aeeb22c";
+  var SRC = "locked/pro.enc?v=cf0dd2923d71";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
