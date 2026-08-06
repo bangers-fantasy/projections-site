@@ -1326,6 +1326,10 @@
   .cr-price { margin: 10px 0 0; font-size: 14px; color: var(--fg); }
   .cr-price b { font-size: 16px; }
   .cr-risk { margin: 8px 0 0; font-size: 12.5px; line-height: 1.55; color: var(--muted); }
+  /* The one claim on this page that argues against the free alternative, so it gets an
+     accent rule rather than being another grey paragraph. */
+  .cr-edge { margin: 14px 0 0; padding-left: 13px; font-size: 13.5px; line-height: 1.6;
+          color: var(--muted); border-left: 2px solid var(--accent); }
   /* The returning buyer's box, collapsed. It was the whole right column for a minority of
      this page's readers. */
   .st-have { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
@@ -1611,7 +1615,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=8267c9b5c53d";
+  var SRC = "locked/pro.enc?v=f1009218fc65";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
