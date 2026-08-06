@@ -82,6 +82,7 @@
           border-radius: 9px; background: var(--accent);
           border: 1px solid rgba(255,255,255,.22); transition: background .12s; }
   .hdr-cta:hover { background: #3a7cc0; }
+  .hdr-cta-off { display: none !important; }
   form { display: flex; gap: 10px; }
   input[type=text] { flex: 1; min-width: 160px; padding: 9px 13px; font-size: 14px;
           border: 1px solid rgba(255,255,255,.16); border-radius: 9px;
@@ -1578,7 +1579,7 @@ window.__HREFS__ = {"A.J. Greer": "a-j-greer", "Aaron Ekblad": "aaron-ekblad", "
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=30b8edec406f";
+  var SRC = "locked/pro.enc?v=438d5c159e5b";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
