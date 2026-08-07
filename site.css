@@ -1348,6 +1348,11 @@
           border: 0; background: var(--accent); color: #fff; }
   .st-msg { font-size: 12.5px; color: var(--muted); margin-top: 10px; min-height: 1em; }
   .st-msg.bad { color: #d4644a; }
+  /* The recovery route, under the unlock box rather than beside it. There are no accounts
+     here, so a lost password has no self-serve path and the address is the whole answer. */
+  .st-lost { font-size: 12.5px; color: var(--muted); line-height: 1.55;
+          margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line); }
+  .st-lost a { font-weight: 600; }
   /* The two tool pages give the studio the whole width. It carries its own two-column
      layout and a table many columns wide, so the site's 1120px reading measure only
      squeezes it. */
