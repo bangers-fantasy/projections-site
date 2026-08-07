@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=d33c9a97dadf";
+  var SRC = "locked/pro.enc?v=5b4e6271d9e6";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -247,8 +247,7 @@ border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.35)}
 #report-card .trank span{font-size:.8rem;color:var(--muted);font-weight:400}
 #report-card .tsub{font-size:.72rem;color:var(--ink2)}
 #report-card .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-#report-card /* keep the row-label (first) column pinned while the data scrolls sideways on narrow screens */
-.scroll .grid th:first-child,#report-card .scroll .grid td:first-child,#report-card .scroll .cons th:first-child,#report-card .scroll .cons td:first-child,#report-card .scroll .heat .rlabel{position:sticky;left:0;z-index:2;background:var(--surface);
+#report-card .scroll .grid th:first-child,#report-card .scroll .grid td:first-child,#report-card .scroll .cons th:first-child,#report-card .scroll .cons td:first-child,#report-card .scroll .heat .rlabel{position:sticky;left:0;z-index:2;background:var(--surface);
 box-shadow:1px 0 0 var(--grid)}
 #report-card .scroll .grid thead th:first-child,#report-card .scroll .cons thead th:first-child{background:var(--surface)}
 #report-card .heat{border-collapse:separate;border-spacing:3px;width:100%;min-width:520px}
@@ -280,8 +279,7 @@ background:rgba(255,255,255,.85);box-shadow:0 0 0 1px rgba(0,0,0,.25)}
 #report-card .pmiss .pn{color:var(--ink2)}
 #report-card .pmiss .pe{font-variant-numeric:tabular-nums;font-weight:600}
 #report-card .ptag{font-size:.66rem;color:var(--muted);border:1px solid var(--ring);border-radius:4px;padding:0 4px;margin-left:4px}
-#report-card /* bangers vs field cards */
-.bvfstack{display:flex;flex-direction:column;gap:8px}
+#report-card .bvfstack{display:flex;flex-direction:column;gap:8px}
 #report-card .bvfcard{background:var(--plane);border:1px solid var(--ring);border-radius:10px;padding:10px 12px;
 border-left:3px solid var(--base)}
 #report-card .bvfcard.good{border-left-color:#0ca30c}
@@ -295,8 +293,7 @@ border-left:3px solid var(--base)}
 border-radius:5px;padding:1px 6px;font-variant-numeric:tabular-nums}
 #report-card .bvfcat .bc{font-weight:700;color:var(--ink2)}
 #report-card .bvfcat u{color:var(--ink);text-decoration-color:#eda100}
-#report-card /* per-category strip plots (small multiples) */
-.catgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:10px 22px;margin-top:6px}
+#report-card .catgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:10px 22px;margin-top:6px}
 #report-card .cstrip{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:8px}
 #report-card .cslabel{font-size:.8rem;font-weight:700;color:var(--ink2)}
 #report-card .cstrack{position:relative;height:26px}
@@ -305,8 +302,7 @@ border-radius:5px;padding:1px 6px;font-variant-numeric:tabular-nums}
 transform:translateX(-50%);box-shadow:0 0 0 2px var(--surface);cursor:default}
 #report-card .cdot.you{background:var(--green);width:14px;height:14px;top:6px;z-index:2}
 #report-card .csx{display:flex;justify-content:space-between;font-size:.66rem;color:var(--muted);padding-left:42px}
-#report-card /* surprise strips */
-.srow{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:10px;margin:9px 0}
+#report-card .srow{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:10px;margin:9px 0}
 #report-card .slabel{font-size:.82rem;text-align:right;line-height:1.15}
 #report-card .slabel b{color:var(--ink)}
 #report-card .slabel span{color:var(--muted);font-size:.72rem}
@@ -319,8 +315,7 @@ transform:translateX(-50%);box-shadow:0 0 0 2px var(--surface);opacity:.85}
 #report-card .strack.tall{height:46px}
 #report-card .strack.tall::before{top:21px}
 #report-card .strack.tall .sact{height:48px}
-#report-card /* chart-furniture legend: a div,#report-card so the Substack export keeps it when it strips prose */
-.clegend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;margin:0 0 14px;
+#report-card .clegend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;margin:0 0 14px;
 padding-bottom:10px;border-bottom:1px solid var(--grid);font-size:.78rem;color:var(--muted)}
 #report-card .clegend span{display:inline-flex;align-items:center;gap:6px}
 #report-card .clegend .k-note{color:var(--muted);opacity:.85}
@@ -342,8 +337,7 @@ border-radius:999px;padding:3px 10px}
 #report-card .saxis{position:relative;height:18px;border-top:1px solid var(--grid)}
 #report-card .saxis .stick{position:absolute;top:3px;transform:translateX(-50%);font:10px ui-monospace,Menlo,monospace;
 color:var(--muted);white-space:nowrap}
-#report-card /* bust chart: draft-slot bars (where the field drafted him -> where he finished) */
-.btrack{height:38px}
+#report-card .btrack{height:38px}
 #report-card .bbar{position:absolute;top:15px;height:7px;border-radius:4px;
 background:linear-gradient(90deg,#c07f00,#d03b3b)}
 #report-card .bfrom,#report-card .bto{position:absolute;top:-1px;font:11px ui-monospace,Menlo,monospace;
@@ -356,8 +350,7 @@ background:var(--green);transform:translate(-50%,-2px);box-shadow:0 0 0 2px var(
 padding:1px 7px;border-radius:999px;white-space:nowrap}
 #report-card .btag.t50{color:#c07f00;border:1px solid rgba(192,127,0,.5)}
 #report-card .btag.t100{color:#e06060;border:1px solid rgba(208,59,59,.55)}
-#report-card /* surprises by category */
-.catsurp{display:flex;flex-direction:column;gap:2px}
+#report-card .catsurp{display:flex;flex-direction:column;gap:2px}
 #report-card .catsrow{display:grid;grid-template-columns:40px 1fr;gap:8px;align-items:start;padding:6px 0;border-bottom:1px solid var(--grid)}
 #report-card .catsrow .cslabel{font-size:.82rem;font-weight:700;color:var(--ink2);padding-top:2px}
 #report-card .cspwrap{display:flex;flex-wrap:wrap;gap:6px}
@@ -367,8 +360,7 @@ padding:1px 7px;border-radius:999px;white-space:nowrap}
 #report-card .icat{font-size:.66rem;color:var(--muted);border:1px solid var(--ring);border-radius:3px;padding:0 3px;margin-left:2px}
 #report-card .ddrow .dv u{text-decoration-color:#eda100}
 #report-card .ddrow.none{color:var(--muted);font-size:.8rem;font-style:italic;justify-content:flex-start}
-#report-card /* per-projector blocks */
-.card.intro{margin-bottom:0}
+#report-card .card.intro{margin-bottom:0}
 #report-card .projblock{margin-top:12px}
 #report-card .projblock.you{border-color:var(--green)}
 #report-card .pbgroup{margin-top:14px;padding-top:10px;border-top:1px solid var(--grid)}
@@ -405,8 +397,7 @@ letter-spacing:.02em;text-transform:none;color:var(--muted);font-size:.68rem}
 :root:where(:not([data-theme=light])) #report-card .pbsplit h4.miss{color:#e66767}}
 :root[data-theme=dark] #report-card .pbsplit h4.win{color:#0ca30c}
 :root[data-theme=dark] #report-card .pbsplit h4.miss{color:#e66767}
-#report-card /* deep-dive cards */
-.ddgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;margin-top:6px}
+#report-card .ddgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;margin-top:6px}
 #report-card .ddcard{background:var(--plane);border:1px solid var(--ring);border-radius:12px;padding:14px 16px}
 #report-card .ddcard.you{border-color:var(--green)}
 #report-card .ddhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem}
@@ -419,8 +410,7 @@ letter-spacing:.02em;text-transform:none;color:var(--muted);font-size:.68rem}
 #report-card .ddrow .dn{color:var(--ink2);flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;
 text-overflow:ellipsis}
 #report-card .ddrow .dv{font-variant-numeric:tabular-nums;color:var(--muted);flex:0 0 auto}
-#report-card /* mini track: gold line = actual,#report-card grey dot = field,#report-card coloured dot = this list */
-.mt{position:relative;flex:0 0 84px;height:14px}
+#report-card .mt{position:relative;flex:0 0 84px;height:14px}
 #report-card .mt:before{content:"";position:absolute;left:0;right:0;top:6px;height:1px;background:var(--grid)}
 #report-card .mt i{position:absolute;transform:translateX(-50%)}
 #report-card .mt-act{top:0;width:2px;height:13px;border-radius:1px;background:#eda100}
@@ -479,8 +469,7 @@ padding:3px 10px;font-variant-numeric:tabular-nums;color:var(--ink2)}
 :root:where(:not([data-theme=light])) #report-card .lfsplit h3.miss{color:#e66767}}
 :root[data-theme=dark] #report-card .lfsplit h3.win{color:#0ca30c}
 :root[data-theme=dark] #report-card .lfsplit h3.miss{color:#e66767}
-#report-card /* TL;DR + two-lens methodology intro */
-.tldr{margin:.2rem 0 0;padding-left:1.1rem;color:var(--ink2);font-size:.92rem}
+#report-card .tldr{margin:.2rem 0 0;padding-left:1.1rem;color:var(--ink2);font-size:.92rem}
 #report-card .tldr li{margin:.5rem 0}
 #report-card .tldr b{color:var(--ink)}
 #report-card .lenses{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:10px}
@@ -504,7 +493,7 @@ padding:3px 10px;font-variant-numeric:tabular-nums;color:var(--ink2)}
 #report-card .gcard p{font-size:.82rem;color:var(--ink2);margin:0;line-height:1.4}
 #report-card .gcard .gk{display:block;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem}
 #report-card .heat.pct .cell{font-weight:600;min-width:46px}
-#report-card,#report-card{overflow-x:hidden}
+#report-card{overflow-x:hidden}
 @media(max-width:640px){#report-card{padding:14px}
 #report-card .card{padding:16px 15px;border-radius:12px}
 #report-card .hero h1{font-size:1.5rem}
@@ -520,27 +509,19 @@ padding:3px 10px;font-variant-numeric:tabular-nums;color:var(--ink2)}
 #report-card .catgrid{gap:8px 0}
 #report-card .pbsplit{grid-template-columns:1fr}
 #report-card .champs{gap:5px 6px}
-#report-card /* tables: smaller cells + wrapping pinned labels so more columns fit before a sideways scroll */
-.grid,#report-card .cons{font-size:.8rem}
+#report-card .grid,#report-card .cons{font-size:.8rem}
 #report-card .grid th,#report-card .grid td,#report-card .cons th,#report-card .cons td{padding:6px 6px}
 #report-card .heat .cell{min-width:30px;padding:7px 0;font-size:.78rem}
 #report-card .heat.mo .cell{min-width:42px}
 #report-card .heat .rlabel{white-space:normal;max-width:104px;padding-right:8px;line-height:1.15}
 #report-card .scroll .grid td:first-child,#report-card .scroll .grid th:first-child,#report-card .scroll .cons td:first-child,#report-card .scroll .cons th:first-child{max-width:118px}
-#report-card /* the stress-test sparkline is a 5-chip column that crushes into a tall sliver on phones; hide it */
-.grid.stt td:last-child,#report-card .grid.stt th:last-child{display:none}
-
-}
+#report-card .grid.stt td:last-child,#report-card .grid.stt th:last-child{display:none}}
 @media(max-width:400px){#report-card{padding:11px}
 #report-card .card{padding:14px 12px}
 #report-card .hero h1{font-size:1.34rem}
 #report-card .barrow{grid-template-columns:76px 1fr 34px}
 #report-card .axis{padding:0 60px 0 82px}
-#report-card .srow{grid-template-columns:88px 1fr}
-
-}
-
-
+#report-card .srow{grid-template-columns:88px 1fr}}
 #report-card { background: transparent; padding: 0; margin-inline: auto; }
 @media (max-width: 640px) { #report-card { padding: 0; } }
 @media (max-width: 400px) { #report-card { padding: 0; } }
