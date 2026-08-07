@@ -223,10 +223,10 @@
   .adjnote-cb:checked ~ p.clamp { display: block; overflow: visible; }
   .adjnote-more { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700;
           color: var(--accent); cursor: pointer; user-select: none; }
-  .adjnote-more::after { content: "Show the full reasoning \\2193"; }
+  .adjnote-more::after { content: "Show the full reasoning \2193"; }
   .adjnote-cb:focus-visible ~ .adjnote-more { outline: 2px solid var(--accent);
           outline-offset: 3px; border-radius: 3px; }
-  .adjnote-cb:checked ~ .adjnote-more::after { content: "Hide \\2191"; }
+  .adjnote-cb:checked ~ .adjnote-more::after { content: "Hide \2191"; }
 
   /* Profile rarity + scarcity medals (top of the makeup card) */
   .rr { display: flex; gap: 22px; align-items: flex-start; flex-wrap: wrap;
@@ -1310,7 +1310,7 @@
   .st-have > summary { cursor: pointer; font-size: 13px; font-weight: 600;
           color: var(--accent); list-style: none; }
   .st-have > summary::-webkit-details-marker { display: none; }
-  .st-have > summary::after { content: " \\2192"; }
+  .st-have > summary::after { content: " \2192"; }
   .st-have[open] > summary { margin-bottom: 12px; }
   /* The right column: what is being sold, at a glance, on the first screen. */
   .cr-proof { display: flex; flex-direction: column; gap: 16px; }
