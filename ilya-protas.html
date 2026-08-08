@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=a71ff97ff281";
+  var SRC = "locked/pro.enc?v=b5f88e7f01ed";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -245,7 +245,7 @@
   });
 })();
 </script>
-<p class="method">Manual baseline: no usable NHL sample to regress, so the line is set from a prospect projection (role, upside comparable, multi-year ceiling) blended with any 2025-26 NHL data. Not an engine regression; edit in adjustments.json.</p></div></div><div class="adjnote"><input type="checkbox" class="adjnote-cb" id="adjnote-toggle"><p class="clamp"><strong>Context-adjusted</strong> (&#9650;/&#9660; vs the rate-model baseline): He has no NHL season for the engine to project ice time from, so the deployment strip was set by hand at 14.5, with power-play time derived from his point total. Rebuilt in 5 columns at the Aug 2026 review: shots come down while hits, blocks, assists and penalty minutes all go up. That is a different player from the one we had, a big winger who plays both ends rather than a volume shooter, and the hits are the clearest of it at 40 against a fair 103.</p><label class="adjnote-more" for="adjnote-toggle"></label></div></div><div class="card lowdata-note"><div class="read-head">&#9432; Limited NHL data (4 GP)</div><p class="method">The projection above leans on a small NHL sample plus a role-based estimate. Trend and per-category charts are hidden until there's a fuller season to chart.</p></div></div>
+<p class="method">Manual baseline: no usable NHL sample to regress, so the line is set from a prospect projection (role, upside comparable, multi-year ceiling) blended with any 2025-26 NHL data. Not an engine regression; edit in adjustments.json.</p></div></div><div class="adjnote"><input type="checkbox" class="adjnote-cb" id="adjnote-toggle"><p class="clamp"><strong>Context-adjusted</strong> (&#9650;/&#9660; vs the rate-model baseline): He has no NHL season for the engine to project ice time from, so the deployment strip was set by hand at 14.5, with power-play time derived from his point total. Rebuilt in 5 columns at the Aug 2026 review: shots come down while hits, blocks, assists and penalty minutes all go up. That is a different player from the one we had, a big winger who plays both ends rather than a volume shooter, and the hits are the clearest of it, moving up hard from 40.</p><label class="adjnote-more" for="adjnote-toggle"></label></div></div><div class="card lowdata-note"><div class="read-head">&#9432; Limited NHL data (4 GP)</div><p class="method">The projection above leans on a small NHL sample plus a role-based estimate. Trend and per-category charts are hidden until there's a fuller season to chart.</p></div></div>
 <script>
 /* Feed the real sticky-header height to the jump-link scroll offset (--hdr-h). Two rows
    now that the nav is a menu button, but the search row still wraps on a narrow phone, so
