@@ -928,6 +928,8 @@
           font-family: inherit; }
   .cmp-radar .poly { stroke-width: 2; stroke-linejoin: round; }
   .cmp-radar .vtx { stroke: var(--card); stroke-width: 1.5; }
+  .cmp-legwrap { display: flex; flex-direction: column; align-items: center; gap: 6px;
+          margin: 0 0 26px; }
   .cmp-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: center; }
   .cmp-leg { display: inline-flex; align-items: center; gap: 7px; font-size: 13px;
           font-weight: 600; cursor: pointer; color: var(--ink); padding: 4px 8px;
@@ -940,7 +942,7 @@
 
   /* Where they land: the card's quadrant, with every selected skater on one plot */
   .cmp-quad-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px;
-          margin: 2px 0 26px; }
+          margin: 2px 0 14px; }
   .cmp-quad-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
           justify-content: center; }
   .cmp-quad-t { font-size: 11px; font-weight: 800; letter-spacing: .05em;

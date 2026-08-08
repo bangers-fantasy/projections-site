@@ -23,7 +23,7 @@
 <script>
 (function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
 </script>
-<link rel="stylesheet" href="site.css?v=79ae5f9633"></head>
+<link rel="stylesheet" href="site.css?v=6c28eefd22"></head>
 <body>
 <header class="top">
   <div class="topinner">
@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=5f5c7c9ab539";
+  var SRC = "locked/pro.enc?v=9fa68e83cb3e";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -206,8 +206,9 @@
     <button type="button" class="cmp-add" id="cmp-add">+ Add player</button>
     <button type="button" class="cmp-clear" id="cmp-clear">Clear all</button>
   </div>
-  <div id="cmp-radar-host"></div>
   <div id="cmp-quad-host"></div>
+  <div id="cmp-legend-host"></div>
+  <div id="cmp-radar-host"></div>
   <div class="cmp-tablewrap"><div id="cmp-out"></div></div>
 </div>
 <script>
@@ -222,7 +223,8 @@ function __cmpBoot(){
       addBtn=document.getElementById('cmp-add'),
       clearBtn=document.getElementById('cmp-clear'),
       radarHost=document.getElementById('cmp-radar-host'),
-      quadHost=document.getElementById('cmp-quad-host');
+      quadHost=document.getElementById('cmp-quad-host'),
+      legendHost=document.getElementById('cmp-legend-host');
   // Distinct polygon colours (assigned by position in the current selection). Legible on
   // both light and dark grounds. `hidden` tracks legend toggles so an overlaid polygon can
   // be muted without dropping the player from the table or rescaling the axes.
@@ -330,15 +332,23 @@ function __cmpBoot(){
       svg+='<polygon class="poly" points="'+pts.join(' ')+'" fill="'+col+'" fill-opacity="0.14" stroke="'+col+'"/>'+verts;
     });
     svg+='</svg>';
+    radarHost.innerHTML='<div class="cmp-radar-wrap"><div class="cmp-radar">'+svg+'</div>'+
+      '<div class="cmp-radar-note">Each axis scaled to the leader among the selected '+
+      'players.</div></div>';
+  }
+  // The legend sits BETWEEN the 2 charts because it now serves both, and the quadrant is
+  // the one people read first. Assigning the colour by position in the selection is what
+  // keeps a name the same colour on the scatter and on the radar.
+  function paintLegend(sel){
+    if(sel.length<2){legendHost.innerHTML='';return;}
     var leg=sel.map(function(n,si){
       var col=COLORS[si%COLORS.length];
       return '<span class="cmp-leg'+(hidden[n]?' off':'')+'" data-name="'+esc(n)+'"><i style="background:'+col+'"></i>'+esc(n)+'</span>';
     }).join('');
-    radarHost.innerHTML='<div class="cmp-radar-wrap"><div class="cmp-radar">'+svg+'</div>'+
-      '<div class="cmp-legend">'+leg+'</div>'+
-      '<div class="cmp-radar-note">Each axis scaled to the leader among the selected players. Click a name to toggle it.</div></div>';
+    legendHost.innerHTML='<div class="cmp-legwrap"><div class="cmp-legend">'+leg+'</div>'+
+      '<div class="cmp-radar-note">Click a name to mute it in both charts.</div></div>';
   }
-  radarHost.addEventListener('click',function(e){
+  legendHost.addEventListener('click',function(e){
     var chip=e.target.closest('.cmp-leg'); if(!chip)return;
     var n=chip.getAttribute('data-name'); hidden[n]=!hidden[n];
     paintCharts(slots.filter(function(m){return m&&CMP[m];}));
@@ -483,13 +493,14 @@ function __cmpBoot(){
     quadGroup=b.getAttribute('data-g');
     paintQuad(slots.filter(function(m){return m&&CMP[m];}));
   });
-  function paintCharts(sel){ paintRadar(sel); paintQuad(sel); }
+  function paintCharts(sel){ paintQuad(sel); paintLegend(sel); paintRadar(sel); }
 
   function paint(){
     var sel=slots.filter(function(n){return n&&CMP[n];});
     if(!sel.length){
       out.innerHTML='<div class="cmp-empty">Pick players above to compare their projections.</div>';
-      radarHost.innerHTML=''; quadHost.innerHTML=''; syncURL(); return;
+      radarHost.innerHTML=''; quadHost.innerHTML=''; legendHost.innerHTML='';
+      syncURL(); return;
     }
     var recs=sel.map(function(n){return CMP[n];});
     var h='<table class="cmp"><thead><tr><th class="mlab">&nbsp;</th>';
