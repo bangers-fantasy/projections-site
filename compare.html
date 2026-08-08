@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=61403667eb08";
+  var SRC = "locked/pro.enc?v=654944500d0a";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -407,13 +407,19 @@ function __cmpBoot(){
   // side and then pushed apart in y rather than drawn where the dot is. The 18-unit floor
   // is sized for the phone, where the CSS scales this type up to 19 units so it survives
   // the box being drawn at half its width.
+  //
+  // A name on a dot in the TOP BAND drops below its dot instead of sitting beside it. The
+  // corner labels live up there, and on a phone they scale to 20 units, so a top-band name
+  // set beside its dot lands on top of "offensive marshmallow" or "banger unicorn". Same
+  // rule and roughly the same numbers the card's own quadrant uses.
   function quadLabels(dots,L,T,pw,ph){
     var side={l:[],r:[]},out=[];
     dots.forEach(function(d){(d.x>L+pw*0.62?side.l:side.r).push(d);});
     ['l','r'].forEach(function(s){
       var last=-1e9;
       side[s].sort(function(a,b){return a.y-b.y;}).forEach(function(d){
-        var y=Math.min(Math.max(d.y+4,last+18),T+ph-4); last=y;
+        var base=d.y<T+30?Math.max(d.y+18,T+36):d.y+4;
+        var y=Math.min(Math.max(base,last+18),T+ph-4); last=y;
         out.push({x:s==='l'?d.x-10:d.x+10,y:y,anchor:s==='l'?'end':'start',
                   last:d.last,col:d.col});
       });
