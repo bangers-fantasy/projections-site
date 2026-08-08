@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=645067ae22db";
+  var SRC = "locked/pro.enc?v=f1dd6d8b2c28";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -245,7 +245,7 @@
   });
 })();
 </script>
-<p class="method">Manual baseline: no usable NHL sample to regress, so the line is set from a prospect projection (role, upside comparable, multi-year ceiling) blended with any 2025-26 NHL data. Not an engine regression; edit in adjustments.json.</p></div></div><div class="adjnote"><input type="checkbox" class="adjnote-cb" id="adjnote-toggle"><p class="clamp"><strong>Context-adjusted</strong> (&#9650;/&#9660; vs the rate-model baseline): Curated top-line projection, set by hand rather than read off the engine. He steps straight into a first-line right wing with top-unit power-play time, and this line states that outright: 17.9 minutes a night with 3.1 on the power play, 29 goals and 36 assists on 235 shots, 25 of those points on the man advantage, plus 150 hits and 54 penalty minutes. A fair landing has him at 230 shots, 36 assists and 144 hits, so the volume sits alongside that and the power-play share sits at the top of it. That is the bet: a rookie handed a top unit either converts it or he does not, and this line assumes he does.</p><label class="adjnote-more" for="adjnote-toggle"></label></div></div><div class="card lowdata-note"><div class="read-head">&#9432; Limited NHL data (9 GP)</div><p class="method">The projection above leans on a small NHL sample plus a role-based estimate. Trend and per-category charts are hidden until there's a fuller season to chart.</p></div></div>
+<p class="method">Manual baseline: no usable NHL sample to regress, so the line is set from a prospect projection (role, upside comparable, multi-year ceiling) blended with any 2025-26 NHL data. Not an engine regression; edit in adjustments.json.</p></div></div><div class="adjnote"><input type="checkbox" class="adjnote-cb" id="adjnote-toggle"><p class="clamp"><strong>Context-adjusted</strong> (&#9650;/&#9660; vs the rate-model baseline): Curated top-line projection, set by hand rather than read off the engine. He steps straight into a first-line right wing with top-unit power-play time, and this line states that outright: 17.9 minutes a night with 3.1 on the power play, 29 goals and 36 assists on 235 shots, 25 of those points on the man advantage, plus 150 hits and 54 penalty minutes. That is the bet. A rookie handed a top unit either converts it or he does not, and this line assumes he does.</p><label class="adjnote-more" for="adjnote-toggle"></label></div></div><div class="card lowdata-note"><div class="read-head">&#9432; Limited NHL data (9 GP)</div><p class="method">The projection above leans on a small NHL sample plus a role-based estimate. Trend and per-category charts are hidden until there's a fuller season to chart.</p></div></div>
 <script>
 /* Feed the real sticky-header height to the jump-link scroll offset (--hdr-h). Two rows
    now that the nav is a menu button, but the search row still wraps on a narrow phone, so
