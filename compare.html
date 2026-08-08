@@ -23,7 +23,7 @@
 <script>
 (function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
 </script>
-<link rel="stylesheet" href="site.css?v=5d8537c296"></head>
+<link rel="stylesheet" href="site.css?v=c9cfebca3b"></head>
 <body>
 <header class="top">
   <div class="topinner">
@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=049ac028248e";
+  var SRC = "locked/pro.enc?v=8531bdda032b";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -207,6 +207,7 @@
     <button type="button" class="cmp-clear" id="cmp-clear">Clear all</button>
   </div>
   <div id="cmp-radar-host"></div>
+  <div id="cmp-quad-host"></div>
   <div class="cmp-tablewrap"><div id="cmp-out"></div></div>
 </div>
 <script>
@@ -220,7 +221,8 @@ function __cmpBoot(){
       slotwrap=document.getElementById('cmp-slots'),
       addBtn=document.getElementById('cmp-add'),
       clearBtn=document.getElementById('cmp-clear'),
-      radarHost=document.getElementById('cmp-radar-host');
+      radarHost=document.getElementById('cmp-radar-host'),
+      quadHost=document.getElementById('cmp-quad-host');
   // Distinct polygon colours (assigned by position in the current selection). Legible on
   // both light and dark grounds. `hidden` tracks legend toggles so an overlaid polygon can
   // be muted without dropping the player from the table or rescaling the axes.
@@ -339,14 +341,152 @@ function __cmpBoot(){
   radarHost.addEventListener('click',function(e){
     var chip=e.target.closest('.cmp-leg'); if(!chip)return;
     var n=chip.getAttribute('data-name'); hidden[n]=!hidden[n];
-    paintRadar(slots.filter(function(m){return m&&CMP[m];}));
+    paintCharts(slots.filter(function(m){return m&&CMP[m];}));
   });
+
+  // ---- where they land: the card's quadrant, with everyone selected on one plot ------
+  // Offense against peripherals in score points, the same two halves of the banger score
+  // the card plots. Both are absolute (a fixed replacement base, not a percentile), so a
+  // forward and a defenseman sit on one pair of axes honestly; what is position-specific
+  // is the CLOUD and the crosshair, which is why the backdrop is one group at a time.
+  var POOLCUT={"F":350,"D":180};
+  var GRPWORD={F:'forwards',D:'defensemen'};
+  var quadGroup=null, POOL=null, lastSel=null;
+  function grpOf(rec){
+    return String(rec.pos||'').split(',')[0].trim().toUpperCase()==='D'?'D':'F';
+  }
+  // The card pool, rebuilt from the board: the top POOLCUT of each group by its own
+  // positional rank, minus anyone without a club. Same definition as in_card_pool(), so
+  // the crosshair here and the crosshair on a card agree.
+  function inPool(rec){
+    var t=String(rec.team||'').trim();
+    if(!t||t==='(N/A)')return false;
+    var rk=+(rec.rkpos||{})[grpOf(rec)];
+    return rk>0&&rk<=POOLCUT[grpOf(rec)];
+  }
+  function pctile(sorted,q){
+    if(!sorted.length)return 0;
+    if(sorted.length===1)return sorted[0];
+    var i=q*(sorted.length-1),lo=Math.floor(i),hi=Math.min(lo+1,sorted.length-1);
+    return sorted[lo]+(sorted[hi]-sorted[lo])*(i-lo);
+  }
+  function pools(){
+    if(POOL)return POOL;
+    POOL={F:{pts:[]},D:{pts:[]}};
+    for(var n in CMP){
+      var r=CMP[n],o=+r.off,p=+r['def'];
+      if(!inPool(r)||!isFinite(o)||!isFinite(p))continue;
+      POOL[grpOf(r)].pts.push([p,o]);
+    }
+    ['F','D'].forEach(function(g){
+      var num=function(a,b){return a-b;};
+      POOL[g].cutOff=pctile(POOL[g].pts.map(function(d){return d[1];}).sort(num),0.75);
+      POOL[g].cutPer=pctile(POOL[g].pts.map(function(d){return d[0];}).sort(num),0.75);
+    });
+    return POOL;
+  }
+  // Which backdrop to open on: whichever group most of the selection belongs to, forwards
+  // on a tie. A click on the switch holds until the selection itself changes.
+  function domGroup(sel){
+    var d=0;
+    sel.forEach(function(n){if(grpOf(CMP[n])==='D')d++;});
+    return d>sel.length/2?'D':'F';
+  }
+  // Labels crowd badly when 2 skaters land on top of each other, so they are placed per
+  // side and then pushed apart in y rather than drawn where the dot is.
+  function quadLabels(dots,L,T,pw,ph){
+    var side={l:[],r:[]},out=[];
+    dots.forEach(function(d){(d.x>L+pw*0.62?side.l:side.r).push(d);});
+    ['l','r'].forEach(function(s){
+      var last=-1e9;
+      side[s].sort(function(a,b){return a.y-b.y;}).forEach(function(d){
+        var y=Math.min(Math.max(d.y+4,last+14),T+ph-4); last=y;
+        out.push({x:s==='l'?d.x-10:d.x+10,y:y,anchor:s==='l'?'end':'start',
+                  last:d.last,col:d.col});
+      });
+    });
+    return out;
+  }
+  function paintQuad(sel){
+    if(sel.length<1){quadHost.innerHTML='';return;}
+    var P=pools(),g=quadGroup||domGroup(sel),pool=P[g];
+    if(!pool||!pool.pts.length){quadHost.innerHTML='';return;}
+    var w=620,h=380,L=38,T=18,B=30,Rp=14,pw=w-L-Rp,ph=h-T-B;
+    // Extent covers the cloud AND every selected skater, hidden ones included, so muting a
+    // name in the legend never rescales the axes underneath the others.
+    var xv=pool.pts.map(function(d){return d[0];}),
+        yv=pool.pts.map(function(d){return d[1];});
+    sel.forEach(function(n){
+      var o=+CMP[n].off,p=+CMP[n]['def'];
+      if(isFinite(o)&&isFinite(p)){xv.push(p);yv.push(o);}
+    });
+    var x0=Math.floor(Math.min.apply(null,xv)/10)*10,
+        x1=Math.ceil(Math.max.apply(null,xv)/10)*10,
+        y0=Math.floor(Math.min.apply(null,yv)/10)*10,
+        y1=Math.ceil(Math.max.apply(null,yv)/10)*10,
+        padx=(x1-x0)*0.04||1,pady=(y1-y0)*0.05||1;
+    x0-=padx;x1+=padx;y0-=pady;y1+=pady;
+    var sx=function(v){return L+(v-x0)/(x1-x0)*pw;},
+        sy=function(v){return T+ph-(v-y0)/(y1-y0)*ph;};
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Offense against '+
+            'peripherals, the selected skaters against the pool">';
+    pool.pts.forEach(function(d){
+      svg+='<circle class="cloud" cx="'+sx(d[0]).toFixed(1)+'" cy="'+sy(d[1]).toFixed(1)+'" r="2.4"/>';
+    });
+    svg+='<rect class="frame" x="'+L+'" y="'+T+'" width="'+pw+'" height="'+ph+'" rx="3"/>';
+    svg+='<line class="cut" x1="'+sx(pool.cutPer).toFixed(1)+'" y1="'+T+'" x2="'+
+         sx(pool.cutPer).toFixed(1)+'" y2="'+(T+ph)+'"/>';
+    svg+='<line class="cut" x1="'+L+'" y1="'+sy(pool.cutOff).toFixed(1)+'" x2="'+(L+pw)+
+         '" y2="'+sy(pool.cutOff).toFixed(1)+'"/>';
+    [['offensive marshmallow',L+7,T+14,'start'],['banger unicorn',L+pw-7,T+14,'end'],
+     ['no man&rsquo;s land',L+7,T+ph-8,'start'],['peripheral legend',L+pw-7,T+ph-8,'end']]
+      .forEach(function(q){
+        svg+='<text class="qlab" x="'+q[1]+'" y="'+q[2]+'" text-anchor="'+q[3]+'">'+q[0]+'</text>';
+      });
+    var dots=[],away=0;
+    sel.forEach(function(n,si){
+      var r=CMP[n],o=+r.off,p=+r['def'];
+      if(hidden[n]||!isFinite(o)||!isFinite(p))return;
+      var off=grpOf(r)!==g; if(off)away++;
+      var col=COLORS[si%COLORS.length],x=sx(p),y=sy(o);
+      svg+='<circle class="me'+(off?' away':'')+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+
+           '" r="6" '+(off?'stroke':'fill')+'="'+col+'"/>';
+      dots.push({x:x,y:y,col:col,last:esc((String(n).split(' ').pop()))});
+    });
+    quadLabels(dots,L,T,pw,ph).forEach(function(l){
+      svg+='<text class="melab" x="'+l.x.toFixed(1)+'" y="'+l.y.toFixed(1)+'" text-anchor="'+
+           l.anchor+'" fill="'+l.col+'">'+l.last+'</text>';
+    });
+    svg+='<text class="axis" x="'+(L+pw/2)+'" y="'+(h-8)+'" text-anchor="middle">PERIPHERALS &#8594;</text>';
+    svg+='<text class="axis" x="11" y="'+(T+ph/2)+'" text-anchor="middle" transform="rotate(-90 11 '+
+         (T+ph/2)+')">OFFENSE &#8594;</text>';
+    svg+='</svg>';
+    var sw='<div class="cmp-quad-sw">'+['F','D'].map(function(k){
+      return '<button type="button" data-g="'+k+'"'+(k===g?' class="on"':'')+'>'+
+             (k==='F'?'Forwards':'Defensemen')+'</button>';
+    }).join('')+'</div>';
+    var note='Every dot behind them is one of the '+pool.pts.length+' '+GRPWORD[g]+
+      ' deep enough to draft. The dashed lines cut the top quarter of each half, so the '+
+      'corner where they meet holds the skaters who do both.';
+    if(away)note+=' Hollow rings are the other position group, on the same scale but '+
+      'ranked against their own pool.';
+    quadHost.innerHTML='<div class="cmp-quad-wrap"><div class="cmp-quad-head">'+
+      '<span class="cmp-quad-t">Where they land</span>'+sw+'</div>'+
+      '<div class="cmp-quad">'+svg+'</div>'+
+      '<div class="cmp-quad-note">'+note+'</div></div>';
+  }
+  quadHost.addEventListener('click',function(e){
+    var b=e.target.closest('.cmp-quad-sw button'); if(!b)return;
+    quadGroup=b.getAttribute('data-g');
+    paintQuad(slots.filter(function(m){return m&&CMP[m];}));
+  });
+  function paintCharts(sel){ paintRadar(sel); paintQuad(sel); }
 
   function paint(){
     var sel=slots.filter(function(n){return n&&CMP[n];});
     if(!sel.length){
       out.innerHTML='<div class="cmp-empty">Pick players above to compare their projections.</div>';
-      radarHost.innerHTML=''; syncURL(); return;
+      radarHost.innerHTML=''; quadHost.innerHTML=''; syncURL(); return;
     }
     var recs=sel.map(function(n){return CMP[n];});
     var h='<table class="cmp"><thead><tr><th class="mlab">&nbsp;</th>';
@@ -384,7 +524,11 @@ function __cmpBoot(){
     });
     h+='</tbody></table>';
     out.innerHTML=h;
-    paintRadar(sel);
+    // A manual pick of the backdrop belongs to the selection that was on screen when it was
+    // made, so changing the players hands the choice back to whichever group they are.
+    var key=sel.join('|');
+    if(key!==lastSel){quadGroup=null;lastSel=key;}
+    paintCharts(sel);
     syncURL();
   }
 

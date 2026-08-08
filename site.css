@@ -938,6 +938,37 @@
   .cmp-leg.off i { background: var(--muted) !important; }
   .cmp-radar-note { font-size: 11.5px; color: var(--muted); text-align: center; }
 
+  /* Where they land: the card's quadrant, with every selected skater on one plot */
+  .cmp-quad-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px;
+          margin: 2px 0 26px; }
+  .cmp-quad-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+          justify-content: center; }
+  .cmp-quad-t { font-size: 11px; font-weight: 800; letter-spacing: .05em;
+          text-transform: uppercase; color: var(--muted); }
+  .cmp-quad-sw { display: inline-flex; border: 1px solid var(--line); border-radius: 8px;
+          overflow: hidden; }
+  .cmp-quad-sw button { border: 0; padding: 5px 11px; font: 700 11.5px/1 inherit;
+          letter-spacing: .03em; background: var(--card); color: var(--muted);
+          cursor: pointer; }
+  .cmp-quad-sw button + button { border-left: 1px solid var(--line); }
+  .cmp-quad-sw button.on { background: var(--accent); color: #fff; }
+  .cmp-quad { width: 100%; max-width: 620px; }
+  .cmp-quad svg { width: 100%; height: auto; }
+  .cmp-quad .frame { fill: none; stroke: var(--line); stroke-width: 1; }
+  .cmp-quad .cut { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 4;
+          opacity: .55; }
+  .cmp-quad .cloud { fill: var(--muted); opacity: .26; }
+  .cmp-quad .qlab { fill: var(--muted); font-size: 10.5px; font-weight: 700;
+          letter-spacing: .04em; text-transform: uppercase; opacity: .8; }
+  .cmp-quad .axis { fill: var(--muted); font-size: 10px; font-weight: 800;
+          letter-spacing: .1em; }
+  .cmp-quad .me { stroke: var(--card); stroke-width: 2; }
+  .cmp-quad .me.away { fill: none; stroke-width: 2.5; }
+  .cmp-quad .melab { font-size: 12px; font-weight: 800; paint-order: stroke;
+          stroke: var(--card); stroke-width: 3.5; stroke-linejoin: round; }
+  .cmp-quad-note { font-size: 11.5px; color: var(--muted); text-align: center;
+          max-width: 62ch; }
+
   /* ---------- Regression Explorer ---------- */
   .rx-hero { background: linear-gradient(135deg, #16283a 0%, #22415c 55%, #2a3f2e 100%);
           border-radius: 20px; padding: 34px 30px 30px; color: #fff; margin-bottom: 22px;
