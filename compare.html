@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>Compare skaters | HockeyBangers</title>
-<meta name="description" content="Put 2 players side by side on every projected category and see where one wins and the other gives it back.">
+<meta name="description" content="Put your shortlist on one chart against the whole pool, then side by side on every projected category.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="HockeyBangers">
 <meta property="og:title" content="Compare skaters">
-<meta property="og:description" content="Put 2 players side by side on every projected category and see where one wins and the other gives it back.">
+<meta property="og:description" content="Put your shortlist on one chart against the whole pool, then side by side on every projected category.">
 <meta property="og:url" content="https://hockeybangers.com/compare">
 <meta property="og:image" content="https://hockeybangers.com/og/compare.png">
 <meta property="og:image:width" content="1200">
@@ -12,7 +12,7 @@
 <meta property="og:image:alt" content="Compare skaters">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Compare skaters">
-<meta name="twitter:description" content="Put 2 players side by side on every projected category and see where one wins and the other gives it back.">
+<meta name="twitter:description" content="Put your shortlist on one chart against the whole pool, then side by side on every projected category.">
 <meta name="twitter:image" content="https://hockeybangers.com/og/compare.png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=9fa68e83cb3e";
+  var SRC = "locked/pro.enc?v=61403667eb08";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -195,12 +195,13 @@
 })();
 </script>
 
-<div class="wrap"><div class="eyebrow">Compare players</div><div class="card cr-top freeonly"><div class="cr-split"><div class="cr-pitch"><h1 class="cr-h1">Compare any 2 skaters</h1><p class="cr-lede">Put skaters side by side on every projected category, with the leader in each row highlighted, and see where one wins and the other gives it back. Compare is part of Custom Draft Tools, scored against your league&rsquo;s own categories rather than ours.</p><div class="lk-act"><a class="lk-pill" href="draft-tools"><span class="lk-lock">&#128274;</span>See what you get</a></div></div><div class="cr-gate"><div class="eyebrow">What you would see</div><div class="lk-rows"><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div></div></div></div></div><script>window.__CMPGATED__ = 1;</script>
+<div class="wrap"><div class="eyebrow">Compare players</div><div class="card cr-top freeonly"><div class="cr-split"><div class="cr-pitch"><h1 class="cr-h1">See where your shortlist lands</h1><p class="cr-lede">Put the skaters you&rsquo;re deciding between on one chart, plotted against the 346 forwards or 179 defensemen a player card scores against, and read off who scores, who bangs and who does both. Then take them row by row on every projected category. Compare is part of Custom Draft Tools, scored against your league&rsquo;s own categories rather than ours.</p><div class="lk-act"><a class="lk-pill" href="draft-tools"><span class="lk-lock">&#128274;</span>See what you get</a></div></div><div class="cr-gate"><div class="eyebrow">What you would see</div><div class="lk-rows"><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div><div class="lk-row"><i class="lk-a"></i><i class="lk-b"></i></div></div></div></div></div><script>window.__CMPGATED__ = 1;</script>
 
 <div class="card proonly">
-  <p class="cmp-lead-in">Line up any four or more skaters side by side on their projected
-  2026-27 line, banger score, and rank. The leader in each row is highlighted &mdash; and
-  remember PIM, hits and blocks all count <em>up</em> in a banger league.</p>
+  <p class="cmp-lead-in">Put 4 or more skaters on one chart and see where each of them lands
+  against the whole pool, offense up the side and peripherals across. Underneath, the same
+  skaters row by row on every projected category, with the leader in each one highlighted.
+  PIM, hits and blocks all count <em>up</em> in a banger league.</p>
   <div class="cmp-slots" id="cmp-slots"></div>
   <div class="cmp-actions">
     <button type="button" class="cmp-add" id="cmp-add">+ Add player</button>
