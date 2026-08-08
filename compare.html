@@ -23,7 +23,7 @@
 <script>
 (function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
 </script>
-<link rel="stylesheet" href="site.css?v=6c28eefd22"></head>
+<link rel="stylesheet" href="site.css?v=21c8c0e305"></head>
 <body>
 <header class="top">
   <div class="topinner">
@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=b197ab43d523";
+  var SRC = "locked/pro.enc?v=4a616592bd10";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -404,8 +404,11 @@ function __cmpBoot(){
     }
     ['F','D'].forEach(function(g){
       var num=function(a,b){return a-b;};
-      POOL[g].cutOff=pctile(POOL[g].pts.map(function(d){return d[1];}).sort(num),0.75);
-      POOL[g].cutPer=pctile(POOL[g].pts.map(function(d){return d[0];}).sort(num),0.75);
+      var os=POOL[g].pts.map(function(d){return d[1];}).sort(num),
+          ps=POOL[g].pts.map(function(d){return d[0];}).sort(num);
+      POOL[g].cutOff=pctile(os,0.75); POOL[g].cutPer=pctile(ps,0.75);
+      // The median cuts, so the all-rounder band here is the same band the card draws.
+      POOL[g].midOff=pctile(os,0.50); POOL[g].midPer=pctile(ps,0.50);
     });
     return POOL;
   }
@@ -466,12 +469,20 @@ function __cmpBoot(){
       svg+='<circle class="cloud" cx="'+sx(d[0]).toFixed(1)+'" cy="'+sy(d[1]).toFixed(1)+'" r="2.4"/>';
     });
     svg+='<rect class="frame" x="'+L+'" y="'+T+'" width="'+pw+'" height="'+ph+'" rx="3"/>';
+    // The all-rounder plus, one polygon so the 2 bands do not double their fill where they
+    // cross. Same shape and the same cuts as quad_mid_band() on a card.
+    var bx1=sx(pool.midPer),bx2=sx(pool.cutPer),by1=sy(pool.cutOff),by2=sy(pool.midOff),
+        RR=L+pw,BB=T+ph;
+    svg+='<polygon class="mid" points="'+[[bx1,T],[bx2,T],[bx2,by1],[RR,by1],[RR,by2],
+      [bx2,by2],[bx2,BB],[bx1,BB],[bx1,by2],[L,by2],[L,by1],[bx1,by1]]
+      .map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ')+'"/>';
     svg+='<line class="cut" x1="'+sx(pool.cutPer).toFixed(1)+'" y1="'+T+'" x2="'+
          sx(pool.cutPer).toFixed(1)+'" y2="'+(T+ph)+'"/>';
     svg+='<line class="cut" x1="'+L+'" y1="'+sy(pool.cutOff).toFixed(1)+'" x2="'+(L+pw)+
          '" y2="'+sy(pool.cutOff).toFixed(1)+'"/>';
     [['offensive marshmallow',L+7,T+14,'start'],['banger unicorn',L+pw-7,T+14,'end'],
-     ['no man&rsquo;s land',L+7,T+ph-8,'start'],['peripheral legend',L+pw-7,T+ph-8,'end']]
+     ['no man&rsquo;s land',L+7,T+ph-8,'start'],['peripheral legend',L+pw-7,T+ph-8,'end'],
+     ['middle ground',(bx1+bx2)/2,T+ph-8,'middle']]
       .forEach(function(q){
         svg+='<text class="qlab" x="'+q[1]+'" y="'+q[2]+'" text-anchor="'+q[3]+'">'+q[0]+'</text>';
       });
@@ -498,8 +509,9 @@ function __cmpBoot(){
              (k==='F'?'Forwards':'Defensemen')+'</button>';
     }).join('')+'</div>';
     var note='Every dot behind them is one of the '+pool.pts.length+' '+GRPWORD[g]+
-      ' a card scores against. The dashed lines cut the top quarter of each half, so the '+
-      'corner where they meet holds the skaters who do both.';
+      ' a card scores against. The dashed lines mark the top quarter of each half and the '+
+      'shaded band runs from the median up to them, so a corner is reserved for a skater '+
+      'who is genuinely strong at one and genuinely weak at the other.';
     if(away)note+=' Hollow rings are '+GRPWORD[g==='F'?'D':'F']+', redrawn against the '+
       GRPWORD[g].replace(/s$/,'')+' baseline so they sit on the same axes as everyone else '+
       'here. Switch the backdrop to score them against their own.';

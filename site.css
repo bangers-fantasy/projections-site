@@ -579,6 +579,10 @@
   .cq { display: block; overflow: visible; }
   .cq-frame { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 1; }
   .cq-med { stroke: rgba(255,255,255,.34); stroke-width: 1; stroke-dasharray: 3 3; }
+  /* The all-rounder plus. Sits under the density bins and the crosshair, so it reads as
+     ground rather than as another thing plotted on top of them. */
+  .cq-mid { fill: rgba(255,255,255,.065); stroke: none; }
+  .cq-midlab { opacity: .72; }
   .cq-me { stroke: #262330; stroke-width: 2.5; }
   .cq-axis { font-size: 9px; font-weight: 700; fill: #8f8c96; letter-spacing: .06em; }
   .cq-quad { font-size: 11.5px; font-weight: 700; fill: rgba(255,255,255,.46);
@@ -957,6 +961,8 @@
   .cmp-quad { width: 100%; max-width: 620px; }
   .cmp-quad svg { width: 100%; height: auto; }
   .cmp-quad .frame { fill: none; stroke: var(--line); stroke-width: 1; }
+  /* The all-rounder plus. Kept very light: it is ground for the cloud, not a plotted thing. */
+  .cmp-quad .mid { fill: var(--muted); fill-opacity: .07; stroke: none; }
   .cmp-quad .cut { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 4;
           opacity: .55; }
   .cmp-quad .cloud { fill: var(--muted); opacity: .26; }
