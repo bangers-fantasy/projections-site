@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=e8357b9000a5";
+  var SRC = "locked/pro.enc?v=b197ab43d523";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -356,15 +356,28 @@ function __cmpBoot(){
   });
 
   // ---- where they land: the card's quadrant, with everyone selected on one plot ------
-  // Offense against peripherals in score points, the same two halves of the banger score
-  // the card plots. Both are absolute (a fixed replacement base, not a percentile), so a
-  // forward and a defenseman sit on one pair of axes honestly; what is position-specific
-  // is the CLOUD and the crosshair, which is why the backdrop is one group at a time.
+  // Offense against peripherals in score points, the same 2 halves of the banger score the
+  // card plots. The cloud and the crosshair are one position group at a time, because both
+  // are position-specific.
+  //
+  // So are the SCORES, as of 2026-08-08: a defenseman's halves are struck against his own
+  // baseline (30.00 / 110.65) and a forward's against his (48.00 / 92.65). Dropping a
+  // defenseman onto the forward cloud raw would push him 18 points up the offense axis and
+  // 18 left along peripherals, which is a lie about where he sits among forwards. onScale()
+  // undoes his own baseline and applies the backdrop's, so a hollow ring lands where a
+  // forward with his actual production would. For a player already in the shown group it is
+  // a no-op.
   var POOLCUT={"F":350,"D":180};
+  var POOLBASE={"F":[48.0,92.65],"D":[30.0,110.65]};
   var GRPWORD={F:'forwards',D:'defensemen'};
   var quadGroup=null, POOL=null, lastSel=null;
   function grpOf(rec){
     return String(rec.pos||'').split(',')[0].trim().toUpperCase()==='D'?'D':'F';
+  }
+  // [peripherals, offense] for `rec`, re-expressed on group `g`'s baseline.
+  function onScale(rec,g){
+    var mine=POOLBASE[grpOf(rec)], theirs=POOLBASE[g];
+    return [+rec['def']+mine[1]-theirs[1], +rec.off+mine[0]-theirs[0]];
   }
   // The card pool, rebuilt from the board: the top POOLCUT of each group by its own
   // positional rank, minus anyone without a club. Same definition as in_card_pool(), so
@@ -436,8 +449,8 @@ function __cmpBoot(){
     var xv=pool.pts.map(function(d){return d[0];}),
         yv=pool.pts.map(function(d){return d[1];});
     sel.forEach(function(n){
-      var o=+CMP[n].off,p=+CMP[n]['def'];
-      if(isFinite(o)&&isFinite(p)){xv.push(p);yv.push(o);}
+      var xy=onScale(CMP[n],g);
+      if(isFinite(xy[0])&&isFinite(xy[1])){xv.push(xy[0]);yv.push(xy[1]);}
     });
     var x0=Math.floor(Math.min.apply(null,xv)/10)*10,
         x1=Math.ceil(Math.max.apply(null,xv)/10)*10,
@@ -464,7 +477,7 @@ function __cmpBoot(){
       });
     var dots=[],away=0;
     sel.forEach(function(n,si){
-      var r=CMP[n],o=+r.off,p=+r['def'];
+      var r=CMP[n],xy=onScale(r,g),p=xy[0],o=xy[1];
       if(hidden[n]||!isFinite(o)||!isFinite(p))return;
       var off=grpOf(r)!==g; if(off)away++;
       var col=COLORS[si%COLORS.length],x=sx(p),y=sy(o);
@@ -487,9 +500,9 @@ function __cmpBoot(){
     var note='Every dot behind them is one of the '+pool.pts.length+' '+GRPWORD[g]+
       ' a card scores against. The dashed lines cut the top quarter of each half, so the '+
       'corner where they meet holds the skaters who do both.';
-    if(away)note+=' Hollow rings are '+GRPWORD[g==='F'?'D':'F']+', scored the same way as '+
-      'everyone else. The cloud and the crosshair behind them belong to the '+GRPWORD[g]+
-      ', so switch the backdrop to see them among their own.';
+    if(away)note+=' Hollow rings are '+GRPWORD[g==='F'?'D':'F']+', redrawn against the '+
+      GRPWORD[g].replace(/s$/,'')+' baseline so they sit on the same axes as everyone else '+
+      'here. Switch the backdrop to score them against their own.';
     quadHost.innerHTML='<div class="cmp-quad-wrap"><div class="cmp-quad-head">'+
       '<span class="cmp-quad-t">Where they land</span>'+sw+'</div>'+
       '<div class="cmp-quad">'+svg+'</div>'+
