@@ -23,7 +23,7 @@
 <script>
 (function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
 </script>
-<link rel="stylesheet" href="site.css?v=c9cfebca3b"></head>
+<link rel="stylesheet" href="site.css?v=79ae5f9633"></head>
 <body>
 <header class="top">
   <div class="topinner">
@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=8531bdda032b";
+  var SRC = "locked/pro.enc?v=5f5c7c9ab539";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -393,14 +393,16 @@ function __cmpBoot(){
     return d>sel.length/2?'D':'F';
   }
   // Labels crowd badly when 2 skaters land on top of each other, so they are placed per
-  // side and then pushed apart in y rather than drawn where the dot is.
+  // side and then pushed apart in y rather than drawn where the dot is. The 18-unit floor
+  // is sized for the phone, where the CSS scales this type up to 19 units so it survives
+  // the box being drawn at half its width.
   function quadLabels(dots,L,T,pw,ph){
     var side={l:[],r:[]},out=[];
     dots.forEach(function(d){(d.x>L+pw*0.62?side.l:side.r).push(d);});
     ['l','r'].forEach(function(s){
       var last=-1e9;
       side[s].sort(function(a,b){return a.y-b.y;}).forEach(function(d){
-        var y=Math.min(Math.max(d.y+4,last+14),T+ph-4); last=y;
+        var y=Math.min(Math.max(d.y+4,last+18),T+ph-4); last=y;
         out.push({x:s==='l'?d.x-10:d.x+10,y:y,anchor:s==='l'?'end':'start',
                   last:d.last,col:d.col});
       });
@@ -450,7 +452,7 @@ function __cmpBoot(){
       var off=grpOf(r)!==g; if(off)away++;
       var col=COLORS[si%COLORS.length],x=sx(p),y=sy(o);
       svg+='<circle class="me'+(off?' away':'')+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+
-           '" r="6" '+(off?'stroke':'fill')+'="'+col+'"/>';
+           '" r="6" style="'+(off?'stroke:'+col+';fill:var(--card)':'fill:'+col)+'"/>';
       dots.push({x:x,y:y,col:col,last:esc((String(n).split(' ').pop()))});
     });
     quadLabels(dots,L,T,pw,ph).forEach(function(l){
@@ -466,10 +468,11 @@ function __cmpBoot(){
              (k==='F'?'Forwards':'Defensemen')+'</button>';
     }).join('')+'</div>';
     var note='Every dot behind them is one of the '+pool.pts.length+' '+GRPWORD[g]+
-      ' deep enough to draft. The dashed lines cut the top quarter of each half, so the '+
+      ' a card scores against. The dashed lines cut the top quarter of each half, so the '+
       'corner where they meet holds the skaters who do both.';
-    if(away)note+=' Hollow rings are the other position group, on the same scale but '+
-      'ranked against their own pool.';
+    if(away)note+=' Hollow rings are '+GRPWORD[g==='F'?'D':'F']+', scored the same way as '+
+      'everyone else. The cloud and the crosshair behind them belong to the '+GRPWORD[g]+
+      ', so switch the backdrop to see them among their own.';
     quadHost.innerHTML='<div class="cmp-quad-wrap"><div class="cmp-quad-head">'+
       '<span class="cmp-quad-t">Where they land</span>'+sw+'</div>'+
       '<div class="cmp-quad">'+svg+'</div>'+
