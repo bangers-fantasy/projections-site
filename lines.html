@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=4439d8b1c1aa";
+  var SRC = "locked/pro.enc?v=1dd18c0d11a7";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -294,6 +294,7 @@
   .tq-dot { fill:var(--accent); stroke:var(--card); stroke-width:1.5; }
   .tq-lab { fill:var(--ink); font-size:10.5px; font-weight:700; paint-order:stroke;
           stroke:var(--card); stroke-width:3; stroke-linejoin:round; }
+  .tq-lead { stroke:var(--muted); stroke-width:1; opacity:.7; }
   .tq-note { font-size:10.5px; line-height:1.55; max-width:80ch; }
   /* The locked variant sits UNDER both panels rather than beside placeholder rows, because
      here the chart itself is the pitch: the grid is real and only the players are missing. */
@@ -301,11 +302,14 @@
   .lk-tq .lk-msg { max-width:70ch; }
   /* The panel is 440 units wide and draws at about 300px in 1 column on a phone, so the
      type inside it is declared big and scales down, the same 2-step the card quadrant uses. */
+  /* The name type is held at 13 on a phone rather than pushed to 16. The label reserve is
+     in viewBox units and cannot follow a media query, so every step up here is a step
+     towards phone labels overlapping what the desktop pass cleared. */
   @media (max-width:820px){
-    .tq-quad { font-size:12px; } .tq-lab { font-size:13px; } .tq-axis { font-size:11px; }
+    .tq-quad { font-size:12px; } .tq-lab { font-size:12.5px; } .tq-axis { font-size:11px; }
   }
   @media (max-width:480px){
-    .tq-quad { font-size:15px; } .tq-lab { font-size:16px; } .tq-axis { font-size:13px; }
+    .tq-quad { font-size:15px; } .tq-lab { font-size:13px; } .tq-axis { font-size:13px; }
   }
   .ln-key { display:inline-flex; align-items:center; gap:5px; }
   .ln-key i { width:9px; height:9px; border-radius:2px; display:inline-block; }
@@ -495,40 +499,93 @@ window.__QUADPOOL__ = {"F":{"n":346,"x0":-40,"x1":120,"y0":-50,"y1":180,"bw":11.
                     y1:q[2]-11, y2:q[2]+5});
       });
 
-    // Labels: most extreme first, and a name is dropped rather than allowed to overlap one
-    // already placed. On a crowded roster that names the edges and leaves the pile clean,
-    // which is the readable version of "label everyone".
+    // ---- naming a crowded plot -------------------------------------------------------
+    // The first version parked each name hard against its dot and dropped it when it would
+    // not fit. On a bunched roster that failed twice over: the survivors sat between 4 dots
+    // with nothing saying which one they belonged to, and the losers became anonymous dots
+    // that read as missing data. Both problems go away by giving up on "always adjacent".
+    //
+    // Every dot is now searched around a ring of candidate slots, nearest first, until one
+    // lands clear of the other labels, the other DOTS and the corner names. Whenever the
+    // winning slot is not touching its dot, a hairline connects the 2, so a name in open
+    // space is still unambiguous. Extremes are placed first so the interesting players get
+    // the close slots and the pile in the middle is what gets pushed out.
     var pts=list.map(function(r){
       var x=sx(r.def), y=sy(r.off);
       return {r:r, x:x, y:y,
               d:Math.hypot((r.def-p.cut_per)/(p.x1-p.x0||1), (r.off-p.cut_off)/(p.y1-p.y0||1))};
     });
+    s+='<!--LEADERS-->';                 // filled in below, so leaders paint under the dots
     pts.forEach(function(q){
       s+='<circle class="tq-dot" cx="'+q.x.toFixed(1)+'" cy="'+q.y.toFixed(1)+'" r="4.5">'+
          '<title>'+esc(q.r.name)+': offense '+Math.round(q.r.off)+', peripherals '+
          Math.round(q.r.def)+'</title></circle>';
     });
-    var placed=[], named=0;
-    taken.forEach(function(b){ placed.push(b); });
-    pts.slice().sort(function(a,b){ return b.d-a.d; }).forEach(function(q){
-      var right = q.x < QL+pw*0.6;
-      var lx = right ? q.x+7 : q.x-7, ly = q.y+3.5;
-      var last = (q.r.name.split(' ').pop()) || q.r.name;
-      var wid = last.length*5.4+8;
-      var box = {x1:right?lx:lx-wid, x2:right?lx+wid:lx, y1:ly-8, y2:ly+3};
-      var hit = placed.some(function(o){
-        return !(box.x2<o.x1 || box.x1>o.x2 || box.y2<o.y1 || box.y1>o.y2); });
-      if(hit || box.x1<QL-2 || box.x2>RR+2 || box.y1<QT || box.y2>BB) return;
-      placed.push(box); named++;
-      s+='<text class="tq-lab" x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="'+
-         (right?'start':'end')+'">'+esc(last)+'</text>';
+    // Dots are obstacles too, or a name lands on a teammate's marker.
+    var placed=taken.slice();
+    pts.forEach(function(q){
+      placed.push({x1:q.x-5.5, x2:q.x+5.5, y1:q.y-5.5, y2:q.y+5.5});
     });
+    // dx, dy, anchor. Ordered nearest-and-sideways first, then further out and above/below.
+    var SLOTS=[[8,3.5,'start'],[-8,3.5,'end'],[8,-6,'start'],[-8,-6,'end'],
+               [8,12,'start'],[-8,12,'end'],[0,-9,'middle'],[0,15,'middle'],
+               [17,3.5,'start'],[-17,3.5,'end'],[17,-9,'start'],[-17,-9,'end'],
+               [17,15,'start'],[-17,15,'end'],[0,-19,'middle'],[0,25,'middle'],
+               [28,3.5,'start'],[-28,3.5,'end'],[0,-29,'middle'],[0,35,'middle']];
+    var named=0, lines='';
+    function free(box){
+      if(box.x1<QL+1 || box.x2>RR-1 || box.y1<QT+1 || box.y2>BB-1) return false;
+      return !placed.some(function(z){
+        return !(box.x2<z.x1 || box.x1>z.x2 || box.y2<z.y1 || box.y1>z.y2); });
+    }
+    pts.slice().sort(function(a,b){ return b.d-a.d; }).forEach(function(q){
+      var last=(q.r.name.split(' ').pop())||q.r.name;
+      // 6.4 a character: this type is 10.5 units and the phone rules take it to 12.5, so the
+      // reserve has to cover the bigger one or phone labels overlap what desktop cleared.
+      var wid=last.length*6.4+6, win=null;
+      function boxAt(lx,ly,a){
+        var bx1 = a==='start' ? lx-2 : (a==='end' ? lx-wid : lx-wid/2);
+        return {x1:bx1, x2:bx1+wid+2, y1:ly-9, y2:ly+3.5};
+      }
+      for(var i=0;i<SLOTS.length && !win;i++){
+        var o=SLOTS[i], b=boxAt(q.x+o[0], q.y+o[1], o[2]);
+        if(free(b)) win={x:q.x+o[0], y:q.y+o[1], a:o[2], box:b, far:Math.abs(o[0])>10||Math.abs(o[1])>10};
+      }
+      // Nothing in the ring: sweep the whole panel on a coarse grid and take the free spot
+      // nearest the dot. A long name in a tight cluster (Mittelstadt) can exhaust every slot
+      // around it while there is plenty of room 60 units away, and an anonymous dot is worse
+      // than a name on a leader.
+      if(!win){
+        var best=null;
+        for(var gx=QL+6; gx<RR-6; gx+=11){
+          for(var gy=QT+11; gy<BB-5; gy+=10){
+            var gb=boxAt(gx,gy,'middle');
+            if(!free(gb)) continue;
+            var dd=Math.hypot(gx-q.x, gy-q.y);
+            if(!best || dd<best.d) best={x:gx,y:gy,d:dd,box:gb};
+          }
+        }
+        if(best) win={x:best.x, y:best.y, a:'middle', box:best.box, far:true};
+      }
+      if(!win) return;
+      placed.push(win.box); named++;
+      if(win.far){
+        var tx = win.a==='start' ? win.box.x1 : (win.a==='end' ? win.box.x2 : win.x);
+        lines+='<line class="tq-lead" x1="'+q.x.toFixed(1)+'" y1="'+q.y.toFixed(1)+
+               '" x2="'+tx.toFixed(1)+'" y2="'+(win.y-2.5).toFixed(1)+'"/>';
+      }
+      s+='<text class="tq-lab" x="'+win.x.toFixed(1)+'" y="'+win.y.toFixed(1)+
+         '" text-anchor="'+win.a+'">'+esc(last)+'</text>';
+    });
+    // Leaders go in BEHIND the names and the dots, so a hairline never crosses a letter.
+    s=s.replace('<!--LEADERS-->', lines);
     s+='<text class="tq-axis" x="'+(QL+pw/2)+'" y="'+(QH-6)+'" text-anchor="middle">PERIPHERALS &#8594;</text>';
     s+='<text class="tq-axis" x="10" y="'+(QT+ph/2)+'" text-anchor="middle" transform="rotate(-90 10 '+
        (QT+ph/2)+')">OFFENSE &#8594;</text>';
     s+='</svg>';
     return '<div class="tq-panel"><div class="ln-ranklab">'+esc(title)+
-           '<span class="tq-n">'+(sub || (list.length+' plotted, '+named+' named'))+
+           '<span class="tq-n">'+(sub || (list.length+' skaters'+
+           (list.length-named ? ', '+(list.length-named)+' unnamed' : '')))+
            '</span></div><div class="tq-plot">'+s+'</div></div>';
   }
 
@@ -563,9 +620,8 @@ window.__QUADPOOL__ = {"F":{"n":346,"x0":-40,"x1":120,"y0":-50,"y1":180,"bw":11.
       '<div class="ln-rankfoot"><span class="tq-note">Grey is every skater in the pool a card '+
       'scores against. The dashed lines mark the top quarter of each half and the shaded band '+
       'runs from the median up to them, so a corner is reserved for a skater who is genuinely '+
-      'strong at one and genuinely weak at the other. Names are dropped where they would '+
-      'collide, so the crowd in the middle stays readable; hover any dot for the rest.</span>'+
-      '</div></div>';
+      'strong at one and genuinely weak at the other. Every skater on the roster is named, and '+
+      'a hairline connects any name that had to sit away from its dot.</span></div></div>';
   }
 
   function rankList(list){
