@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=23ba13631c92";
+  var SRC = "locked/pro.enc?v=a07bf7d46922";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -261,7 +261,9 @@
   .ln-qb { align-self:center; font:700 9px/1 sans-serif; letter-spacing:.05em; color:var(--muted);
     border:1px solid var(--line); border-radius:5px; padding:3px 4px; }
   .ln-flags { margin-top:16px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:12px; }
-  .ln-lead { margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.6; max-width:66ch; }
+  /* Full card width on purpose: capped at 66ch this ran 4 short lines beside a column of
+     empty space, which made the masthead taller than anything in it deserved. */
+  .ln-lead { margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.6; }
   /* The review status, the scope and the injury key as 3 pills instead of one notice box. */
   .ln-facts { display:flex; flex-wrap:wrap; gap:7px; margin:0 0 22px; }
   .ln-fact { display:inline-flex; align-items:center; gap:6px; font-size:12px; line-height:1.35;
@@ -374,9 +376,8 @@
 <div class="card ln-top">
   <h1 class="ln-h1">Every club, line by line</h1>
   <p class="ln-lead">Projected 2026-27 lines, power-play units and fantasy ranks. Tiers rank on
-  second-half deployment, 5v5 plus power-play TOI per game, so a mid-season promotion carries
-  forward and so does a benching. These are minutes rather than verified chemistry: the database
-  holds ice time, not who skates with whom.</p>
+  second-half deployment, 5v5 plus power-play TOI per game, so a late promotion or benching
+  carries forward. These are minutes rather than verified chemistry.</p>
   <div class="ln-facts" id="ln-review"></div>
   <div class="ln-pick">Pick a club</div>
   <div class="ln-teams" id="ln-teams"></div>
