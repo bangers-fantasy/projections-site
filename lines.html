@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=a07bf7d46922";
+  var SRC = "locked/pro.enc?v=46c766e9763f";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -198,10 +198,14 @@
 <div class="wrap">
 <div class="eyebrow">Depth charts &amp; power play</div>
 <style>
-  /* The masthead. The page used to open on a grey paragraph and a 4-line notice box, which
-     put its least interesting sentence in its largest, loudest element. */
+  /* The masthead is a title and the picker, nothing else. It used to open on a grey
+     paragraph and a 4-line notice box, which put the page's least interesting sentence in
+     its largest, loudest element and pushed the 32 buttons most people came for below it.
+     Everything that box explained is now stated where it applies: the review badge and its
+     date sit on the club's own panel, and the injured key sits under the depth chart that
+     drew the asterisk. */
   .ln-top { padding-bottom:20px; }
-  .ln-h1 { font-size:29px; font-weight:800; letter-spacing:-.02em; margin:2px 0 10px;
+  .ln-h1 { font-size:29px; font-weight:800; letter-spacing:-.02em; margin:2px 0 18px;
     line-height:1.15; }
   @media (max-width:520px){ .ln-h1 { font-size:24px; } }
   .ln-pick { font:700 11px/1 sans-serif; text-transform:uppercase; letter-spacing:.08em;
@@ -261,17 +265,7 @@
   .ln-qb { align-self:center; font:700 9px/1 sans-serif; letter-spacing:.05em; color:var(--muted);
     border:1px solid var(--line); border-radius:5px; padding:3px 4px; }
   .ln-flags { margin-top:16px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:12px; }
-  /* Full card width on purpose: capped at 66ch this ran 4 short lines beside a column of
-     empty space, which made the masthead taller than anything in it deserved. */
-  .ln-lead { margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.6; }
-  /* The review status, the scope and the injury key as 3 pills instead of one notice box. */
-  .ln-facts { display:flex; flex-wrap:wrap; gap:7px; margin:0 0 22px; }
-  .ln-fact { display:inline-flex; align-items:center; gap:6px; font-size:12px; line-height:1.35;
-    padding:6px 11px; border-radius:999px; border:1px solid var(--line);
-    background:var(--chip); color:var(--muted); }
-  .ln-fact b { color:var(--ink); font-weight:700; }
-  .ln-fact.ok { border-color:rgba(31,157,99,.5); }
-  .ln-fact .rv-ico { color:#1f9d63; font-weight:700; }
+  .ln-injkey { margin-top:14px; font-size:12px; color:var(--muted); }
   .ln-teambtn.done { color:var(--ink); }
   /* The tick marks the hand-reviewed clubs. Once every club is reviewed it sits on all 32
      and carries no information, so the picker drops it and the pill above says it once. */
@@ -375,10 +369,6 @@
 </style>
 <div class="card ln-top">
   <h1 class="ln-h1">Every club, line by line</h1>
-  <p class="ln-lead">Projected 2026-27 lines, power-play units and fantasy ranks. Tiers rank on
-  second-half deployment, 5v5 plus power-play TOI per game, so a late promotion or benching
-  carries forward. These are minutes rather than verified chemistry.</p>
-  <div class="ln-facts" id="ln-review"></div>
   <div class="ln-pick">Pick a club</div>
   <div class="ln-teams" id="ln-teams"></div>
 </div>
@@ -393,11 +383,11 @@ window.__QUADPOOL__ = {"F":{"n":346,"x0":-40,"x1":120,"y0":-50,"y1":180,"bw":11.
   var pick = document.getElementById('ln-teams'), panel = document.getElementById('ln-panel');
   var SEP = '<span class="ln-sep">-</span>';
   // Manual-review frontier: teams are hand-reviewed alphabetically BY TEAM NAME. Everything
-  // at or before this name is done; bump these two as the review advances (e.g. -> Chicago).
-  var REVIEWED_THROUGH = "Winnipeg Jets", REVIEWED_LABEL = "Winnipeg";
+  // at or before this name is done; bump it as the review advances (e.g. -> Chicago).
+  var REVIEWED_THROUGH = "Winnipeg Jets";
   // Teams INSIDE the alphabetical frontier that were deliberately passed over and are not
   // hand-reviewed. Without this they would inherit the badge from the cutoff alone and
-  // claim a review that never happened. Value is the short name shown in the blurb.
+  // claim a review that never happened.
   // Empty since Aug 6 2026: Detroit was the last skip and is now hand-reviewed.
   var REVIEW_SKIP = {};
   function isReviewed(t){ var n = t.team||'';
@@ -779,6 +769,12 @@ window.__QUADPOOL__ = {"F":{"n":346,"x0":-40,"x1":120,"y0":-50,"y1":180,"bw":11.
            '<div class="ln-pprow">'+grp.map(ppChip).join('')+'</div></div></div>';
     });
     h += '</div></div>';
+    // The asterisk key used to live in the masthead, where it sat on every club whether or
+    // not that club had anyone hurt. It belongs beside the marks it explains, and only when
+    // this roster actually drew one.
+    if(h.indexOf('ln-inj') >= 0)
+      h += '<div class="ln-injkey"><span class="ln-inj">*</span> injured, kept in projected '+
+           'role</div>';
     // Team fantasy-rank lists (overall skater rank), split F / D.
     if((t.ranked_f && t.ranked_f.length) || (t.ranked_d && t.ranked_d.length)){
       h += '<div class="ln-ranks"><div class="ln-sub">Fantasy rank<span class="ln-hint">overall skater rank · banger VOR</span></div>'+
@@ -821,23 +817,11 @@ window.__QUADPOOL__ = {"F":{"n":346,"x0":-40,"x1":120,"y0":-50,"y1":180,"bw":11.
     b.onclick = function(){ render(t); };
     pick.appendChild(b);
   });
-  var rvCount = data.filter(isReviewed).length;
-  var skipTxt = Object.keys(REVIEW_SKIP).map(function(k){ return REVIEW_SKIP[k]; });
-  skipTxt = skipTxt.length ? (', '+skipTxt.join(' and ')+' still pending') : '';
-  var rv = document.getElementById('ln-review');
-  // Once every club is reviewed the "later in the alphabet" wording is false, so the pill
-  // switches to the completed state. Roll REVIEWED_THROUGH back and the partial copy returns.
-  var allDone = rvCount === data.length && !skipTxt;
+  // The tick on a button marks a hand-reviewed club. Once every club is reviewed it sits on
+  // all 32 and says nothing, so the picker drops it; roll REVIEWED_THROUGH back and it
+  // returns on its own. The per-team badge in the panel carries the date either way.
+  var allDone = data.every(isReviewed);
   if(allDone) pick.className = 'ln-teams alldone';
-  if(rv) rv.innerHTML =
-    '<span class="ln-fact ok"><span class="rv-ico">&#10003;</span>'+(allDone
-      ? '<b>All '+rvCount+' teams hand-reviewed</b>'
-      : '<b>Hand-reviewed through '+REVIEWED_LABEL+'</b>, '+rvCount+' teams'+skipTxt)+'</span>'+
-    '<span class="ln-fact">'+(allDone
-      ? 'Review date on every club'
-      : 'A &#10003; marks a club that is done')+'</span>'+
-    '<span class="ln-fact">L1 to L4, 3 pairs, PP1 and PP2</span>'+
-    '<span class="ln-fact"><span class="ln-inj">*</span> injured, kept in projected role</span>';
   // Deep-link ?team=CODE (from a player card) wins over the last-viewed team.
   var urlTeam = null;
   try{ urlTeam = new URLSearchParams(window.location.search).get('team'); }catch(e){}
