@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=2772e86d416c";
+  var SRC = "locked/pro.enc?v=4439d8b1c1aa";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -295,6 +295,10 @@
   .tq-lab { fill:var(--ink); font-size:10.5px; font-weight:700; paint-order:stroke;
           stroke:var(--card); stroke-width:3; stroke-linejoin:round; }
   .tq-note { font-size:10.5px; line-height:1.55; max-width:80ch; }
+  /* The locked variant sits UNDER both panels rather than beside placeholder rows, because
+     here the chart itself is the pitch: the grid is real and only the players are missing. */
+  .lk-tq { display:block; margin-top:14px; }
+  .lk-tq .lk-msg { max-width:70ch; }
   /* The panel is 440 units wide and draws at about 300px in 1 column on a phone, so the
      type inside it is declared big and scales down, the same 2-step the card quadrant uses. */
   @media (max-width:820px){
@@ -444,9 +448,10 @@ window.__QUADPOOL__ = {"F":{"n":346,"x0":-40,"x1":120,"y0":-50,"y1":180,"bw":11.
   var QPOOL = window.__QUADPOOL__ || {};
   var QW=440, QH=330, QL=34, QT=16, QB=26, QR=12;
 
-  function quadPanel(list, g, title){
+  function quadPanel(list, g, title, sub){
     var p = QPOOL[g];
-    if(!p || !list || !list.length) return '';
+    if(!p) return '';
+    list = list || [];
     var pw=QW-QL-QR, ph=QH-QT-QB;
     var xs=[p.x0,p.x1], ys=[p.y0,p.y1];
     list.forEach(function(r){ xs.push(r.def); ys.push(r.off); });
@@ -523,8 +528,30 @@ window.__QUADPOOL__ = {"F":{"n":346,"x0":-40,"x1":120,"y0":-50,"y1":180,"bw":11.
        (QT+ph/2)+')">OFFENSE &#8594;</text>';
     s+='</svg>';
     return '<div class="tq-panel"><div class="ln-ranklab">'+esc(title)+
-           '<span class="tq-n">'+list.length+' plotted, '+named+' named</span></div>'+
-           '<div class="tq-plot">'+s+'</div></div>';
+           '<span class="tq-n">'+(sub || (list.length+' plotted, '+named+' named'))+
+           '</span></div><div class="tq-plot">'+s+'</div></div>';
+  }
+
+  // The free version. It draws the REAL backdrop, which is public already (a card prints the
+  // same grid), and plots nobody. Showing the roster as unnamed dots was the other candidate
+  // and was dropped: it would mean shipping every skater's 2 half-scores to a free page, and
+  // even stripped of names that publishes the exact rank thresholds. Nothing is hidden in
+  // this markup, so there is nothing in it to reveal.
+  function teamQuadsLocked(t){
+    var nf=(t.roster_f||[]).length, nd=(t.roster_d||[]).length;
+    if(!nf && !nd) return '';
+    var f=quadPanel([], 'F', 'Forwards', nf+' on this roster'),
+        d=quadPanel([], 'D', 'Defense', nd+' on this roster');
+    if(!f && !d) return '';
+    return '<div class="ln-ranks"><div class="ln-sub">Where they land'+
+      '<span class="ln-hint">offense vs peripherals &middot; vs the whole position pool</span></div>'+
+      '<div class="tq-cols">'+f+d+'</div>'+
+      '<div class="lk-inline lk-tq"><div class="lk-msg">'+
+      '<b>Which of these '+(nf+nd)+' is a banger unicorn, and which is padding?</b>'+
+      '<span>The grid is real. Draft Tools drops every skater on this roster onto it, so you '+
+      'can see who scores, who bangs, who does both and who is filling a line.</span>'+
+      '<a class="lk-pill" href="draft-tools"><span class="lk-lock">&#128274;</span>'+
+      'See where they land</a></div></div></div>';
   }
 
   function teamQuads(t){
@@ -687,6 +714,7 @@ window.__QUADPOOL__ = {"F":{"n":346,"x0":-40,"x1":120,"y0":-50,"y1":180,"bw":11.
            'what each is worth above replacement.</span>'+
            '<a class="lk-pill" href="draft-tools">'+
            '<span class="lk-lock">&#128274;</span>See the full board</a></div></div></div>';
+      h += teamQuadsLocked(t);
     }
     h += catLeaders(t);
     h += ppTrend(t);
