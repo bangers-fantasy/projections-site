@@ -90,7 +90,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=1dd18c0d11a7";
+  var SRC = "locked/pro.enc?v=12f0b066c1d5";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -426,7 +426,7 @@ function __cmpBoot(){
   //
   // A name on a dot in the TOP BAND drops below its dot instead of sitting beside it. The
   // corner labels live up there, and on a phone they scale to 20 units, so a top-band name
-  // set beside its dot lands on top of "offensive marshmallow" or "banger unicorn". Same
+  // set beside its dot lands on top of "offensive marshmallow" or "multi-cat unicorn". Same
   // rule and roughly the same numbers the card's own quadrant uses.
   function quadLabels(dots,L,T,pw,ph){
     var side={l:[],r:[]},out=[];
@@ -480,7 +480,7 @@ function __cmpBoot(){
          sx(pool.cutPer).toFixed(1)+'" y2="'+(T+ph)+'"/>';
     svg+='<line class="cut" x1="'+L+'" y1="'+sy(pool.cutOff).toFixed(1)+'" x2="'+(L+pw)+
          '" y2="'+sy(pool.cutOff).toFixed(1)+'"/>';
-    [['offensive marshmallow',L+7,T+14,'start'],['banger unicorn',L+pw-7,T+14,'end'],
+    [['offensive marshmallow',L+7,T+14,'start'],['multi-cat unicorn',L+pw-7,T+14,'end'],
      ['no man&rsquo;s land',L+7,T+ph-8,'start'],['peripheral legend',L+pw-7,T+ph-8,'end'],
      ['middle ground',(bx1+bx2)/2,T+ph-8,'middle']]
       .forEach(function(q){
