@@ -679,6 +679,18 @@
   .hb-note.read b { color: #ecebef; font-variant-numeric: tabular-nums; }
   .hb-bio + .hb-note.read { margin-top: 10px; }
   .hb-note.read + .hb-note { margin-top: 10px; }
+  /* The legend for the whole card: what the tiles, bars, radar and quadrant are measured
+     against. Every reader needs it once and nobody needs it twice, so it sits behind a
+     disclosure rather than closing the card with a paragraph most people scroll past. */
+  .hb-how { margin: 14px 0 0; }
+  .hb-how > summary { display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+          list-style: none; font-size: 12px; font-weight: 700; color: #b9b6c0;
+          padding: 6px 11px; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; }
+  .hb-how > summary::-webkit-details-marker { display: none; }
+  .hb-how > summary:hover { color: #ecebef; border-color: rgba(255,255,255,.28); }
+  .hb-how > summary::after { content: '\25BE'; font-size: 10px; opacity: .7; }
+  .hb-how[open] > summary::after { content: '\25B4'; }
+  .hb-how .hb-note { margin-top: 12px; }
 
   @media (max-width: 900px) {
     .hb-grid { grid-template-columns: minmax(0,1fr); }
