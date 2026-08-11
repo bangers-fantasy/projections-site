@@ -91,7 +91,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=e62885ca3952";
+  var SRC = "locked/pro.enc?v=c6c4cb18500e";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -114,25 +114,37 @@
     return new Uint8Array(await new Response(stream).arrayBuffer());
   }
 
+  // Failures are SORTED into 3 kinds, because only one of them may cost the buyer his
+  // saved password: "payload" (never got the bytes), "browser" (too old to unpack them),
+  // "decrypt" (got the bytes and they would not open). See the catch in unlock().
   async function fetchPayload(pw){
-    var res = await fetch(SRC, {cache:"force-cache"});
-    if(!res.ok) throw new Error("payload");
-    var all = b64((await res.text()).trim());
+    var res, raw;
+    try{
+      res = await fetch(SRC, {cache:"force-cache"});
+      if(!res.ok) throw 0;
+      raw = (await res.text()).trim();
+    }catch(e){ throw new Error("payload"); }   // offline, a blip, or a request aborted
+                                              // because the buyer navigated away
+    if(!window.DecompressionStream) throw new Error("browser");
+
+    var all = b64(raw);
     var salt = all.slice(0, SALT), iv = all.slice(SALT, SALT+IV),
         body = all.slice(SALT+IV);                 // ciphertext||tag, as WebCrypto wants
+    try{
+      var base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw),
+                   "PBKDF2", false, ["deriveKey"]);
+      var key = await crypto.subtle.deriveKey(
+        {name:"PBKDF2", salt:salt, iterations:ITER, hash:"SHA-256"},
+        base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
 
-    var base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw),
-                 "PBKDF2", false, ["deriveKey"]);
-    var key = await crypto.subtle.deriveKey(
-      {name:"PBKDF2", salt:salt, iterations:ITER, hash:"SHA-256"},
-      base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
-
-    var plain = await unpack(await crypto.subtle.decrypt({name:"AES-GCM", iv:iv}, key, body));
-    var text = new TextDecoder().decode(plain);
-    // A known header at the front of the plaintext. Without it a wrong password yields
-    // garbage that looks like success until something else falls over.
-    if(text.slice(0, MAGIC.length) !== MAGIC) throw new Error("password");
-    return JSON.parse(text.slice(MAGIC.length));
+      var plain = await unpack(await crypto.subtle.decrypt({name:"AES-GCM", iv:iv}, key, body));
+      var text = new TextDecoder().decode(plain);
+      // A known header at the front of the plaintext. Without it a wrong password yields
+      // garbage that looks like success until something else falls over. (A wrong password
+      // usually fails the AES-GCM tag above and never reaches this line.)
+      if(text.slice(0, MAGIC.length) !== MAGIC) throw 0;
+      return JSON.parse(text.slice(MAGIC.length));
+    }catch(e){ throw new Error("decrypt"); }
   }
 
   function unlock(pw, remember){
@@ -148,9 +160,15 @@
       return true;
     }).catch(function(err){
       pending = null; state = "locked"; emit();
-      // A stored password that no longer works (rotated payload) clears itself rather
-      // than failing quietly on every page for the rest of the season.
-      try{ localStorage.removeItem(KEY); }catch(e){}
+      // Clear the saved password ONLY when the bytes arrived and would not open. That is a
+      // rotated payload, and keeping a dead password would fail on every page all season.
+      //
+      // This used to clear on ANY failure, which is what a buyer hit on 2026-08-11: he was
+      // signed out "anytime I left the browser". A cold browser start fires this fetch
+      // immediately, every publish re-stamps the cache-busting hash so it is a real network
+      // request, and a single hiccup wiped the credential. An allowlist, deliberately —
+      // anything unnamed leaves storage alone.
+      if(err && err.message === "decrypt"){ try{ localStorage.removeItem(KEY); }catch(e){} }
       throw err;
     });
     return pending;
@@ -180,9 +198,10 @@
       window.location.reload();
     },
     reason: function(err){
-      if(err && err.message === "payload")
-        return "The locked file couldn't be loaded. Try again.";
-      if(!window.DecompressionStream)
+      var m = err && err.message;
+      if(m === "payload")
+        return "The locked file couldn't be loaded. Check your connection and try again.";
+      if(m === "browser" || !window.DecompressionStream)
         return "This browser is too old to open Draft Tools. Try a current Chrome, Safari or Firefox.";
       return "That password didn't work.";
     }
@@ -191,7 +210,16 @@
   var saved; try{ saved = localStorage.getItem(KEY); }catch(e){}
   // Silent on failure: this is the automatic re-open on a page the buyer just navigated
   // to, not a password they typed, so there is no form to put an error beside.
-  if(saved) unlock(saved).catch(function(){});
+  //
+  // One quiet retry when the bytes never arrived. This request races DNS and TLS on a cold
+  // browser start, and losing that race is the difference between an open board and a
+  // password prompt on a page the buyer never asked to log into. Only "payload" retries:
+  // a wrong password would just fail again, and the state machine is back to "locked" with
+  // `pending` cleared by then, so the second call runs cleanly.
+  if(saved) unlock(saved).catch(function(err){
+    if(err && err.message === "payload")
+      setTimeout(function(){ unlock(saved).catch(function(){}); }, 1200);
+  });
   else emit();
 })();
 </script>
