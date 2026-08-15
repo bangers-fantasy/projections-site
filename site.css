@@ -259,8 +259,6 @@
           border-radius: 999px; white-space: nowrap; }
   .rr-medal.gold .rr-mof { color: #fff; background: #b7791f; }
   .rr-mwhy { font-size: 12px; color: var(--muted); line-height: 1.45; }
-  .rr-mnone { font-size: 12.5px; color: var(--muted); background: #f5f8fb;
-          border: 1px dashed var(--line); border-radius: 11px; padding: 11px 13px; }
   .rr-mhead + .rr-medals, .rr-mhead + .rr-traits { margin-bottom: 14px; }
   .rr-medals + .rr-mhead, .rr-traits + .rr-mhead { margin-top: 14px; }
   .rr-traits { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -797,7 +795,6 @@
   :root[data-theme="dark"] .rr-mname { color: #dce6f0; }
   :root[data-theme="dark"] .rr-mof { color: #8fc0f0; background: #16283a; }
   :root[data-theme="dark"] .rr-medal.gold .rr-mof { color: #1b2733; background: #e0b256; }
-  :root[data-theme="dark"] .rr-mnone { background: #1b2530; }
   :root[data-theme="dark"] .rr-trait { background: #1b2530; }
   :root[data-theme="dark"] .rr-tname { color: #dce6f0; }
   :root[data-theme="dark"] .rd-title { color: #dce6f0; }
