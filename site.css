@@ -1513,20 +1513,25 @@
   }
   @media (max-width: 560px) { .st-feats { grid-template-columns: 1fr; gap: 14px; } }
 
-  /* Testimonials. Multi-column rather than grid, so the short quotes pack against the long
-     ones the way they did in the screenshot this replaces instead of leaving every row as
-     tall as its tallest card. break-inside keeps a quote whole across the column break. */
-  .tm-grid { columns: 2; column-gap: 18px; margin-top: 4px; }
-  .tm { break-inside: avoid; -webkit-column-break-inside: avoid; margin: 0 0 18px;
-          padding: 16px 18px 14px; border: 1px solid var(--line); border-radius: 12px;
-          background: var(--bg); }
-  .tm p { margin: 0 0 11px; font-size: 13.5px; line-height: 1.6; color: var(--ink); }
-  .tm p + p { margin-top: -3px; }
-  .tm cite { display: block; font-style: normal; font-size: 12.5px; font-weight: 700;
-          color: var(--ink); }
-  .tm cite span { display: block; font-weight: 400; font-size: 12px; color: var(--muted);
-          margin-top: 2px; }
-  @media (max-width: 720px) { .tm-grid { columns: 1; } }
+  /* The wall of posts. Deliberately NOT a .card and deliberately not an .eyebrow: every
+     other block on this page is ours, and screenshots only work as proof if they read as
+     somebody else's. Sitting on the page ground with no chrome is what does that. The
+     first version of this block was the same words in our own type inside a card, and it
+     read as a feature box. */
+  .tw-band { margin: 26px 0 30px; }
+  .tw-h2 { font-size: 22px; letter-spacing: -.02em; margin: 0 0 6px; }
+  .tw-sub { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 0 0 18px; }
+  /* Multi-column, so a 1-line post packs under a 3-line one instead of every row being as
+     tall as its tallest image. break-inside keeps a screenshot whole across the break. */
+  .tw-wall { columns: 2; column-gap: 16px; }
+  .tw-wall img { display: block; width: 100%; height: auto; margin: 0 0 16px;
+          border-radius: 12px; border: 1px solid var(--line);
+          box-shadow: 0 2px 14px rgba(0,0,0,.16);
+          break-inside: avoid; -webkit-column-break-inside: avoid; }
+  @media (max-width: 700px) { .tw-wall { columns: 1; } }
+  /* The 2 in the hero's right column, under the product shot. .cr-proof already sizes and
+     rounds any img inside it, so this only has to space them. */
+  .tw-hero { display: flex; flex-direction: column; gap: 10px; }
 
   .pl-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
   .pl-collab { font: 700 11px/1 inherit; text-transform: uppercase; letter-spacing: .06em;
