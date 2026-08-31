@@ -91,7 +91,7 @@
   // Browser half of value-lab/lock.js. All 4 of these must match that file exactly.
   var ITER = 200000, SALT = 16, IV = 12, MAGIC = "HBPRO1\n";
   var KEY = "hb-pro-2026-27";          // localStorage key, scoped to the season
-  var SRC = "locked/pro.enc?v=378653668bc4";
+  var SRC = "locked/pro.enc?v=d249ce1a8108";
   var subs = [], data = null, state = "locked", pending = null;
 
   // The whole page reacts to one attribute. CSS hides the pro nav and the locked teasers
@@ -410,6 +410,39 @@
   never to overrule its regression on a hunch. When two reads conflict, the bet is a hedge (a lean),
   not a coin flip. The <a href="lines">Lines page</a> marks which teams have been through this
   hand review.</p>
+
+  <h2>Under the hood</h2>
+  <p>The database stores rates and never totals, which is the same shape as the equation at the
+  top of this page. It holds 4 seasons for about 1,300 skaters, roughly 45,000 rows in 14 MB, and
+  every counting stat in it is stored as a per-60-minutes rate: goals per 60, hits per 60,
+  expected goals per 60. No column anywhere holds &ldquo;27 goals&rdquo;. A total is derived when
+  a whole number is needed, by multiplying the rate by ice time.</p>
+
+  <p>That sounds like a technicality and it is the reason the numbers stay consistent. 2 figures on
+  a card cannot drift apart, because they were never stored apart. Change a player's power-play
+  minutes and his power-play points, his goal share and everything downstream all move together off
+  the same arithmetic, with no separate multiplier bolted on.</p>
+
+  <p>The data is kept as a grid rather than a pile: 5 strength states (5-on-5, even strength, power
+  play, penalty kill, all situations), individual and on-ice stats, each season, plus quarterly
+  splits of the most recent year. The database enforces uniqueness on that combination, so the same
+  slice cannot be loaded twice, and a missing one shows up as a hole instead of as quietly wrong
+  numbers.</p>
+
+  <h3>Why the cards are quick</h3>
+  <p>2 reasons, and neither one is clever front-end work.</p>
+  <p>The first is that the expensive part is shared. The percentile shading, the radar and the
+  position ranks all need the whole league's distribution rather than a single player's numbers, and
+  working that out per card would mean re-reading every skater hundreds of times over. It is
+  computed once across 20 metrics and reused for the rest of the build. The first card takes about
+  140 milliseconds and every card after it takes about 9.</p>
+
+  <p>The second is that the pages do no work at all. Every card is rendered once when the site is
+  published, with its charts written straight into the file as inline SVG. A player page carries
+  about 50 of them. There is no charting library, no canvas and no image request, and nothing about
+  the charts recalculates when the page loads. By the time a card reaches you, the charts are
+  already drawn. The one part that does fetch anything is the paid ranking block, which pulls its
+  encrypted data only after you enter the season password.</p>
 
   <h2>A quick glossary</h2>
   <ul>
